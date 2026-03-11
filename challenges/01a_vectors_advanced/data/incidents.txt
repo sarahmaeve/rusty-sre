@@ -1,0 +1,20 @@
+1 auth sev1 Login service down - users unable to authenticate
+2 payments sev2 Payment processing slow - p99 latency > 5s
+3 db sev1 Primary DB replication lag > 30s
+4 auth sev3 Minor auth latency spike on /oauth endpoint
+5 logging sev2 Log ingestion delayed by 15 minutes
+6 cdn sev2 Cache hit rate dropped to 45%
+7 auth sev1 MFA service returning 503 errors
+8 db sev3 Slow query on analytics dashboard
+9 payments sev1 Payment gateway timeout for EU region
+10 monitoring sev3 Alert noise from staging environment
+11 cdn sev2 Origin pull failures from us-west-2
+12 auth sev2 Session token rotation failing silently
+13 db sev1 Connection pool exhausted on primary
+14 logging sev3 Duplicate log entries from canary pods
+15 payments sev2 Currency conversion API rate limited
+16 monitoring sev2 Prometheus scrape targets flapping
+17 cdn sev3 Stale content served for /api/v2/status
+18 auth sev2 LDAP sync job stuck for 2 hours
+19 db sev2 Backup job exceeded maintenance window
+20 payments sev1 Stripe webhook delivery failing

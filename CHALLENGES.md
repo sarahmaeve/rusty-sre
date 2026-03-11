@@ -1,6 +1,7 @@
 # List of concepts or challenges
 
 1. Use of Rust vectors and vectors versus other data structures
+1a. Ownership and borrowing with vectors
 2. Text processing in Rust using HashMaps
 3. Introduction to derive in Rust
 
