@@ -1,0 +1,23 @@
+2026-03-10T08:01:12Z auth INFO User login successful
+2026-03-10T08:01:15Z gateway INFO Request routed to auth service
+2026-03-10T08:01:18Z auth ERROR Authentication token expired
+2026-03-10T08:01:22Z payments INFO Payment processed successfully
+2026-03-10T08:01:25Z db INFO Query executed in 45ms
+2026-03-10T08:01:30Z auth ERROR Invalid credentials provided
+2026-03-10T08:01:35Z gateway WARN High latency detected on /api/v1/users
+2026-03-10T08:01:40Z monitoring INFO Health check passed
+2026-03-10T08:01:45Z auth ERROR Rate limit exceeded for IP 10.0.0.5
+2026-03-10T08:01:50Z payments WARN Payment gateway timeout
+2026-03-10T08:01:55Z db ERROR Connection pool exhausted
+2026-03-10T08:02:00Z gateway INFO Request routed to payments service
+2026-03-10T08:02:05Z auth INFO Password reset initiated
+2026-03-10T08:02:10Z monitoring INFO Metrics collected successfully
+2026-03-10T08:02:15Z auth ERROR Session validation failed
+2026-03-10T08:02:20Z db INFO Index rebuild completed
+2026-03-10T08:02:25Z gateway ERROR Upstream service unavailable
+2026-03-10T08:02:30Z payments INFO Refund processed
+2026-03-10T08:02:35Z auth ERROR Certificate verification failed
+2026-03-10T08:02:40Z monitoring WARN Disk usage above 80%
+2026-03-10T08:02:45Z db WARN Slow query detected
+2026-03-10T08:02:50Z gateway INFO SSL handshake completed
+2026-03-10T08:02:55Z payments ERROR Payment declined by processor
