@@ -3,6 +3,7 @@
 1. Use of Rust vectors and vectors versus other data structures
 1a. Ownership and borrowing with vectors
 2. Text processing in Rust using HashMaps
+02a. HashSet and performance comparisons
 3. Introduction to derive in Rust
 
 ## output directory structure
