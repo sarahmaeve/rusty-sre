@@ -8,7 +8,7 @@
 //
 // Complete each function by replacing the TODO comments with working code.
 // Run the tests to verify your solutions:
-//     rustc skeleton.rs --edition 2021 --test && ./skeleton
+//     rustc skeleton.rs --edition 2024 --test && ./skeleton
 // =============================================================================
 
 fn main() {

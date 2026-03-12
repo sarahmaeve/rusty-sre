@@ -12,7 +12,7 @@
 //
 // All bugs involve common HashSet and HashMap-with-sets mistakes.
 //
-// Run:  rustc debug.rs --edition 2021 --test && ./debug
+// Run:  rustc debug.rs --edition 2024 --test && ./debug
 
 use std::collections::{HashMap, HashSet};
 
@@ -258,6 +258,6 @@ fn test_remove_decommissioned_empty() {
 }
 
 fn main() {
-    println!("Run with: rustc debug.rs --edition 2021 --test && ./debug");
+    println!("Run with: rustc debug.rs --edition 2024 --test && ./debug");
     println!("Fix the 4 bugs to make all tests pass!");
 }

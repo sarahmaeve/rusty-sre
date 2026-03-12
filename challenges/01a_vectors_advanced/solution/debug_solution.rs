@@ -4,7 +4,7 @@
 //
 // This is the fixed version of debug.rs with all four bugs corrected.
 // Run the tests with:
-//     rustc debug_solution.rs --edition 2021 --test && ./debug_solution
+//     rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 // =============================================================================
 
 fn main() {

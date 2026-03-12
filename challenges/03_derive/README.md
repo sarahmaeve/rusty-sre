@@ -28,7 +28,7 @@ Learn Rust's `#[derive]` mechanism for automatic trait implementations. Previous
 12 sections with ~28 tests covering every derivable trait, the mechanism itself, manual implementations, and practical combinations. Each section includes Python comparisons.
 
 ```bash
-rustc concept.rs --edition 2021 --test && ./concept
+rustc concept.rs --edition 2024 --test && ./concept
 ```
 
 ### `skeleton.rs` — Alert Pipeline (YOUR CHALLENGE)
@@ -36,7 +36,7 @@ rustc concept.rs --edition 2021 --test && ./concept
 
 ```bash
 # Tests will fail until you complete the TODOs:
-rustc skeleton.rs --edition 2021 --test && ./skeleton
+rustc skeleton.rs --edition 2024 --test && ./skeleton
 ```
 
 **Tasks:**
@@ -52,7 +52,7 @@ An on-call dashboard with 4 bugs related to derive and trait implementations. Fi
 
 ```bash
 # Won't compile until bugs are fixed:
-rustc debug.rs --edition 2021 --test && ./debug
+rustc debug.rs --edition 2024 --test && ./debug
 ```
 
 **Bug types:**
@@ -63,7 +63,7 @@ rustc debug.rs --edition 2021 --test && ./debug
 Reference solution for `debug.rs` with all 4 bugs fixed.
 
 ```bash
-cd solution && rustc debug_solution.rs --edition 2021 --test && ./debug_solution
+cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 ```
 
 ## Concepts Covered

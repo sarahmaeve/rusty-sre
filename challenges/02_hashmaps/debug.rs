@@ -12,7 +12,7 @@
 // All bugs involve common HashMap mistakes that Python developers make when
 // transitioning to Rust. Fix all 4 to make the tests pass.
 //
-// Run:  rustc debug.rs --edition 2021 --test && ./debug
+// Run:  rustc debug.rs --edition 2024 --test && ./debug
 
 use std::collections::HashMap;
 
@@ -283,6 +283,6 @@ fn test_generate_correlation_report() {
 }
 
 fn main() {
-    println!("Run with: rustc debug.rs --edition 2021 --test && ./debug");
+    println!("Run with: rustc debug.rs --edition 2024 --test && ./debug");
     println!("Fix the 4 bugs to make all tests pass!");
 }

@@ -9,7 +9,7 @@
 // Complete the 6 TODO tasks below. Each builds on the previous.
 //
 // Run tests with:
-//     rustc skeleton.rs --edition 2021 --test && ./skeleton
+//     rustc skeleton.rs --edition 2024 --test && ./skeleton
 
 use std::collections::HashMap;
 use std::fmt;
@@ -374,5 +374,5 @@ mod tests {
 
 fn main() {
     println!("This file is meant to be run as tests:");
-    println!("  rustc skeleton.rs --edition 2021 --test && ./skeleton");
+    println!("  rustc skeleton.rs --edition 2024 --test && ./skeleton");
 }

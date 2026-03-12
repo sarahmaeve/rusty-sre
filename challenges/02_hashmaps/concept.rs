@@ -6,7 +6,7 @@
 // This guide focuses on the "how" — Rust's ownership model, the Entry API,
 // and patterns that replace Python's defaultdict/Counter.
 //
-// Run tests:  rustc concept.rs --edition 2021 --test && ./concept
+// Run tests:  rustc concept.rs --edition 2024 --test && ./concept
 
 use std::collections::{BTreeMap, HashMap};
 
@@ -655,6 +655,6 @@ fn test_multi_map_correlation() {
 }
 
 fn main() {
-    println!("Run with: rustc concept.rs --edition 2021 --test && ./concept");
+    println!("Run with: rustc concept.rs --edition 2024 --test && ./concept");
     println!("This file is meant to be run as tests, not as a binary.");
 }

@@ -12,7 +12,7 @@
 // Your mission: find and fix all 4 bugs so every test passes.
 //
 // Run with:
-//     rustc debug.rs --edition 2021 --test && ./debug
+//     rustc debug.rs --edition 2024 --test && ./debug
 
 use std::collections::{BTreeMap, HashSet};
 use std::fmt;
@@ -309,5 +309,5 @@ mod tests {
 
 fn main() {
     println!("This file is meant to be run as tests:");
-    println!("  rustc debug.rs --edition 2021 --test && ./debug");
+    println!("  rustc debug.rs --edition 2024 --test && ./debug");
 }

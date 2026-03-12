@@ -12,7 +12,7 @@
 // the crates in a cargo project, you'll understand what they generate.
 //
 // Run with:
-//     rustc concept.rs --edition 2021 --test && ./concept
+//     rustc concept.rs --edition 2024 --test && ./concept
 
 use std::collections::HashMap;
 use std::fmt;
@@ -1053,10 +1053,10 @@ fn test_section12_config_invalid_port() {
 }
 
 // ============================================================================
-// All tests — run with: rustc concept.rs --edition 2021 --test && ./concept
+// All tests — run with: rustc concept.rs --edition 2024 --test && ./concept
 // ============================================================================
 
 fn main() {
     println!("This file is meant to be run as tests:");
-    println!("  rustc concept.rs --edition 2021 --test && ./concept");
+    println!("  rustc concept.rs --edition 2024 --test && ./concept");
 }

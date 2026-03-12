@@ -4,7 +4,7 @@
 //
 // This file teaches Rust's #[derive] mechanism through 12 sections, each with
 // tests. Run with:
-//     rustc concept.rs --edition 2021 --test && ./concept
+//     rustc concept.rs --edition 2024 --test && ./concept
 //
 // Target audience: SRE/DevOps engineers who know Python.
 
@@ -877,10 +877,10 @@ fn test_section12_config_defaults() {
 }
 
 // ============================================================================
-// All tests — run with: rustc concept.rs --edition 2021 --test && ./concept
+// All tests — run with: rustc concept.rs --edition 2024 --test && ./concept
 // ============================================================================
 
 fn main() {
     println!("This file is meant to be run as tests:");
-    println!("  rustc concept.rs --edition 2021 --test && ./concept");
+    println!("  rustc concept.rs --edition 2024 --test && ./concept");
 }

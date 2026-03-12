@@ -6,7 +6,7 @@
 // entries. Complete the 6 TODO tasks below. Each function has tests that
 // describe the expected behavior.
 //
-// Run tests:  rustc skeleton.rs --edition 2021 --test && ./skeleton
+// Run tests:  rustc skeleton.rs --edition 2024 --test && ./skeleton
 //
 // Hint: The Entry API is your best friend here. Refer to concept.rs Section 4.
 
@@ -267,6 +267,6 @@ fn test_merge_status_counts() {
 }
 
 fn main() {
-    println!("Run with: rustc skeleton.rs --edition 2021 --test && ./skeleton");
+    println!("Run with: rustc skeleton.rs --edition 2024 --test && ./skeleton");
     println!("Complete the TODO tasks, then run the tests to check your work!");
 }

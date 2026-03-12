@@ -9,7 +9,7 @@
 //   Part A (Sections 1-6):  HashSet — Rust's equivalent of Python's set()
 //   Part B (Sections 7-12): Performance — capacity, hashing costs, benchmarking
 //
-// Run tests:  rustc concept.rs --edition 2021 --test && ./concept
+// Run tests:  rustc concept.rs --edition 2024 --test && ./concept
 
 use std::collections::{BTreeMap, HashMap, HashSet};
 use std::time::Instant;
@@ -410,7 +410,7 @@ fn test_with_capacity_avoids_realloc() {
     assert_eq!(map.capacity(), initial_cap);
 
     // To see the performance difference, uncomment and run with:
-    //   rustc concept.rs --edition 2021 && ./concept
+    //   rustc concept.rs --edition 2024 && ./concept
     //
     // fn bench_capacity() {
     //     let n = 100_000;
@@ -814,10 +814,10 @@ fn run_benchmarks() {
 }
 
 fn main() {
-    println!("Run with: rustc concept.rs --edition 2021 --test && ./concept");
+    println!("Run with: rustc concept.rs --edition 2024 --test && ./concept");
     println!("This file is meant to be run as tests, not as a binary.");
     println!();
     println!("To run benchmarks, uncomment the line below and run:");
-    println!("  rustc concept.rs --edition 2021 && ./concept");
+    println!("  rustc concept.rs --edition 2024 && ./concept");
     // run_benchmarks();
 }

@@ -18,16 +18,16 @@ Each file is a standalone Rust program with built-in tests. No Cargo needed.
 
 ```bash
 # Concept explainer — all tests should pass
-rustc concept.rs --edition 2021 --test && ./concept
+rustc concept.rs --edition 2024 --test && ./concept
 
 # Skeleton challenge — tests will fail until you complete the TODOs
-rustc skeleton.rs --edition 2021 --test && ./skeleton
+rustc skeleton.rs --edition 2024 --test && ./skeleton
 
 # Debug challenge — tests will fail until you fix the bugs
-rustc debug.rs --edition 2021 --test && ./debug
+rustc debug.rs --edition 2024 --test && ./debug
 
 # Solution — all tests should pass
-cd solution && rustc debug_solution.rs --edition 2021 --test && ./debug_solution
+cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 ```
 
 ## Skeleton Challenge: SRE Metrics Collector

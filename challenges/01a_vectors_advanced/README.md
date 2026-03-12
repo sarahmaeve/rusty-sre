@@ -16,16 +16,16 @@ Learn how Rust's ownership system, borrowing rules, and lifetimes interact with 
 
 ```bash
 # Concept explainer — all tests should pass
-rustc concept.rs --edition 2021 --test && ./concept
+rustc concept.rs --edition 2024 --test && ./concept
 
 # Skeleton challenge — tests will fail until you complete the TODOs
-rustc skeleton.rs --edition 2021 --test && ./skeleton
+rustc skeleton.rs --edition 2024 --test && ./skeleton
 
 # Debug challenge — will NOT compile until you fix the bugs
-rustc debug.rs --edition 2021 --test && ./debug
+rustc debug.rs --edition 2024 --test && ./debug
 
 # Solution — all tests should pass
-cd solution && rustc debug_solution.rs --edition 2021 --test && ./debug_solution
+cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 ```
 
 ## Skeleton Challenge: SRE Alert Pipeline

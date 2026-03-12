@@ -6,7 +6,7 @@
 // deployments, fleet inventories, and monitoring systems. Complete the 6
 // TODO tasks below using HashSet operations and performance-aware patterns.
 //
-// Run tests:  rustc skeleton.rs --edition 2021 --test && ./skeleton
+// Run tests:  rustc skeleton.rs --edition 2024 --test && ./skeleton
 //
 // Assumes you've completed Challenge 02 (HashMap basics, Entry API).
 
@@ -390,6 +390,6 @@ fn test_aggregate_metrics_capacity() {
 }
 
 fn main() {
-    println!("Run with: rustc skeleton.rs --edition 2021 --test && ./skeleton");
+    println!("Run with: rustc skeleton.rs --edition 2024 --test && ./skeleton");
     println!("Complete the TODO tasks, then run the tests to check your work!");
 }

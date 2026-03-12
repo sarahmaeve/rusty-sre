@@ -2,7 +2,7 @@
 // Challenge 02a — Solution: Fleet Health Analyzer (all 4 bugs fixed)
 // ============================================================================
 //
-// Run:  rustc debug_solution.rs --edition 2021 --test && ./debug_solution
+// Run:  rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 
 use std::collections::{HashMap, HashSet};
 

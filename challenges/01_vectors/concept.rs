@@ -7,7 +7,7 @@
 //
 // This file demonstrates the core operations and compares Vec to alternatives.
 // Run the tests with:
-//     rustc concept.rs --edition 2021 --test && ./concept
+//     rustc concept.rs --edition 2024 --test && ./concept
 // =============================================================================
 
 fn main() {

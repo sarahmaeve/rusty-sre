@@ -14,7 +14,7 @@
 // Your mission: find and fix all 4 bugs so every test passes.
 //
 // Run with:
-//     rustc debug.rs --edition 2021 --test && ./debug
+//     rustc debug.rs --edition 2024 --test && ./debug
 
 use std::collections::HashMap;
 use std::fmt;
@@ -349,5 +349,5 @@ deploy_id=dep-002 service=db version=v2.0 status=pending timestamp=200
 
 fn main() {
     println!("This file is meant to be run as tests:");
-    println!("  rustc debug.rs --edition 2021 --test && ./debug");
+    println!("  rustc debug.rs --edition 2024 --test && ./debug");
 }

@@ -30,14 +30,14 @@ Two focus areas:
 12 sections with 33 tests. Sections 1-6 cover HashSet, sections 7-12 cover performance.
 
 ```bash
-rustc concept.rs --edition 2021 --test && ./concept
+rustc concept.rs --edition 2024 --test && ./concept
 ```
 
 ### `skeleton.rs` — Infrastructure Diff Engine (YOUR CHALLENGE)
 6 tasks comparing infrastructure state across fleet inventories and monitoring systems.
 
 ```bash
-rustc skeleton.rs --edition 2021 --test && ./skeleton
+rustc skeleton.rs --edition 2024 --test && ./skeleton
 ```
 
 **Tasks:**
@@ -52,7 +52,7 @@ rustc skeleton.rs --edition 2021 --test && ./skeleton
 4 bugs in a fleet analysis system. 2 won't compile, 2 produce wrong results.
 
 ```bash
-rustc debug.rs --edition 2021 --test && ./debug
+rustc debug.rs --edition 2024 --test && ./debug
 ```
 
 **Bugs to find:**
@@ -69,7 +69,7 @@ rustc debug.rs --edition 2021 --test && ./debug
 The fixed version of `debug.rs`. Try to fix it yourself first!
 
 ```bash
-cd solution && rustc debug_solution.rs --edition 2021 --test && ./debug_solution
+cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 ```
 
 ## Key Takeaways

@@ -9,7 +9,7 @@
 //
 // Your task: find and fix all the bugs so that every test passes.
 // Run the tests with:
-//     rustc debug.rs --edition 2021 --test && ./debug
+//     rustc debug.rs --edition 2024 --test && ./debug
 //
 // Hint: The bugs involve:
 //   1. Using a Vec after it has been moved

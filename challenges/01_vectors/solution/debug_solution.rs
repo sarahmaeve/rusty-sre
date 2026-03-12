@@ -4,7 +4,7 @@
 //
 // This is the fixed version of debug.rs with all four bugs corrected.
 // Run the tests with:
-//     rustc solution/debug_solution.rs --edition 2021 --test && ./solution/debug_solution
+//     rustc solution/debug_solution.rs --edition 2024 --test && ./solution/debug_solution
 // =============================================================================
 
 use std::collections::HashMap;

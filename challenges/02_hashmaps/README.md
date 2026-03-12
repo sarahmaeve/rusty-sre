@@ -23,14 +23,14 @@ Learn Rust's `HashMap<K, V>` for text processing and SRE data aggregation. If yo
 12 sections with ~25 tests covering every HashMap pattern. Each section includes Python comparisons.
 
 ```bash
-rustc concept.rs --edition 2021 --test && ./concept
+rustc concept.rs --edition 2024 --test && ./concept
 ```
 
 ### `skeleton.rs` — Metrics Aggregator (YOUR CHALLENGE)
 6 progressively harder tasks building an SRE monitoring dashboard. Complete the `todo!()` stubs.
 
 ```bash
-rustc skeleton.rs --edition 2021 --test && ./skeleton
+rustc skeleton.rs --edition 2024 --test && ./skeleton
 ```
 
 **Tasks:**
@@ -45,7 +45,7 @@ rustc skeleton.rs --edition 2021 --test && ./skeleton
 4 bugs hiding in a log correlation system. 2 won't compile, 2 produce wrong results.
 
 ```bash
-rustc debug.rs --edition 2021 --test && ./debug
+rustc debug.rs --edition 2024 --test && ./debug
 ```
 
 **Bugs to find:**
@@ -61,7 +61,7 @@ Sample log data for experimentation. The skeleton tests use built-in test data.
 The fixed version of `debug.rs`. Try to fix it yourself first!
 
 ```bash
-cd solution && rustc debug_solution.rs --edition 2021 --test && ./debug_solution
+cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 ```
 
 ## Key Takeaway

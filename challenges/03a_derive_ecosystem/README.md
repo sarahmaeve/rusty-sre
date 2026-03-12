@@ -23,7 +23,7 @@ When you later use `#[derive(Serialize)]`, `#[derive(Error)]`, or `#[derive(Pars
 12 sections with ~28 tests covering serialization (Display/FromStr), error handling (Error/From/?), and argument parsing. Each section includes Python comparisons.
 
 ```bash
-rustc concept.rs --edition 2021 --test && ./concept
+rustc concept.rs --edition 2024 --test && ./concept
 ```
 
 ### `skeleton.rs` — Incident Report Pipeline (YOUR CHALLENGE)
@@ -31,7 +31,7 @@ rustc concept.rs --edition 2021 --test && ./concept
 
 ```bash
 # Tests will fail until you complete the TODOs:
-rustc skeleton.rs --edition 2021 --test && ./skeleton
+rustc skeleton.rs --edition 2024 --test && ./skeleton
 ```
 
 **Tasks:**
@@ -47,7 +47,7 @@ A deployment event export tool with 4 bugs. Find and fix all 4.
 
 ```bash
 # Won't compile until bugs are fixed:
-rustc debug.rs --edition 2021 --test && ./debug
+rustc debug.rs --edition 2024 --test && ./debug
 ```
 
 **Bug types:**
@@ -58,7 +58,7 @@ rustc debug.rs --edition 2021 --test && ./debug
 Reference solution for `debug.rs` with all 4 bugs fixed.
 
 ```bash
-cd solution && rustc debug_solution.rs --edition 2021 --test && ./debug_solution
+cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 ```
 
 ## Concepts Covered

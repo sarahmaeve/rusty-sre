@@ -5,7 +5,7 @@
 // This is the fixed version of debug.rs with all 4 bugs resolved.
 //
 // Run with:
-//     rustc debug_solution.rs --edition 2021 --test && ./debug_solution
+//     rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 //
 // BUG FIXES:
 //   #1: Added Ord to IncidentKey's derive list (needed for BTreeMap + sort)
@@ -291,5 +291,5 @@ mod tests {
 
 fn main() {
     println!("This file is meant to be run as tests:");
-    println!("  rustc debug_solution.rs --edition 2021 --test && ./debug_solution");
+    println!("  rustc debug_solution.rs --edition 2024 --test && ./debug_solution");
 }

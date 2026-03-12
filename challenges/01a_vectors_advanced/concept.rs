@@ -8,7 +8,7 @@
 // that seem reasonable in other languages.
 //
 // Run the tests with:
-//     rustc concept.rs --edition 2021 --test && ./concept
+//     rustc concept.rs --edition 2024 --test && ./concept
 // =============================================================================
 
 fn main() {
@@ -244,7 +244,7 @@ fn index_collection_pattern() {
     let failing_indices: Vec<usize> = scores
         .iter()
         .enumerate()
-        .filter(|(_, &score)| score < 50)
+        .filter(|(_, score)| **score < 50)
         .map(|(i, _)| i)
         .collect(); // borrow of `scores` ends here
 
