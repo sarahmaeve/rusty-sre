@@ -15,3 +15,5 @@ The output directory needs a README.md that includes instructions on which files
 The output directory should have a subdirectory called SOLUTION with the corrected code for the debug challenge. The SOLUTION for each directory must pass its unit tests as written.
 
 Any data required for each challenge should be included.
+
+Prefer Rust 2024 over any previous versions.
