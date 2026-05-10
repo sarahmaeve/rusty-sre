@@ -31,12 +31,13 @@ Challenges are numbered to follow a Beginner → Intermediate → Advanced ladde
 | 04 | [Strings](challenges/04_strings) | `String` vs `&str`, parsing, UTF-8, case-insensitive compare | Beginner | 01 |
 | 05 | [Structs, Enums & impl](challenges/05_structs_enums) | Struct/enum design, methods, associated functions, match | Beginner | 01 |
 | 06 | [Control Flow as Expressions](challenges/06_control_flow) | `if`/`match` as expressions, range patterns, `let else` | Beginner | 01 |
-| 07 | [Modules & Visibility](challenges/07_modules) | `mod`, `pub`, `use`, `super::`/`self::`/`crate::` | Beginner | 05 |
-| 08 | [Ownership & Borrowing](challenges/08_borrowing) | Borrow checker, moves, lifetimes | Intermediate | 01 |
-| 09 | [HashSets & Performance](challenges/09_hashsets_and_performance) | `HashSet`, set algebra, capacity, `retain()` | Intermediate | 02 |
-| 10 | [derive](challenges/10_derive) | `#[derive]`, standard traits, manual impls | Intermediate | 05 |
-| 11 | [Result & `?`](challenges/11_result_and_question_mark) | `Result<T,E>`, `?`, error enums, `From` for error conversion | Intermediate | 03, 10 |
-| 12 | [Derive Ecosystem](challenges/12_derive_ecosystem) | Patterns behind serde, thiserror, clap | Advanced | 10, 11 |
+| 07 | [Numbers & Conversions](challenges/07_numbers) | Integer overflow, `as`, `From`/`Into`, `TryFrom`/`TryInto`, float compare | Beginner | 01 |
+| 08 | [Modules & Visibility](challenges/08_modules) | `mod`, `pub`, `use`, `super::`/`self::`/`crate::` | Beginner | 05 |
+| 09 | [Ownership & Borrowing](challenges/09_borrowing) | Borrow checker, moves, lifetimes | Intermediate | 01 |
+| 10 | [HashSets & Performance](challenges/10_hashsets_and_performance) | `HashSet`, set algebra, capacity, `retain()` | Intermediate | 02 |
+| 11 | [derive](challenges/11_derive) | `#[derive]`, standard traits, manual impls | Intermediate | 05 |
+| 12 | [Result & `?`](challenges/12_result_and_question_mark) | `Result<T,E>`, `?`, error enums, `From` for error conversion | Intermediate | 03, 11 |
+| 13 | [Derive Ecosystem](challenges/13_derive_ecosystem) | Patterns behind serde, thiserror, clap | Advanced | 11, 12 |
 
 ## How Each Challenge Works
 
@@ -71,8 +72,8 @@ make test-skeletons  # skeleton tests (expected to fail until you complete the T
 make test-debug      # debug tests (expected to fail until you fix the bugs)
 
 # Run one file in one challenge:
-make CH=11_result_and_question_mark concept
-make CH=11_result_and_question_mark debug
+make CH=12_result_and_question_mark concept
+make CH=12_result_and_question_mark debug
 ```
 
 ## Prerequisites

@@ -13,7 +13,7 @@ Earlier challenges defined structs and enums but never explained the *type desig
 - `match` on enums (exhaustive by default)
 - Unit structs and tuple structs
 
-No traits, no generics, no derive yet — those come in Challenge 10.
+No traits, no generics, no derive yet — those come in Challenge 11.
 
 ## Python → Rust Quick Reference
 

@@ -9,16 +9,17 @@ Beginner shelf:
 04. Strings — `String` vs `&str`, parsing, UTF-8, case-insensitive compare
 05. Structs, enums, and `impl` — designing types and writing methods
 06. Control flow as expressions — `if`/`match` as values, range patterns
-07. Modules and visibility — `mod`, `pub`, `use`, path prefixes
+07. Numbers and conversions — integer overflow, `as`, `From`/`Into`, `TryFrom`
+08. Modules and visibility — `mod`, `pub`, `use`, path prefixes
 
 Intermediate shelf:
-08. Ownership and borrowing with vectors
-09. HashSet and performance comparisons
-10. Introduction to derive in Rust
-11. Result and the `?` operator — propagating errors with custom error enums
+09. Ownership and borrowing with vectors
+10. HashSet and performance comparisons
+11. Introduction to derive in Rust
+12. Result and the `?` operator — propagating errors with custom error enums
 
 Advanced shelf:
-12. The derive ecosystem — manual impls behind serde, thiserror, clap
+13. The derive ecosystem — manual impls behind serde, thiserror, clap
 
 ## output directory structure
 
