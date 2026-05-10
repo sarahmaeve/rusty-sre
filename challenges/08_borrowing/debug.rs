@@ -1,5 +1,5 @@
 // =============================================================================
-// Challenge 01a: Ownership & Borrowing with Vectors — Debug the Incident Tracker
+// Challenge 08: Ownership & Borrowing with Vectors — Debug the Incident Tracker
 // =============================================================================
 //
 // This program manages SRE incidents: it stores them, enriches them with

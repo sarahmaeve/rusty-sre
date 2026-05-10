@@ -1,5 +1,5 @@
 // ============================================================================
-// Challenge 03: derive — Debug Solution: "On-Call Dashboard"
+// Challenge 10: derive — Debug Solution: "On-Call Dashboard"
 // ============================================================================
 //
 // This is the fixed version of debug.rs with all 4 bugs resolved.

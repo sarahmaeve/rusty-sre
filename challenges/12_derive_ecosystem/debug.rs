@@ -1,5 +1,5 @@
 // ============================================================================
-// Challenge 03a: Derive Ecosystem — Debug Challenge: "SRE Log Exporter"
+// Challenge 12: Derive Ecosystem — Debug Challenge: "SRE Log Exporter"
 // ============================================================================
 //
 // SRE Scenario: A log export tool that serializes deployment events to a

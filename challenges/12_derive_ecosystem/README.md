@@ -1,4 +1,4 @@
-# Challenge 03a: Derive Ecosystem — Serialization, Error Handling, and CLI Parsing
+# Challenge 12: Derive Ecosystem — Serialization, Error Handling, and CLI Parsing
 
 ## Goal
 

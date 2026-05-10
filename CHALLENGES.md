@@ -1,13 +1,20 @@
 # List of concepts or challenges
 
-1. Use of Rust vectors and vectors versus other data structures
-1a. Ownership and borrowing with vectors
-2. Text processing in Rust using HashMaps
-02a. HashSet and performance comparisons
-3. Introduction to derive in Rust
-03a. The derive ecosystem — manual impls behind serde, thiserror, clap
-4. Result and the `?` operator — propagating errors with custom error enums
-5. Option and nullability — Some/None, combinators, and choosing safe defaults
+Challenges are numbered to follow a Beginner → Intermediate → Advanced ladder. Numbers 04–07 are reserved for upcoming Beginner challenges (strings, structs/enums, control flow, modules).
+
+Beginner shelf:
+01. Use of Rust vectors and vectors versus other data structures
+02. Text processing in Rust using HashMaps
+03. Option and nullability — Some/None, combinators, and choosing safe defaults
+
+Intermediate shelf:
+08. Ownership and borrowing with vectors
+09. HashSet and performance comparisons
+10. Introduction to derive in Rust
+11. Result and the `?` operator — propagating errors with custom error enums
+
+Advanced shelf:
+12. The derive ecosystem — manual impls behind serde, thiserror, clap
 
 ## output directory structure
 

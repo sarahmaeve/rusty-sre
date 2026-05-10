@@ -1,5 +1,5 @@
 // =============================================================================
-// Challenge 01a: Ownership & Borrowing with Vectors — SRE Alert Pipeline
+// Challenge 08: Ownership & Borrowing with Vectors — SRE Alert Pipeline
 // =============================================================================
 //
 // You are building an alert pipeline for an SRE team. Alerts flow through

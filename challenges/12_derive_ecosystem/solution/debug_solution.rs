@@ -1,5 +1,5 @@
 // ============================================================================
-// Challenge 03a: Derive Ecosystem — Debug Solution: "SRE Log Exporter"
+// Challenge 12: Derive Ecosystem — Debug Solution: "SRE Log Exporter"
 // ============================================================================
 //
 // This is the fixed version of debug.rs with all 4 bugs resolved.

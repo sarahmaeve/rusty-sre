@@ -1,5 +1,5 @@
 // ============================================================================
-// Challenge 03: derive — Debug Challenge: "On-Call Dashboard"
+// Challenge 10: derive — Debug Challenge: "On-Call Dashboard"
 // ============================================================================
 //
 // SRE Scenario: An on-call dashboard that displays and sorts incidents.

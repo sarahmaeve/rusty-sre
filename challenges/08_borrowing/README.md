@@ -1,4 +1,4 @@
-# Challenge 01a: Ownership & Borrowing with Vectors
+# Challenge 08: Ownership & Borrowing with Vectors
 
 Learn how Rust's ownership system, borrowing rules, and lifetimes interact with `Vec<T>` — the most common place where learners encounter the borrow checker.
 

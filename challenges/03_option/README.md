@@ -1,4 +1,4 @@
-# Challenge 05: `Option<T>` and Nullability
+# Challenge 03: `Option<T>` and Nullability
 
 Learn how Rust forces missing values to be explicit at the type level.
 
@@ -48,10 +48,10 @@ cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 Or, from the repo root:
 
 ```bash
-make CH=05_option concept
-make CH=05_option skeleton
-make CH=05_option debug
-make CH=05_option solution
+make CH=03_option concept
+make CH=03_option skeleton
+make CH=03_option debug
+make CH=03_option solution
 ```
 
 ## Skeleton Challenge: Service Status Lookup

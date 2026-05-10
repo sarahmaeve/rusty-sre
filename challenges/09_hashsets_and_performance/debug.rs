@@ -1,5 +1,5 @@
 // ============================================================================
-// Challenge 02a — Debug: Fleet Health Analyzer
+// Challenge 09 — Debug: Fleet Health Analyzer
 // ============================================================================
 //
 // This program analyzes fleet health data across data centers. It finds

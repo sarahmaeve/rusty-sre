@@ -11,7 +11,7 @@
 #   make test-solutions # run all solution/debug_solution.rs test suites
 #   make test-debug     # run all debug.rs (expected to FAIL until fixed)
 #   make test-skeletons # run all skeleton.rs (expected to FAIL until filled in)
-#   make CH=04_result_and_question_mark concept   # run one file in one challenge
+#   make CH=11_result_and_question_mark concept   # run one file in one challenge
 #   make clean          # remove .build/
 
 EDITION    := 2024
@@ -35,9 +35,9 @@ help:
 	@echo ""
 	@echo "Run a single file (set CH= to the directory name under challenges/):"
 	@echo "  make CH=01_vectors concept"
-	@echo "  make CH=04_result_and_question_mark skeleton"
-	@echo "  make CH=04_result_and_question_mark debug"
-	@echo "  make CH=04_result_and_question_mark solution"
+	@echo "  make CH=11_result_and_question_mark skeleton"
+	@echo "  make CH=11_result_and_question_mark debug"
+	@echo "  make CH=11_result_and_question_mark solution"
 	@echo ""
 	@echo "Discovered challenges:"
 	@for ch in $(CHALLENGES); do echo "  - $$ch"; done

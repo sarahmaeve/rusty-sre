@@ -21,16 +21,18 @@ See [`STUDY_GUIDE.md`](STUDY_GUIDE.md) for prioritized 2-hour, 4-hour, and full-
 
 ## Challenges
 
-| # | Challenge | Topic | Difficulty | Prereqs |
-|---|-----------|-------|------------|---------|
-| 01 | [Vectors](challenges/01_vectors) | `Vec<T>` — Rust's growable array | Beginner | None |
-| 01a | [Ownership & Borrowing](challenges/01a_vectors_advanced) | Borrow checker, moves, lifetimes | Intermediate | 01 |
+Challenges are numbered to follow a Beginner → Intermediate → Advanced ladder. The Beginner shelf (01–07) is being filled out — slots 04–07 are reserved for upcoming basics (strings, structs/enums, control flow, modules).
+
+| # | Challenge | Topic | Difficulty | Builds on |
+|---|-----------|-------|------------|-----------|
+| 01 | [Vectors](challenges/01_vectors) | `Vec<T>` — Rust's growable array | Beginner | — |
 | 02 | [HashMaps](challenges/02_hashmaps) | `HashMap<K,V>`, Entry API, counting/grouping | Beginner | 01 |
-| 02a | [HashSets & Performance](challenges/02a_hashmaps_advanced) | `HashSet`, set algebra, capacity, `retain()` | Intermediate | 02 |
-| 03 | [derive](challenges/03_derive) | `#[derive]`, standard traits, manual impls | Intermediate | 02 |
-| 03a | [Derive Ecosystem](challenges/03a_derive_ecosystem) | Patterns behind serde, thiserror, clap | Advanced | 03 |
-| 04 | [Result & `?`](challenges/04_result_and_question_mark) | `Result<T,E>`, `?`, error enums, `From` for error conversion | Intermediate | 03 |
-| 05 | [Option & Nullability](challenges/05_option) | `Option<T>`, combinators, `let else`, why Rust has no null | Beginner | 01 |
+| 03 | [Option & Nullability](challenges/03_option) | `Option<T>`, combinators, `let else`, why Rust has no null | Beginner | 01 |
+| 08 | [Ownership & Borrowing](challenges/08_borrowing) | Borrow checker, moves, lifetimes | Intermediate | 01 |
+| 09 | [HashSets & Performance](challenges/09_hashsets_and_performance) | `HashSet`, set algebra, capacity, `retain()` | Intermediate | 02 |
+| 10 | [derive](challenges/10_derive) | `#[derive]`, standard traits, manual impls | Intermediate | 02 |
+| 11 | [Result & `?`](challenges/11_result_and_question_mark) | `Result<T,E>`, `?`, error enums, `From` for error conversion | Intermediate | 03, 10 |
+| 12 | [Derive Ecosystem](challenges/12_derive_ecosystem) | Patterns behind serde, thiserror, clap | Advanced | 10, 11 |
 
 ## How Each Challenge Works
 
@@ -65,8 +67,8 @@ make test-skeletons  # skeleton tests (expected to fail until you complete the T
 make test-debug      # debug tests (expected to fail until you fix the bugs)
 
 # Run one file in one challenge:
-make CH=04_result_and_question_mark concept
-make CH=04_result_and_question_mark debug
+make CH=11_result_and_question_mark concept
+make CH=11_result_and_question_mark debug
 ```
 
 ## Prerequisites

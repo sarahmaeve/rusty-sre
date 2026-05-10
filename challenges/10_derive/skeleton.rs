@@ -1,5 +1,5 @@
 // ============================================================================
-// Challenge 03: derive — Skeleton Challenge: "Alert Pipeline"
+// Challenge 10: derive — Skeleton Challenge: "Alert Pipeline"
 // ============================================================================
 //
 // SRE Scenario: Build an alert dedup and routing pipeline.

@@ -1,5 +1,5 @@
 // =============================================================================
-// Challenge 05: Option<T> and Nullability — Concept Explainer
+// Challenge 03: Option<T> and Nullability — Concept Explainer
 // =============================================================================
 //
 // Option<T> is Rust's answer to "this might or might not be there." Unlike

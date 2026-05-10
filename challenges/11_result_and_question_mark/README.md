@@ -1,4 +1,4 @@
-# Challenge 04: `Result` and the `?` Operator
+# Challenge 11: `Result` and the `?` Operator
 
 Learn how Rust handles fallibility with explicit return values instead of exceptions.
 
@@ -51,10 +51,10 @@ cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 Or, from the repo root with the Makefile:
 
 ```bash
-make CH=04_result_and_question_mark concept
-make CH=04_result_and_question_mark skeleton
-make CH=04_result_and_question_mark debug
-make CH=04_result_and_question_mark solution
+make CH=11_result_and_question_mark concept
+make CH=11_result_and_question_mark skeleton
+make CH=11_result_and_question_mark debug
+make CH=11_result_and_question_mark solution
 ```
 
 ## Skeleton Challenge: Config Loader

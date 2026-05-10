@@ -1,5 +1,5 @@
 // =============================================================================
-// Challenge 01a: Ownership & Borrowing with Vectors — Concept Explainer
+// Challenge 08: Ownership & Borrowing with Vectors — Concept Explainer
 // =============================================================================
 //
 // Vectors are where most Rust learners first encounter the borrow checker in

@@ -1,5 +1,5 @@
 // ============================================================================
-// Challenge 03: derive — Concept Explainer
+// Challenge 10: derive — Concept Explainer
 // ============================================================================
 //
 // This file teaches Rust's #[derive] mechanism through 12 sections, each with

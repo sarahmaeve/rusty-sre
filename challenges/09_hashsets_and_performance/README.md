@@ -1,4 +1,4 @@
-# Challenge 02a: HashSets & HashMap Performance
+# Challenge 09: HashSets & HashMap Performance
 
 ## Goal
 

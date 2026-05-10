@@ -1,5 +1,5 @@
 // =============================================================================
-// Challenge 05: Option<T> — Service Status Lookup
+// Challenge 03: Option<T> — Service Status Lookup
 // =============================================================================
 //
 // You are building helper functions for an on-call dashboard. The dashboard

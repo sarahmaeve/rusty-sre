@@ -1,5 +1,5 @@
 // ============================================================================
-// Challenge 02a: HashSets & HashMap Performance — A Guide for SRE Engineers
+// Challenge 09: HashSets & HashMap Performance — A Guide for SRE Engineers
 // ============================================================================
 //
 // This challenge assumes you've completed Challenge 02 (HashMaps). We won't

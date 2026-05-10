@@ -1,5 +1,5 @@
 // =============================================================================
-// Challenge 05: Option<T> — Debug the On-Call Dashboard
+// Challenge 03: Option<T> — Debug the On-Call Dashboard
 // =============================================================================
 //
 // This dashboard summarizes the state of a fleet of services. It looks up

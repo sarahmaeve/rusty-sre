@@ -1,5 +1,5 @@
 // ============================================================================
-// Challenge 03a: Derive Ecosystem — Concept Explainer
+// Challenge 12: Derive Ecosystem — Concept Explainer
 // ============================================================================
 //
 // In production Rust, three crate families dominate the derive ecosystem:

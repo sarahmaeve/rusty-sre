@@ -1,5 +1,5 @@
 // =============================================================================
-// Challenge 01a: Ownership & Borrowing with Vectors — Incident Tracker (SOLUTION)
+// Challenge 08: Ownership & Borrowing with Vectors — Incident Tracker (SOLUTION)
 // =============================================================================
 //
 // This is the fixed version of debug.rs with all four bugs corrected.

@@ -1,5 +1,5 @@
 // =============================================================================
-// Challenge 04: Result and the `?` Operator — Concept Explainer
+// Challenge 11: Result and the `?` Operator — Concept Explainer
 // =============================================================================
 //
 // Result<T, E> is Rust's primary mechanism for fallible operations. It is an

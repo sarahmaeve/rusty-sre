@@ -1,4 +1,4 @@
-# Challenge 03: `derive` — Traits, Automatic Implementations, and SRE Patterns
+# Challenge 10: `derive` — Traits, Automatic Implementations, and SRE Patterns
 
 ## Goal
 

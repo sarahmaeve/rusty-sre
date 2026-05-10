@@ -1,5 +1,5 @@
 // ============================================================================
-// Challenge 02a — Solution: Fleet Health Analyzer (all 4 bugs fixed)
+// Challenge 09 — Solution: Fleet Health Analyzer (all 4 bugs fixed)
 // ============================================================================
 //
 // Run:  rustc debug_solution.rs --edition 2024 --test && ./debug_solution

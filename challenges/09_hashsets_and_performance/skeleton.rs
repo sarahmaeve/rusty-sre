@@ -1,5 +1,5 @@
 // ============================================================================
-// Challenge 02a — Skeleton: Infrastructure Diff Engine
+// Challenge 09 — Skeleton: Infrastructure Diff Engine
 // ============================================================================
 //
 // You're building an SRE tool that compares infrastructure state across
