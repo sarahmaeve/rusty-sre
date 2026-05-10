@@ -71,43 +71,64 @@ nav .spacer { flex: 1; }
     <th>#</th>
     <th>Challenge</th>
     <th>Topic</th>
+    <th>Difficulty</th>
     <th>Prereqs</th>
   </tr>
   <tr>
     <td>01</td>
     <td><a href="01_vectors/index.html">Vectors</a></td>
     <td><code>Vec&lt;T&gt;</code> &mdash; Rust's growable array</td>
+    <td>Beginner</td>
     <td>None</td>
   </tr>
   <tr>
     <td>01a</td>
     <td><a href="01a_vectors_advanced/index.html">Ownership &amp; Borrowing with Vectors</a></td>
     <td>Borrow checker, moves, lifetimes</td>
+    <td>Intermediate</td>
     <td>01</td>
   </tr>
   <tr>
     <td>02</td>
     <td><a href="02_hashmaps/index.html">HashMaps</a></td>
     <td><code>HashMap&lt;K,V&gt;</code>, Entry API, counting/grouping</td>
+    <td>Beginner</td>
     <td>01</td>
   </tr>
   <tr>
     <td>02a</td>
     <td><a href="02a_hashmaps_advanced/index.html">HashSets &amp; HashMap Performance</a></td>
     <td><code>HashSet</code>, set algebra, capacity, <code>retain()</code></td>
+    <td>Intermediate</td>
     <td>02</td>
   </tr>
   <tr>
     <td>03</td>
     <td><a href="03_derive/index.html">derive</a></td>
     <td><code>#[derive]</code>, standard traits, manual impls</td>
+    <td>Intermediate</td>
     <td>02</td>
   </tr>
   <tr>
     <td>03a</td>
     <td><a href="03a_derive_ecosystem/index.html">Derive Ecosystem</a></td>
     <td>Patterns behind serde, thiserror, clap</td>
+    <td>Advanced</td>
     <td>03</td>
+  </tr>
+  <tr>
+    <td>04</td>
+    <td><a href="04_result_and_question_mark/README.md">Result &amp; <code>?</code></a></td>
+    <td><code>Result&lt;T,E&gt;</code>, <code>?</code>, error enums, <code>From</code> for error conversion</td>
+    <td>Intermediate</td>
+    <td>03</td>
+  </tr>
+  <tr>
+    <td>05</td>
+    <td><a href="05_option/README.md">Option &amp; Nullability</a></td>
+    <td><code>Option&lt;T&gt;</code>, combinators, <code>let else</code>, why Rust has no null</td>
+    <td>Beginner</td>
+    <td>01</td>
   </tr>
 </table>
 

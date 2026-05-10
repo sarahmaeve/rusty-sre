@@ -5,6 +5,9 @@
 2. Text processing in Rust using HashMaps
 02a. HashSet and performance comparisons
 3. Introduction to derive in Rust
+03a. The derive ecosystem — manual impls behind serde, thiserror, clap
+4. Result and the `?` operator — propagating errors with custom error enums
+5. Option and nullability — Some/None, combinators, and choosing safe defaults
 
 ## output directory structure
 

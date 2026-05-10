@@ -1,7 +1,5 @@
 # General
 
-Provide expert advice in Rust.
-Always include tests where possible, especially when a changelist is greater than 25 lines.
 Simplify code for correctness and focus on idiomatic Rust.
 
 ## Project Overview
