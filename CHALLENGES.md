@@ -1,11 +1,15 @@
 # List of concepts or challenges
 
-Challenges are numbered to follow a Beginner → Intermediate → Advanced ladder. Numbers 04–07 are reserved for upcoming Beginner challenges (strings, structs/enums, control flow, modules).
+Challenges are numbered to follow a Beginner → Intermediate → Advanced ladder.
 
 Beginner shelf:
 01. Use of Rust vectors and vectors versus other data structures
 02. Text processing in Rust using HashMaps
 03. Option and nullability — Some/None, combinators, and choosing safe defaults
+04. Strings — `String` vs `&str`, parsing, UTF-8, case-insensitive compare
+05. Structs, enums, and `impl` — designing types and writing methods
+06. Control flow as expressions — `if`/`match` as values, range patterns
+07. Modules and visibility — `mod`, `pub`, `use`, path prefixes
 
 Intermediate shelf:
 08. Ownership and borrowing with vectors
