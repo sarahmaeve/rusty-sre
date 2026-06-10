@@ -6,18 +6,17 @@
 // hosts needing attention, detects missing monitoring, groups hosts by
 // datacenter, and removes decommissioned machines.
 //
-// There are 4 bugs hidden in this code:
-//   - 2 compile errors (the code won't build until you fix them)
-//   - 2 runtime bugs (the code builds but produces wrong results)
+// There are 4 bugs hidden in this code — some stop it compiling, some make
+// it misbehave at runtime. All involve common HashSet and HashMap-with-sets
+// mistakes. Fix all 4 to make the tests pass.
 //
-// All bugs involve common HashSet and HashMap-with-sets mistakes.
+// Stuck? HINTS.md reveals each bug in stages: symptom, location, then fix.
 //
 // Run:  rustc debug.rs --edition 2024 --test && ./debug
 
 use std::collections::{HashMap, HashSet};
 
 /// Information about a single host in the fleet.
-/// NOTE: This struct is missing some trait derives it needs...
 #[derive(Debug, Clone)]
 struct HostInfo {
     hostname: String,
@@ -27,14 +26,6 @@ struct HostInfo {
 
 /// Find hosts that are monitored but not healthy, and hosts that appear
 /// in both the monitored and healthy sets.
-///
-/// BUG #1: This function does NOT compile.
-/// Values are moved into merge_host_lists(), then used again afterward.
-///
-/// Think about what happens when you pass owned values to a function,
-/// then try to use them on the next line...
-/// Python parallel: Python passes references, so this just works.
-/// In Rust, passing by value MOVES the data.
 fn find_hosts_needing_attention(
     monitored: HashSet<String>,
     healthy: HashSet<String>,
@@ -46,11 +37,9 @@ fn find_hosts_needing_attention(
         .collect();
     unhealthy.sort();
 
-    // Merge both lists to get "all known hosts" — this consumes both sets!
+    // Merge both lists to get "all known hosts".
     let _all_known = merge_host_lists(monitored, healthy);
 
-    // BUG: monitored and healthy were MOVED into merge_host_lists above.
-    // This line tries to use them after the move — won't compile.
     let mut overlap: Vec<String> = monitored
         .intersection(&healthy)
         .cloned()
@@ -65,21 +54,10 @@ fn merge_host_lists(a: HashSet<String>, b: HashSet<String>) -> HashSet<String> {
 }
 
 /// Find hosts that are in the inventory but missing from monitoring.
-///
-/// BUG #2: This function compiles and runs, but returns WRONG results.
-/// It uses symmetric_difference when it should use difference.
-///
-/// symmetric_difference = items in EITHER set but not both (Python: a ^ b)
-/// difference = items in first set but not second (Python: a - b)
-///
-/// The code finds hosts that are unmatched in EITHER direction,
-/// but we only want hosts missing FROM monitoring.
 fn find_missing_from_monitoring(
     inventory: &HashSet<String>,
     monitoring: &HashSet<String>,
 ) -> Vec<String> {
-    // BUG: symmetric_difference gives us items in EITHER set but not both.
-    // We want items in inventory but NOT in monitoring — that's difference.
     let mut missing: Vec<String> = inventory
         .symmetric_difference(monitoring)
         .cloned()
@@ -88,14 +66,7 @@ fn find_missing_from_monitoring(
     missing
 }
 
-/// Group hosts by datacenter, storing unique hostnames per DC.
-///
-/// BUG #3: This function does NOT compile.
-/// HostInfo is used as a value in a HashSet, but it doesn't implement
-/// the Hash and Eq traits required for HashSet membership.
-///
-/// Python parallel: Any object can go in a Python set if it defines
-/// __hash__ and __eq__. Rust requires explicit trait implementations.
+/// Group hosts by datacenter, storing unique hosts per DC.
 fn unique_hosts_by_datacenter(
     hosts: &[HostInfo],
 ) -> HashMap<String, HashSet<HostInfo>> {
@@ -105,8 +76,6 @@ fn unique_hosts_by_datacenter(
         by_dc
             .entry(host.datacenter.clone())
             .or_insert_with(HashSet::new)
-            // BUG: HostInfo doesn't derive Hash, Eq, or PartialEq.
-            // The compiler will refuse to insert it into a HashSet.
             .insert(host.clone());
     }
 
@@ -114,21 +83,10 @@ fn unique_hosts_by_datacenter(
 }
 
 /// Remove decommissioned hosts from the active set.
-///
-/// BUG #4: This function compiles and runs, but does the OPPOSITE of
-/// what's intended — it KEEPS decommissioned hosts and REMOVES active ones.
-///
-/// retain() keeps items where the closure returns true.
-/// The logic is inverted: it returns true for decommissioned hosts.
-///
-/// Python parallel: {h for h in active if h not in decommissioned}
-/// — note the "not in". Easy to forget the negation in Rust too.
 fn remove_decommissioned(
     active_hosts: &mut HashSet<String>,
     decommissioned: &HashSet<String>,
 ) {
-    // BUG: retain() keeps items where closure returns true.
-    // This keeps hosts that ARE in the decommissioned set — backwards!
     active_hosts.retain(|host| decommissioned.contains(host));
 }
 

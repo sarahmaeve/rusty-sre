@@ -33,6 +33,8 @@ Python integers are arbitrary-precision and silently widen across operations. Ru
 | `concept.rs` | 10 sections covering integer types, overflow, casts, From/TryFrom, floats |
 | `skeleton.rs` | Byte-rate calculator — fill in six TODOs |
 | `debug.rs` | Buggy capacity planner — find and fix 4 bugs |
+| `HINTS.md` | Progressive hints for the skeleton tasks and the debug bugs |
+| `solution/skeleton_solution.rs` | Reference implementation of `skeleton.rs` |
 | `solution/debug_solution.rs` | Fixed version of `debug.rs` |
 
 ## How to Run
@@ -41,6 +43,7 @@ Python integers are arbitrary-precision and silently widen across operations. Ru
 rustc concept.rs --edition 2024 --test && ./concept
 rustc skeleton.rs --edition 2024 --test && ./skeleton
 rustc debug.rs --edition 2024 --test && ./debug
+cd solution && rustc skeleton_solution.rs --edition 2024 --test && ./skeleton_solution
 cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 ```
 
@@ -66,12 +69,12 @@ Six tasks build helpers for a metrics dashboard:
 
 ## Debug Challenge: Capacity Planner
 
-Four bugs that all stem from numeric-type misuse:
+Four bugs that all stem from numeric-type misuse — some stop the program
+compiling, some misbehave at runtime. Read the compiler errors and test
+failures, and work backwards to the cause.
 
-1. **Mixing u32 and u64 in arithmetic** (compile error) — Rust does no implicit widening. Convert one side with `u64::from(...)`.
-2. **Returning u32 from a usize** (compile error) — `Vec::len()` returns `usize`, not `u32`. Use `try_into()` and decide what to do on overflow.
-3. **Plain `+` overflows** (runtime) — summing a slice that exceeds `u32::MAX` panics in debug builds and silently wraps in release. Use `saturating_add` for SRE counters.
-4. **Float `==` on a derived value** (runtime) — `(a + b) / 2.0` and `a/2.0 + b/2.0` are mathematically equal but float-arithmetically slightly different. Use an absolute epsilon.
+If you get stuck, [`HINTS.md`](HINTS.md) reveals each bug in stages: symptom,
+then location, then the fix.
 
 ## Concepts Covered
 

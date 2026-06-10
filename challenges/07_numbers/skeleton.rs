@@ -8,6 +8,9 @@
 //
 // Complete each TODO. Run the tests with:
 //     rustc skeleton.rs --edition 2024 --test && ./skeleton
+//
+// Stuck? HINTS.md has a hint per task. A reference implementation lives in
+// solution/skeleton_solution.rs — compare after you have a passing version.
 // =============================================================================
 
 use std::num::TryFromIntError;
@@ -20,8 +23,6 @@ fn main() {
 // Task 1: bytes_to_kb
 // -----------------------------------------------------------------------------
 // Convert a byte count (u64) to kilobytes (f64). 1 KB = 1024 bytes.
-//
-// HINT: cast u64 to f64 with `as`, then divide.
 fn bytes_to_kb(_bytes: u64) -> f64 {
     // TODO
     todo!()
@@ -32,8 +33,6 @@ fn bytes_to_kb(_bytes: u64) -> f64 {
 // -----------------------------------------------------------------------------
 // Convert a slice's length (usize) into u32 for a metric payload. Return
 // Err on overflow.
-//
-// HINT: u32::try_from(...).
 fn count_to_u32(_items: &[u8]) -> Result<u32, TryFromIntError> {
     // TODO
     todo!()
@@ -44,8 +43,6 @@ fn count_to_u32(_items: &[u8]) -> Result<u32, TryFromIntError> {
 // -----------------------------------------------------------------------------
 // Increment `current` by `delta`, saturating at u32::MAX. Counters that
 // silently wrap are an SRE nightmare — always saturate when in doubt.
-//
-// HINT: saturating_add.
 fn increment_counter(_current: u32, _delta: u32) -> u32 {
     // TODO
     todo!()
@@ -67,8 +64,6 @@ fn percent(_numerator: u64, _denominator: u64) -> Option<f64> {
 // Return true if two f64 rates are "close enough" — within 1e-6 of each
 // other in absolute terms. (For real metrics work you'd parameterize the
 // epsilon, but a fixed value is fine here.)
-//
-// HINT: (a - b).abs() < 1e-6.
 fn rates_close(_a: f64, _b: f64) -> bool {
     // TODO
     todo!()
@@ -79,8 +74,6 @@ fn rates_close(_a: f64, _b: f64) -> bool {
 // -----------------------------------------------------------------------------
 // Convert a u32 to a u8. If the value doesn't fit (> 255), return Err with
 // the original value.
-//
-// HINT: u8::try_from(value).map_err(|_| original).
 fn shrink_to_u8(_value: u32) -> Result<u8, u32> {
     // TODO
     todo!()

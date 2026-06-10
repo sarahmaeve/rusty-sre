@@ -12,6 +12,9 @@
 // Complete each function by replacing the TODO comments with working code.
 // Run the tests with:
 //     rustc skeleton.rs --edition 2024 --test && ./skeleton
+//
+// Stuck? HINTS.md has a hint per task. A reference implementation lives in
+// solution/skeleton_solution.rs — compare after you have a passing version.
 // =============================================================================
 
 fn main() {
@@ -24,9 +27,6 @@ fn main() {
 // Return the input with leading and trailing whitespace removed, as an
 // owned String. (We return String so later steps can keep mutating without
 // worrying about lifetimes.)
-//
-// HINT: &str::trim() returns a &str. Use .to_string() or .to_owned() to
-// get a String.
 fn trim_whitespace(_s: &str) -> String {
     // TODO
     todo!()
@@ -41,9 +41,6 @@ fn trim_whitespace(_s: &str) -> String {
 // Examples:
 //   "auth.example.com:8443" → "auth.example.com"
 //   "auth.example.com"      → "auth.example.com"
-//
-// HINT: str::split_once(':') returns Option<(&str, &str)>. unwrap_or works
-// well to fall back to the original input.
 fn strip_port(_s: &str) -> String {
     // TODO
     todo!()
@@ -53,8 +50,6 @@ fn strip_port(_s: &str) -> String {
 // Task 3: to_lower
 // -----------------------------------------------------------------------------
 // Return a lowercased copy of the input. ASCII-only is fine for hostnames.
-//
-// HINT: str::to_lowercase().
 fn to_lower(_s: &str) -> String {
     // TODO
     todo!()
@@ -70,8 +65,6 @@ fn to_lower(_s: &str) -> String {
 //   "auth.example.com..." → "auth.example.com"
 //   "auth.example.com"    → "auth.example.com"
 //   "...."                → ""
-//
-// HINT: str::trim_end_matches('.') is exactly this.
 fn trim_trailing_dots(_s: &str) -> String {
     // TODO
     todo!()

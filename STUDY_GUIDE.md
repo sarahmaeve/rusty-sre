@@ -13,7 +13,10 @@ Skip the concept files; learn from the skeletons and debugs.
 3. **Challenge 03 — Option** (30 min) — `Some`/`None`, combinators, `let else`. The first place Rust feels different from Python.
 4. **Challenge 04 — Strings** (30 min) — `String` vs `&str`, byte-vs-character, case-insensitive compare. Everyone trips here on day one.
 
-After each, look at `solution/debug_solution.rs` to compare with your fix.
+After each, compare with the reference solutions in `solution/`
+(`skeleton_solution.rs` and `debug_solution.rs`). If you're stuck mid-way,
+each challenge's `HINTS.md` reveals hints in stages — symptom, then location,
+then the fix.
 
 ## If You Have 4 Hours
 

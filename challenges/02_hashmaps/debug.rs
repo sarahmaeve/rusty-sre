@@ -5,12 +5,10 @@
 // This program parses log records, counts errors per service, finds the worst
 // offender, groups messages by service, and generates a correlation report.
 //
-// There are 4 bugs hidden in this code:
-//   - 2 compile errors (the code won't build until you fix them)
-//   - 2 runtime bugs (the code builds but produces wrong results)
-//
-// All bugs involve common HashMap mistakes that Python developers make when
-// transitioning to Rust. Fix all 4 to make the tests pass.
+// There are 4 bugs hidden in this code — some stop it compiling, some make
+// it misbehave at runtime. All involve common HashMap mistakes that Python
+// developers make when transitioning to Rust. Fix all 4 to make the tests
+// pass. Stuck? HINTS.md reveals each bug in stages.
 //
 // Run:  rustc debug.rs --edition 2024 --test && ./debug
 
@@ -42,19 +40,11 @@ fn parse_log_line(line: &str) -> Option<LogRecord> {
 }
 
 /// Count the number of ERROR-level log entries per service.
-///
-/// BUG #1: This function compiles and runs, but produces wrong results.
-/// For a service with 5 errors, it will report only 1.
-///
-/// Think about what insert() does when the key already exists...
-/// Python parallel: `d[k] = 1` always sets to 1, vs `d[k] = d.get(k, 0) + 1`
 fn count_errors_per_service(records: &[LogRecord]) -> HashMap<String, usize> {
     let mut error_counts: HashMap<String, usize> = HashMap::new();
 
     for record in records {
         if record.level == "ERROR" {
-            // BUG: insert() overwrites the existing value every time!
-            // Each error resets the count to 1 instead of incrementing.
             error_counts.insert(record.service.clone(), 1);
         }
     }
@@ -64,11 +54,6 @@ fn count_errors_per_service(records: &[LogRecord]) -> HashMap<String, usize> {
 
 /// Find the service with the most errors.
 /// Returns (service_name, error_count), or None if no errors exist.
-///
-/// BUG #2: This function compiles but panics at runtime.
-/// It tries to look up services that might not be in the map.
-///
-/// Python parallel: `dict[key]` raises KeyError, `dict.get(key, 0)` is safe.
 fn worst_service(error_counts: &HashMap<String, usize>) -> Option<(String, usize)> {
     if error_counts.is_empty() {
         return None;
@@ -80,16 +65,14 @@ fn worst_service(error_counts: &HashMap<String, usize>) -> Option<(String, usize
         "payments".to_string(),
         "db".to_string(),
         "monitoring".to_string(),
-        "cache".to_string(),      // This service may not be in the map!
-        "scheduler".to_string(),  // This one either!
+        "cache".to_string(),
+        "scheduler".to_string(),
     ];
 
     let mut worst_name = String::new();
     let mut worst_count = 0;
 
     for service in &known_services {
-        // BUG: map[&key] panics if the key doesn't exist!
-        // "cache" and "scheduler" aren't in our error_counts map.
         let count = error_counts[service];
         if count > worst_count {
             worst_count = count;
@@ -105,21 +88,12 @@ fn worst_service(error_counts: &HashMap<String, usize>) -> Option<(String, usize
 }
 
 /// Group log messages by service name.
-///
-/// BUG #3: This function does NOT compile.
-/// It tries to mutate a value obtained through an immutable reference.
-///
-/// Python parallel: In Python, `d.get(k)` returns the actual mutable list.
-/// In Rust, `get()` returns an immutable reference — you can't push to it.
 fn build_service_groups(records: &[LogRecord]) -> HashMap<String, Vec<String>> {
     let mut groups: HashMap<String, Vec<String>> = HashMap::new();
 
     for record in records {
         let formatted = format!("[{}] {}", record.level, record.message);
 
-        // BUG: get() returns Option<&Vec<String>> — an immutable reference!
-        // You cannot call .push() on an immutable reference.
-        // In Python, dict.get() gives you the actual mutable list object.
         let messages = groups.get(&record.service);
         match messages {
             Some(vec) => vec.push(formatted),
@@ -133,12 +107,6 @@ fn build_service_groups(records: &[LogRecord]) -> HashMap<String, Vec<String>> {
 }
 
 /// Generate a summary report of services with error counts above a threshold.
-///
-/// BUG #4: This function does NOT compile.
-/// It compares Option<&usize> directly with a plain usize.
-///
-/// Python parallel: `dict.get(key)` returns the value or None. You can write
-/// `if d.get(k) and d.get(k) > 5` because Python coerces types. Rust won't.
 fn generate_correlation_report(
     records: &[LogRecord],
     error_counts: &HashMap<String, usize>,
@@ -156,8 +124,6 @@ fn generate_correlation_report(
     services.sort();
 
     for service in &services {
-        // BUG: get() returns Option<&usize>, not usize.
-        // You can't compare Option<&usize> > threshold directly.
         let count = error_counts.get(service);
         if count > threshold {
             let total_records = records.iter().filter(|r| r.service == *service).count();
@@ -223,7 +189,6 @@ fn test_count_errors_per_service() {
     let records = test_records();
     let counts = count_errors_per_service(&records);
 
-    // auth has 5 errors — if you see 1, bug #1 hasn't been fixed!
     assert_eq!(counts.get("auth"), Some(&5), "auth should have 5 errors");
     assert_eq!(counts.get("gateway"), Some(&1));
     assert_eq!(counts.get("db"), Some(&1));
@@ -236,7 +201,6 @@ fn test_worst_service() {
     let records = test_records();
     let counts = count_errors_per_service(&records);
 
-    // Should not panic even though "cache" and "scheduler" aren't in the map.
     let (name, count) = worst_service(&counts).unwrap();
     assert_eq!(name, "auth");
     assert_eq!(count, 5);

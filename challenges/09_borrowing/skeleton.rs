@@ -9,6 +9,9 @@
 // Complete each function by replacing the TODO comments with working code.
 // Run the tests to verify your solutions:
 //     rustc skeleton.rs --edition 2024 --test && ./skeleton
+//
+// Stuck? HINTS.md has a hint per task. A reference implementation lives in
+// solution/skeleton_solution.rs — compare after you have a passing version.
 // =============================================================================
 
 fn main() {
@@ -32,11 +35,10 @@ struct Alert {
 // Example: "auth:critical:Login service unreachable"
 //
 // If a message doesn't have exactly 3 parts when split on ':', skip it.
-// The function CONSUMES the input — use into_iter() to avoid cloning.
+// (A message may itself contain ':' — only the first two colons separate
+// fields.) The function CONSUMES the input — no cloning.
 fn parse_alerts(raw_messages: Vec<String>) -> Vec<Alert> {
-    // TODO: Use into_iter() to consume raw_messages and parse each one.
-    // Split each string on ':' using splitn(3, ':') to get service, severity, message.
-    // Filter out any that don't have all 3 parts.
+    // TODO: Parse each raw message into an Alert, skipping malformed ones.
     todo!()
 }
 
@@ -49,8 +51,8 @@ fn parse_alerts(raw_messages: Vec<String>) -> Vec<Alert> {
 // Note the lifetime annotation: the returned references live as long as
 // the input slice.
 fn critical_alerts<'a>(alerts: &'a [Alert]) -> Vec<&'a Alert> {
-    // TODO: Use iter() and filter() to collect references to alerts
-    // where severity == "critical". Do NOT clone.
+    // TODO: Collect references to the alerts with severity == "critical".
+    // Do NOT clone.
     todo!()
 }
 
@@ -58,11 +60,10 @@ fn critical_alerts<'a>(alerts: &'a [Alert]) -> Vec<&'a Alert> {
 // Task 3: Borrow mutably to modify in place
 // -----------------------------------------------------------------------------
 // Escalate all "warning" alerts to "critical" if their service matches
-// the given service name. Modify the alerts in place using iter_mut().
+// the given service name. Modify the alerts in place.
 fn escalate_warnings(alerts: &mut Vec<Alert>, service: &str) {
-    // TODO: Use iter_mut() to find alerts where severity is "warning"
-    // AND service matches the given service name. Change their severity
-    // to "critical".
+    // TODO: Change severity to "critical" for warnings on the given
+    // service, in place.
     todo!()
 }
 
@@ -72,10 +73,6 @@ fn escalate_warnings(alerts: &mut Vec<Alert>, service: &str) {
 // Remove all "info" severity alerts from the vector and return them as
 // a separate owned Vec<Alert>. The original vector should only contain
 // non-info alerts afterward.
-//
-// Hint: You can't easily use drain() with a predicate. Consider an
-// alternative approach: partition the elements, or use a two-vec strategy
-// where you take all elements out and put back only the ones you want to keep.
 fn extract_info_alerts(alerts: &mut Vec<Alert>) -> Vec<Alert> {
     // TODO: Remove all info alerts from the input vec and return them.
     // After this function, `alerts` should contain no info-level alerts.
@@ -94,8 +91,8 @@ fn extract_info_alerts(alerts: &mut Vec<Alert>) -> Vec<Alert> {
 // Example output for one alert:
 //   "[critical] auth: Login service down"
 fn build_summary(alerts: &[Alert]) -> String {
-    // TODO: Iterate over alerts using iter(), format each one, and
-    // join them with newlines. Use & references only — no .clone().
+    // TODO: Format each alert and join with newlines — references only,
+    // no .clone().
     todo!()
 }
 
@@ -105,8 +102,6 @@ fn build_summary(alerts: &[Alert]) -> String {
 // Split the alerts at the given index, returning two owned Vecs.
 // The first Vec gets elements [0..index), the second gets [index..].
 // The original Vec is consumed (taken by value).
-//
-// Hint: Look at split_off() — it works on &mut Vec.
 fn split_alerts(mut alerts: Vec<Alert>, index: usize) -> (Vec<Alert>, Vec<Alert>) {
     // TODO: Split the alerts vec at the given index and return both halves.
     // Handle the case where index >= alerts.len() (return all in first, empty second).

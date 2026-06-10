@@ -5,13 +5,11 @@
 // SRE Scenario: A log export tool that serializes deployment events to a
 // text format, deserializes them back, and handles errors with the ? operator.
 //
-// This code has 4 BUGS related to serialization, error handling, and FromStr.
-//
-// Bug types:
-//   - 2 compile-time errors (the code won't build)
-//   - 2 runtime errors (tests fail due to incorrect logic)
+// This code has 4 BUGS related to serialization, error handling, and
+// FromStr — some stop it compiling, some misbehave at runtime.
 //
 // Your mission: find and fix all 4 bugs so every test passes.
+// Stuck? HINTS.md reveals each bug in stages: symptom, location, then fix.
 //
 // Run with:
 //     rustc debug.rs --edition 2024 --test && ./debug
@@ -21,7 +19,7 @@ use std::fmt;
 use std::num::ParseIntError;
 use std::str::FromStr;
 
-// ── DeployStatus enum (working correctly) ───────────────────────────────────
+// ── DeployStatus enum ────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum DeployStatus {
@@ -70,10 +68,8 @@ struct DeployEvent {
     timestamp: u64,
 }
 
-// ── BUG #4: Serialization/deserialization mismatch ──────────────────────────
-// Display serializes fields in one order, but FromStr expects a different
-// field set. Specifically, Display writes "version" but the value it writes
-// for the version field is actually self.service (copy-paste bug).
+// Serialize an event as a single logfmt-style line. Display and FromStr
+// must round-trip: parsing a serialized event reproduces the original.
 impl fmt::Display for DeployEvent {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
@@ -149,9 +145,7 @@ impl fmt::Display for ExportError {
     }
 }
 
-// ── BUG #3: source() returns wrong value ────────────────────────────────────
-// For the Io variant, source() should return Some(err) to enable error
-// chaining. Instead it returns None, breaking the error chain.
+// Error chaining: source() exposes the underlying cause where one exists.
 impl std::error::Error for ExportError {
     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
         match self {
@@ -167,29 +161,15 @@ impl From<std::io::Error> for ExportError {
     }
 }
 
-// ── BUG #1: Missing From<ParseIntError> ─────────────────────────────────────
-// The FromStr impl for DeployEvent uses ? on a u64 parse, which produces
-// a ParseIntError. There's no From<ParseIntError> for ExportError, so
-// the ? operator can't convert it and the code won't compile.
-
-// (missing From impl here)
-
-// ── BUG #2: FromStr returns wrong error type ────────────────────────────────
-// EventBatch's FromStr declares Err = ExportError, but the implementation
-// calls line.parse::<DeployEvent>() which already returns ExportError,
-// then wraps it AGAIN in ExportError::Parse(e.to_string()), which loses
-// the original error type. Worse, the map_err uses a String conversion
-// that doesn't compile because ExportError doesn't implement ToString
-// without Display... wait, it does have Display.
-//
-// Actually the real bug: the type annotation says `Err = String` but the
-// body returns `ExportError` values. The Err type must match.
+// ── A parsed batch of deploy events ──────────────────────────────────────────
+// EventBatch's FromStr error type is part of its public API — callers match
+// on ExportError variants.
 struct EventBatch {
     events: Vec<DeployEvent>,
 }
 
 impl FromStr for EventBatch {
-    type Err = String;  // BUG: should be ExportError to match the body
+    type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let mut events = Vec::new();
@@ -344,6 +324,14 @@ deploy_id=dep-002 service=db version=v2.0 status=pending timestamp=200
         let batch: EventBatch = input.parse().unwrap();
         assert_eq!(batch.events.len(), 2);
         assert_eq!(batch.events[0].deploy_id, "dep-001");
+    }
+
+    #[test]
+    fn test_event_batch_error_type() {
+        // EventBatch's FromStr error type is part of its API contract:
+        // callers match on ExportError variants.
+        let result: Result<EventBatch, ExportError> = "garbage".parse();
+        assert!(matches!(result, Err(ExportError::Parse(_))));
     }
 }
 

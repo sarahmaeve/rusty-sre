@@ -5,18 +5,14 @@
 // This dashboard summarizes the state of a fleet of services. It looks up
 // owners, parses severities, and reports the worst alert per service.
 //
-// It contains FOUR bugs that all involve Option misuse: two compile errors
-// and two runtime errors. Find and fix all four so every test passes.
+// It contains FOUR bugs that all involve Option misuse — some stop it
+// compiling, some misbehave at runtime. Find and fix all four so every test
+// passes.
 //
 // Run the tests with:
 //     rustc debug.rs --edition 2024 --test && ./debug
 //
-// Hints:
-//   1. lookup_owner: signature claims &str, body produces Option<&str>
-//   2. first_severity: uses `?` while declared to return a plain u8
-//   3. owner_or_unknown: .unwrap() panics for unknown services
-//   4. worst_severity: unwrap_or(0) masks "missing" as "fine" — but for SRE
-//      a missing severity should be treated as the worst case (5)
+// Stuck? HINTS.md reveals each bug in stages: symptom, location, then fix.
 // =============================================================================
 
 use std::collections::HashMap;
@@ -42,41 +38,27 @@ struct ServiceReport {
     worst_severity: u8,
 }
 
-// -----------------------------------------------------------------------------
-// BUG 1: return type does not match what the body produces
-// -----------------------------------------------------------------------------
-// HashMap::get returns Option<&V>. The body therefore yields Option<&str>,
-// but the signature claims &str.
+// Look up the owner of a service in the table.
 fn lookup_owner<'a>(owners: &'a HashMap<String, String>, service: &str) -> &'a str {
     owners.get(service).map(String::as_str)
 }
 
-// -----------------------------------------------------------------------------
-// BUG 2: using `?` on Option inside a function returning a plain value
-// -----------------------------------------------------------------------------
-// `?` only works when the surrounding function's return type carries a "no
-// value" branch (Option or Result). This function returns u8.
+// Severity of the first alert in the list.
 fn first_severity(alerts: &[Alert]) -> u8 {
     let alert = alerts.first()?;
     let sev = alert.severity?;
     sev
 }
 
-// -----------------------------------------------------------------------------
-// BUG 3: unwrap() panics when the service has no owner in the map
-// -----------------------------------------------------------------------------
 // The dashboard should display "unknown" for any service whose owner is not
-// in the table. Replace .unwrap() with a safe fallback.
+// in the table.
 fn owner_or_unknown(owners: &HashMap<String, String>, service: &str) -> String {
     owners.get(service).unwrap().clone()
 }
 
-// -----------------------------------------------------------------------------
-// BUG 4: unwrap_or(0) hides missing severity as "no problem"
-// -----------------------------------------------------------------------------
-// Operationally, a missing severity is suspicious — we should treat it as
-// the worst case (5) so the dashboard surfaces it. unwrap_or(0) does the
-// opposite: it pretends an unknown alert is the lowest priority.
+// Worst (highest) severity across the alerts. Operationally, a missing
+// severity is suspicious — treat it as the worst case (5) so the dashboard
+// surfaces it.
 fn worst_severity(alerts: &[Alert]) -> u8 {
     alerts
         .iter()
@@ -86,8 +68,7 @@ fn worst_severity(alerts: &[Alert]) -> u8 {
 }
 
 // -----------------------------------------------------------------------------
-// Build a per-service report. (No bug here directly — but it depends on the
-// helpers above being correct.)
+// Build a per-service report from the helpers above.
 // -----------------------------------------------------------------------------
 
 fn build_report(
@@ -144,7 +125,6 @@ fn sample_alerts() -> Vec<Alert> {
 mod tests {
     use super::*;
 
-    // BUG 1
     #[test]
     fn lookup_owner_returns_option() {
         // After the fix, lookup_owner should return Option<&str>.
@@ -153,7 +133,6 @@ mod tests {
         assert_eq!(lookup_owner(&owners, "missing"), None);
     }
 
-    // BUG 2
     #[test]
     fn first_severity_returns_option() {
         // After the fix, first_severity should return Option<u8>.
@@ -162,7 +141,6 @@ mod tests {
         assert_eq!(first_severity(&[]), None);
     }
 
-    // BUG 3
     #[test]
     fn owner_or_unknown_handles_missing() {
         let owners = sample_owners();
@@ -170,11 +148,10 @@ mod tests {
         assert_eq!(owner_or_unknown(&owners, "search"), "unknown");
     }
 
-    // BUG 4
     #[test]
     fn worst_severity_treats_missing_as_5() {
-        // search has one None and one Some(3). After the fix the worst case
-        // for search is 5 (treating None as worst), not 3.
+        // search has one None and one Some(3); the worst case for search is
+        // 5 (missing severity counts as worst), not 3.
         let search_alerts = vec![
             Alert { service: "search".into(), severity: None, message: "x".into() },
             Alert { service: "search".into(), severity: Some(3), message: "y".into() },
@@ -192,7 +169,7 @@ mod tests {
         assert_eq!(worst_severity(&alerts), 4);
     }
 
-    // Integration test — depends on bugs 3 and 4 being fixed
+    // Integration test
     #[test]
     fn build_report_handles_missing_owner_and_missing_severity() {
         let owners = sample_owners();

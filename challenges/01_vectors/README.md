@@ -9,6 +9,8 @@ Learn about `Vec<T>` — Rust's growable array type — and when to choose it ov
 | `concept.rs` | Heavily commented explainer covering all major vector operations |
 | `skeleton.rs` | SRE metrics collector — fill in the TODOs to complete it |
 | `debug.rs` | Buggy log analyzer — find and fix 4 vector-related bugs |
+| `HINTS.md` | Progressive hints for the skeleton tasks and the debug bugs |
+| `solution/skeleton_solution.rs` | Reference implementation of `skeleton.rs` |
 | `solution/debug_solution.rs` | Fixed version of `debug.rs` |
 | `data/log_entries.txt` | Sample log data |
 
@@ -26,8 +28,10 @@ rustc skeleton.rs --edition 2024 --test && ./skeleton
 # Debug challenge — tests will fail until you fix the bugs
 rustc debug.rs --edition 2024 --test && ./debug
 
-# Solution — all tests should pass
-cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
+# Reference solutions — all tests should pass
+cd solution
+rustc skeleton_solution.rs --edition 2024 --test && ./skeleton_solution
+rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 ```
 
 ## Skeleton Challenge: SRE Metrics Collector
@@ -42,11 +46,9 @@ Complete five tasks related to collecting and processing response time metrics:
 
 ## Debug Challenge: Log Analyzer
 
-The log analyzer has four bugs rooted in vector misuse:
+The log analyzer has four bugs rooted in vector misuse. Run the tests, read
+the failures, and work backwards to the cause.
 
-1. **Off-by-one indexing** — accessing one past the end of the vector
-2. **Mutating while iterating** — removing elements during a loop
-3. **Wrong data structure** — using `Vec` where `HashSet` is needed for uniqueness
-4. **Empty vector panic** — calling `.unwrap()` on an empty iterator result
-
-Find and fix all four to make the tests pass.
+Find and fix all four to make the tests pass. If you get stuck,
+[`HINTS.md`](HINTS.md) reveals each bug in stages: symptom, then location,
+then the fix.

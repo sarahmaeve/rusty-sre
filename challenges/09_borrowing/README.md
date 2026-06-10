@@ -9,6 +9,8 @@ Learn how Rust's ownership system, borrowing rules, and lifetimes interact with 
 | `concept.rs` | 21 tests covering moves, clones, shared/mutable borrows, invalidation, iteration ownership, lifetimes, drain/split_off/swap_remove, and common mistakes |
 | `skeleton.rs` | SRE alert pipeline — fill in 6 TODOs exercising different ownership patterns |
 | `debug.rs` | Buggy incident tracker — find and fix 4 ownership/borrowing bugs (all are compile errors) |
+| `HINTS.md` | Progressive hints for the skeleton tasks and the debug bugs |
+| `solution/skeleton_solution.rs` | Reference implementation of `skeleton.rs` |
 | `solution/debug_solution.rs` | Fixed version of `debug.rs` |
 | `data/incidents.txt` | Sample incident data |
 
@@ -24,8 +26,10 @@ rustc skeleton.rs --edition 2024 --test && ./skeleton
 # Debug challenge — will NOT compile until you fix the bugs
 rustc debug.rs --edition 2024 --test && ./debug
 
-# Solution — all tests should pass
-cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
+# Reference solutions — all tests should pass
+cd solution
+rustc skeleton_solution.rs --edition 2024 --test && ./skeleton_solution
+rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 ```
 
 ## Skeleton Challenge: SRE Alert Pipeline
@@ -41,11 +45,9 @@ Six tasks, each exercising a different ownership/borrowing pattern:
 
 ## Debug Challenge: Incident Tracker
 
-Four bugs, all compile-time errors from Rust's ownership/borrowing rules:
+Four bugs, all compile-time errors from Rust's ownership/borrowing rules.
+The compiler error messages themselves are educational — read them carefully
+before fixing.
 
-1. **Use after move** — passing a Vec to a function that takes ownership, then using it again
-2. **Borrow conflict** — holding an immutable reference from `.find()` while calling `.iter_mut()`
-3. **Dangling reference** — returning references into a local Vec that gets dropped
-4. **Consumed in for loop** — `for item in vec` moves the Vec, preventing later use
-
-The compiler error messages themselves are educational — read them carefully before fixing.
+If you get stuck, [`HINTS.md`](HINTS.md) reveals each bug in stages: symptom,
+then location, then the fix.

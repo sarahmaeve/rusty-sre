@@ -10,6 +10,9 @@
 // Complete each function by replacing the TODO comments with working code.
 // Run the tests with:
 //     rustc skeleton.rs --edition 2024 --test && ./skeleton
+//
+// Stuck? HINTS.md has a hint per task. A reference implementation lives in
+// solution/skeleton_solution.rs — compare after you have a passing version.
 // =============================================================================
 
 use std::collections::HashMap;
@@ -36,9 +39,6 @@ struct Stats {
 // -----------------------------------------------------------------------------
 // Look up the owner of a service. Return Option<&str> — None if the service
 // is not in the map.
-//
-// HINT: HashMap::get returns Option<&V>. To turn Option<&String> into
-// Option<&str>, use .map(String::as_str) or .map(|s| s.as_str()).
 fn find_owner<'a>(_owners: &'a HashMap<String, String>, _service: &str) -> Option<&'a str> {
     // TODO
     todo!()
@@ -52,8 +52,6 @@ fn find_owner<'a>(_owners: &'a HashMap<String, String>, _service: &str) -> Optio
 //   - parses as a number in 1..=5     → Some(n)
 //   - any other case (out of range,
 //     garbage, negative)              → None
-//
-// HINT: chain .trim(), .parse::<u8>().ok(), and .filter().
 fn parse_optional_severity(_input: &str) -> Option<u8> {
     // TODO
     todo!()
@@ -63,8 +61,6 @@ fn parse_optional_severity(_input: &str) -> Option<u8> {
 // Task 3: first_critical
 // -----------------------------------------------------------------------------
 // Return the first alert in the slice with severity >= 4. None if none qualify.
-//
-// HINT: Iterator::find returns Option<&T>.
 fn first_critical(_alerts: &[Alert]) -> Option<&Alert> {
     // TODO
     todo!()
@@ -75,9 +71,6 @@ fn first_critical(_alerts: &[Alert]) -> Option<&Alert> {
 // -----------------------------------------------------------------------------
 // Two-step lookup: service → owner, owner → team. Return Some(team) only if
 // BOTH lookups succeed. None if either step is missing.
-//
-// HINT: this is a textbook use case for Option::and_then. You may also use
-// `?` because this function returns Option.
 fn owner_team(
     _owners: &HashMap<String, String>,
     _teams: &HashMap<String, String>,
@@ -93,9 +86,6 @@ fn owner_team(
 // Given Option<Stats>, return a non-optional summary tuple (uptime_pct, error_rate).
 // If None, return SRE-conservative defaults: (0.0, 1.0) — i.e. "we don't know,
 // assume the worst" so the dashboard surfaces the missing data.
-//
-// HINT: Option::map_or, or .map(...).unwrap_or((0.0, 1.0)). Avoid .unwrap();
-// the whole point is graceful handling.
 fn summary_or_default(_stats: Option<Stats>) -> (f64, f64) {
     // TODO
     todo!()

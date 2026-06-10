@@ -35,6 +35,8 @@ This challenge teaches:
 | `concept.rs` | 7 sections covering modules, visibility, paths, and tests |
 | `skeleton.rs` | Refactor a flat file into three inline modules |
 | `debug.rs` | Buggy alert pipeline — find and fix 4 bugs |
+| `HINTS.md` | Progressive hints for the skeleton refactor and the debug bugs |
+| `solution/skeleton_solution.rs` | Reference implementation of `skeleton.rs` |
 | `solution/debug_solution.rs` | Fixed version of `debug.rs` |
 
 ## How to Run
@@ -43,6 +45,7 @@ This challenge teaches:
 rustc concept.rs --edition 2024 --test && ./concept
 rustc skeleton.rs --edition 2024 --test && ./skeleton
 rustc debug.rs --edition 2024 --test && ./debug
+cd solution && rustc skeleton_solution.rs --edition 2024 --test && ./skeleton_solution
 cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 ```
 
@@ -67,12 +70,13 @@ The tests reach in via qualified paths (`parse::parse_port`, `validate::validate
 
 ## Debug Challenge: Alert Pipeline
 
-Four bugs across a `pipeline` module with three submodules (`parse`, `dedup`, `route`):
+Four bugs across a `pipeline` module with three submodules (`parse`,
+`dedup`, `route`) — some stop the program compiling, some misbehave at
+runtime. Read the compiler errors and test failures, and work backwards to
+the cause.
 
-1. **Private struct field** (compile error) — `Alert.severity` is missing `pub`, so `dedup::is_critical` (a sibling module) can't read it.
-2. **Private function** (compile error) — `dedup::count_unique` is missing `pub`, so external callers (the tests) can't reach it.
-3. **Private module** (compile error) — `mod route` should be `pub mod route` so the routing functions are reachable from outside `pipeline`.
-4. **Wrong path** (runtime) — `dedup::record_alert` calls a local stub `local_counter()` instead of the real `super::shared::next_id()`. Every alert gets id `0` instead of a fresh number.
+If you get stuck, [`HINTS.md`](HINTS.md) reveals each bug in stages: symptom,
+then location, then the fix.
 
 ## Concepts Covered
 

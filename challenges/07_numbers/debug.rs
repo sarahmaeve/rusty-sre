@@ -4,12 +4,10 @@
 //
 // This program plans memory-pool capacity for a service: it projects
 // utilization, counts chunks, sums byte deltas, and reports when usage
-// matches a target. It contains FOUR numeric bugs:
+// matches a target. It contains FOUR numeric bugs — some stop it compiling,
+// some misbehave at runtime. Find and fix all four so every test passes.
 //
-//   1. project_utilization mixes u32 and u64 in arithmetic (compile error)
-//   2. count_chunks returns u32 from a usize value (compile error)
-//   3. total_bytes uses plain `+` and panics on integer overflow (runtime)
-//   4. throughputs_agree uses == on f64 derived from arithmetic (runtime)
+// Stuck? HINTS.md reveals each bug in stages: symptom, location, then fix.
 //
 // Run the tests with:
 //     rustc debug.rs --edition 2024 --test && ./debug
@@ -21,30 +19,19 @@ pub struct Report {
     pub chunk_count: u32,
 }
 
-// -----------------------------------------------------------------------------
-// BUG 1: u32 + u64 — Rust does no implicit widening
-// -----------------------------------------------------------------------------
-// The two operands have different types, so `+` doesn't apply. Convert one
-// side; widening u32 → u64 is lossless, so `u64::from(used) + max` works.
+// Project the pool utilization if `used` grows by the configured `max`.
 fn project_utilization(used: u32, max: u64) -> u64 {
     used + max
 }
 
-// -----------------------------------------------------------------------------
-// BUG 2: returns u32 from a usize
-// -----------------------------------------------------------------------------
-// Vec::len() returns usize, not u32. The two are different types and won't
-// silently convert. Use try_into() and propagate or saturate the overflow.
+// Number of chunks in the pool, as a u32 for the report payload.
 fn count_chunks(chunks: &[Vec<u8>]) -> u32 {
     chunks.len()
 }
 
-// -----------------------------------------------------------------------------
-// BUG 3: integer overflow panics on plain `+`
-// -----------------------------------------------------------------------------
-// Summing a slice that totals more than u32::MAX panics in debug builds and
-// wraps to a smaller-than-expected value in release builds. Both are wrong
-// for an SRE counter — saturate at u32::MAX so the report says "lots" loudly.
+// Sum the byte counters. SRE counters must never panic or silently wrap —
+// if the true total exceeds u32::MAX, the report should pin at u32::MAX and
+// say "lots" loudly.
 fn total_bytes(counters: &[u32]) -> u32 {
     let mut total: u32 = 0;
     for &c in counters {
@@ -53,12 +40,7 @@ fn total_bytes(counters: &[u32]) -> u32 {
     total
 }
 
-// -----------------------------------------------------------------------------
-// BUG 4: f64 == on derived value
-// -----------------------------------------------------------------------------
-// Two arithmetically-equivalent expressions can produce slightly different
-// f64 results. `combined == summed_halves` rejects values that are actually
-// "close enough." Compare with an absolute epsilon instead.
+// True when two throughput computations agree ("close enough" counts).
 fn throughputs_agree(combined: f64, summed_halves: f64) -> bool {
     combined == summed_halves
 }
@@ -86,7 +68,6 @@ fn main() {
 mod tests {
     use super::*;
 
-    // BUG 1: project_utilization must compile (u64 sum of u32 used + u64 max)
     #[test]
     fn project_utilization_basic() {
         assert_eq!(project_utilization(100, 1_000_000), 1_000_100);
@@ -99,7 +80,6 @@ mod tests {
         assert_eq!(project_utilization(2048, max), max + 2048);
     }
 
-    // BUG 2: count_chunks must compile (usize → u32 conversion)
     #[test]
     fn count_chunks_basic() {
         let chunks = vec![vec![0u8; 16], vec![0u8; 32], vec![0u8; 8]];
@@ -112,7 +92,6 @@ mod tests {
         assert_eq!(count_chunks(&chunks), 0);
     }
 
-    // BUG 3: total_bytes must saturate, not panic, on overflow
     #[test]
     fn total_bytes_normal() {
         let counters = vec![100, 200, 300];
@@ -121,13 +100,11 @@ mod tests {
 
     #[test]
     fn total_bytes_saturates_on_overflow() {
-        // u32::MAX + 100 would overflow. After the fix this returns u32::MAX,
-        // not a panic and not a wrap to 99.
+        // Summing past u32::MAX must pin at u32::MAX — no panic, no wrap.
         let counters = vec![u32::MAX, 100];
         assert_eq!(total_bytes(&counters), u32::MAX);
     }
 
-    // BUG 4: throughputs_agree must accept arithmetically-equal values
     #[test]
     fn throughputs_agree_exact() {
         assert!(throughputs_agree(0.5, 0.5));
@@ -137,7 +114,7 @@ mod tests {
     #[test]
     fn throughputs_agree_with_arith() {
         // Two arithmetically equivalent expressions, slightly different in
-        // float math. After the fix, throughputs_agree treats them as equal.
+        // float math — these must count as agreeing.
         let a = 0.1_f64;
         let b = 0.2_f64;
         let combined = (a + b) / 2.0;
@@ -151,7 +128,7 @@ mod tests {
         assert!(!throughputs_agree(0.1, 0.9));
     }
 
-    // Integration — fix bugs 2 and 3 together to make this pass
+    // Integration test
     #[test]
     fn build_report_basic() {
         let chunks = vec![vec![0u8; 16], vec![0u8; 32]];

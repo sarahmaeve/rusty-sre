@@ -3,13 +3,11 @@
 // ============================================================================
 //
 // SRE Scenario: An on-call dashboard that displays and sorts incidents.
-// This code has 4 BUGS related to derive and trait implementations.
-//
-// Bug types:
-//   - 2 compile-time errors (the code won't even build)
-//   - 2 runtime errors (tests fail silently due to trait contract violations)
+// This code has 4 BUGS related to derive and trait implementations — some
+// stop it compiling, some violate trait contracts at runtime.
 //
 // Your mission: find and fix all 4 bugs so every test passes.
+// Stuck? HINTS.md reveals each bug in stages: symptom, location, then fix.
 //
 // Run with:
 //     rustc debug.rs --edition 2024 --test && ./debug
@@ -18,7 +16,7 @@ use std::collections::{BTreeMap, HashSet};
 use std::fmt;
 use std::hash::{Hash, Hasher};
 
-// ── Priority enum (working correctly) ───────────────────────────────────────
+// ── Priority enum ────────────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 enum Priority {
@@ -61,10 +59,7 @@ impl PartialEq for Incident {
 }
 impl Eq for Incident {}
 
-// ── BUG #2: Hash is inconsistent with PartialEq ────────────────────────────
-// PartialEq ignores id and timestamp, but Hash includes ALL fields.
-// This violates the contract: if a == b then hash(a) must == hash(b).
-// HashSet dedup will silently fail.
+// Custom Hash to match the duplicate semantics above.
 impl Hash for Incident {
     fn hash<H: Hasher>(&self, state: &mut H) {
         self.id.hash(state);
@@ -75,16 +70,14 @@ impl Hash for Incident {
     }
 }
 
-// ── BUG #4: Display uses {:?} instead of {} for priority ───────────────────
-// This produces "[Critical]" (Debug format) instead of "[CRITICAL]" (Display).
+// Dashboard line format: "[PRIORITY] service: description".
 impl fmt::Display for Incident {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "[{:?}] {}: {}", self.priority, self.service, self.description)
     }
 }
 
-// ── BUG #3: Copy on struct with String fields ───────────────────────────────
-// String is heap-allocated and cannot be Copy. Remove Copy from the derive.
+// ── On-call engineer record ──────────────────────────────────────────────────
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 struct OnCallEngineer {
     name: String,
@@ -92,9 +85,7 @@ struct OnCallEngineer {
     escalation_level: u8,
 }
 
-// ── BUG #1: Missing Ord derive ──────────────────────────────────────────────
-// IncidentKey is used as a BTreeMap key and in .sort(), which require Ord.
-// It derives PartialOrd but NOT Ord.
+// ── Grouping key for the dashboard's BTreeMap ────────────────────────────────
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Hash)]
 struct IncidentKey {
     priority: Priority,

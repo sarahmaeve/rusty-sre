@@ -34,6 +34,9 @@
 //
 // Run the tests with:
 //     rustc skeleton.rs --edition 2024 --test && ./skeleton
+//
+// Stuck? HINTS.md has hints. A reference implementation lives in
+// solution/skeleton_solution.rs — compare after you have a passing version.
 // =============================================================================
 
 fn main() {

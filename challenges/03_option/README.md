@@ -34,6 +34,8 @@ This challenge teaches:
 | `concept.rs` | Explainer with 10 sections covering every common Option pattern |
 | `skeleton.rs` | Service status lookup — fill in five TODOs |
 | `debug.rs` | Buggy on-call dashboard — find and fix 4 bugs |
+| `HINTS.md` | Progressive hints for the skeleton tasks and the debug bugs |
+| `solution/skeleton_solution.rs` | Reference implementation of `skeleton.rs` |
 | `solution/debug_solution.rs` | Fixed version of `debug.rs` |
 
 ## How to Run
@@ -42,6 +44,7 @@ This challenge teaches:
 rustc concept.rs --edition 2024 --test && ./concept
 rustc skeleton.rs --edition 2024 --test && ./skeleton
 rustc debug.rs --edition 2024 --test && ./debug
+cd solution && rustc skeleton_solution.rs --edition 2024 --test && ./skeleton_solution
 cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 ```
 
@@ -66,12 +69,12 @@ Five tasks build helpers for an on-call dashboard:
 
 ## Debug Challenge: On-Call Dashboard
 
-Four bugs that all stem from misusing `Option`:
+Four bugs that all stem from misusing `Option` — some stop the program
+compiling, some misbehave at runtime. Read the compiler errors and test
+failures, and work backwards to the cause.
 
-1. **Return-type mismatch** (compile error) — `lookup_owner` claims to return `&str` but produces `Option<&str>`
-2. **`?` outside an `Option`-returning function** (compile error) — `first_severity` uses `?` while declared to return `u8`
-3. **Panic on missing key** (runtime) — `owner_or_unknown` calls `.unwrap()` and crashes for unknown services
-4. **Unsafe default** (runtime) — `worst_severity` uses `unwrap_or(0)`, which masks missing severities as "fine" when SRE convention says treat them as worst-case (5)
+If you get stuck, [`HINTS.md`](HINTS.md) reveals each bug in stages: symptom,
+then location, then the fix.
 
 ## Concepts Covered
 

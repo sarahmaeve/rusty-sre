@@ -8,6 +8,9 @@
 //
 // Complete each TODO. Run the tests with:
 //     rustc skeleton.rs --edition 2024 --test && ./skeleton
+//
+// Stuck? HINTS.md has a hint per task. A reference implementation lives in
+// solution/skeleton_solution.rs — compare after you have a passing version.
 // =============================================================================
 
 fn main() {
@@ -35,9 +38,6 @@ enum Category {
 // 400..=499 → ClientError
 // 500..=599 → ServerError
 // otherwise → Unknown
-//
-// HINT: use match with inclusive range patterns. Make the whole match an
-// expression that's the function's return value.
 fn classify(_code: u16) -> Category {
     // TODO
     todo!()
@@ -50,9 +50,6 @@ fn classify(_code: u16) -> Category {
 //   - 408 (Request Timeout)
 //   - 429 (Too Many Requests)
 //   - 500..=599 (any server error)
-//
-// HINT: use match with alternation `408 | 429` and a range. The whole match
-// is a bool expression.
 fn is_retriable(_code: u16) -> bool {
     // TODO
     todo!()
@@ -68,8 +65,6 @@ fn is_retriable(_code: u16) -> bool {
 //   - "C--" for 4xx (any 4xx)
 //   - "S--" for 5xx (any 5xx)
 //   - "???" for everything else
-//
-// HINT: build on classify() and use `match` on Category. Return &'static str.
 fn short_label(_code: u16) -> &'static str {
     // TODO
     todo!()
@@ -81,10 +76,6 @@ fn short_label(_code: u16) -> &'static str {
 // Parse a string like "200" into an Option<u16>. Reject:
 //   - any string that doesn't parse as u16
 //   - any value outside 100..=599
-//
-// HINT: use `let ... else` for the parse step, then a guarded match (or a
-// simple if) for the range check. The whole function body should be one
-// expression after the `let else`.
 fn parse_status(_s: &str) -> Option<u16> {
     // TODO
     todo!()
@@ -95,9 +86,6 @@ fn parse_status(_s: &str) -> Option<u16> {
 // -----------------------------------------------------------------------------
 // Given a slice of status codes, return the FIRST one that is_retriable as
 // Some(code). If none qualify, return None.
-//
-// HINT: Iterator::find returns Option<&T>. .copied() turns Option<&u16> into
-// Option<u16>.
 fn first_error_code(_codes: &[u16]) -> Option<u16> {
     // TODO
     todo!()

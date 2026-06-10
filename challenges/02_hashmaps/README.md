@@ -42,26 +42,31 @@ rustc skeleton.rs --edition 2024 --test && ./skeleton
 6. Merge status counts from two entry sets
 
 ### `debug.rs` — Incident Correlation Engine (FIND THE BUGS)
-4 bugs hiding in a log correlation system. 2 won't compile, 2 produce wrong results.
+4 bugs hiding in a log correlation system — some won't compile, some produce
+wrong results.
 
 ```bash
 rustc debug.rs --edition 2024 --test && ./debug
 ```
 
-**Bugs to find:**
-1. A counting function that always reports 1 (runtime — wrong results)
-2. A lookup that panics on missing services (runtime — panic)
-3. A grouping function that won't compile (immutable reference mutation)
-4. A report generator that won't compile (Option vs plain value comparison)
+Read the compiler errors and test failures, and work backwards to the cause.
+If you get stuck, [`HINTS.md`](HINTS.md) reveals each bug in stages: symptom,
+then location, then the fix.
+
+### `HINTS.md`
+Progressive hints for the skeleton tasks and the debug bugs.
 
 ### `data/access_log.txt`
 Sample log data for experimentation. The skeleton tests use built-in test data.
 
-### `solution/debug_solution.rs`
-The fixed version of `debug.rs`. Try to fix it yourself first!
+### `solution/`
+Reference solutions: `skeleton_solution.rs` (completed skeleton) and
+`debug_solution.rs` (fixed debug). Try it yourself first!
 
 ```bash
-cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
+cd solution
+rustc skeleton_solution.rs --edition 2024 --test && ./skeleton_solution
+rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 ```
 
 ## Key Takeaway

@@ -9,6 +9,9 @@
 // Complete each function by replacing the TODO comments with working code.
 // Run the tests to verify your solutions:
 //     rustc skeleton.rs --edition 2024 --test && ./skeleton
+//
+// Stuck? HINTS.md has a hint per task. A reference implementation lives in
+// solution/skeleton_solution.rs — compare after you have a passing version.
 // =============================================================================
 
 fn main() {
@@ -35,7 +38,7 @@ fn collect_response_times() -> Vec<f64> {
 fn add_and_clean(mut times: Vec<f64>) -> Vec<f64> {
     // TODO: Push the three new values
 
-    // TODO: Remove entries greater than 400.0 (hint: use retain())
+    // TODO: Remove entries greater than 400.0
 
     times
 }
@@ -45,10 +48,6 @@ fn add_and_clean(mut times: Vec<f64>) -> Vec<f64> {
 // -----------------------------------------------------------------------------
 // Given a slice of response times, return (min, max, average) as a tuple.
 // If the slice is empty, return (0.0, 0.0, 0.0).
-//
-// Hint: f64 doesn't implement Ord, so you can't use .min() directly on an
-// iterator of f64. Use .fold() or iterate manually. Alternatively, use
-// f64::min() and f64::max() which compare two floats.
 fn compute_stats(times: &[f64]) -> (f64, f64, f64) {
     // TODO: Handle the empty case
 
@@ -63,7 +62,7 @@ fn compute_stats(times: &[f64]) -> (f64, f64, f64) {
 // Return a new Vec<f64> containing only the response times that are strictly
 // greater than `threshold`.
 fn filter_above_threshold(times: &[f64], threshold: f64) -> Vec<f64> {
-    // TODO: Use iterator methods to filter and collect into a new vector
+    // TODO: Return the matching entries as a new vector
     todo!()
 }
 
@@ -72,8 +71,6 @@ fn filter_above_threshold(times: &[f64], threshold: f64) -> Vec<f64> {
 // -----------------------------------------------------------------------------
 // Given a vector of service names (strings) that may contain duplicates,
 // return a new Vec<String> that is sorted alphabetically with no duplicates.
-//
-// Hint: There are multiple approaches — you could use a HashSet, or sort + dedup.
 fn deduplicate_sorted(names: Vec<String>) -> Vec<String> {
     // TODO: Remove duplicates and sort alphabetically
     todo!()

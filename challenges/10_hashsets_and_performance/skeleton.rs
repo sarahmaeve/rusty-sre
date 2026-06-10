@@ -9,6 +9,9 @@
 // Run tests:  rustc skeleton.rs --edition 2024 --test && ./skeleton
 //
 // Assumes you've completed Challenge 02 (HashMap basics, Entry API).
+//
+// Stuck? HINTS.md has a hint per task. A reference implementation lives in
+// solution/skeleton_solution.rs — compare after you have a passing version.
 
 use std::collections::{HashMap, HashSet};
 
@@ -63,8 +66,6 @@ fn deployment_hosts() -> HashSet<String> {
 //
 // Python equivalent:
 //   sorted(inventory - monitoring)
-//
-// Hint: Use set difference. Return a sorted Vec for deterministic results.
 
 fn find_unmonitored_hosts(
     inventory: &HashSet<String>,
@@ -108,8 +109,6 @@ fn test_find_unmonitored_hosts_all_covered() {
 //
 // Python equivalent:
 //   sorted(inventory & monitoring & deployment)
-//
-// Hint: Chain two intersection operations.
 
 fn find_hosts_in_all_sources(
     inventory: &HashSet<String>,
@@ -158,8 +157,6 @@ fn test_find_hosts_in_all_sources_no_overlap() {
 //   added = sorted(new_keys - old_keys)
 //   removed = sorted(old_keys - new_keys)
 //   changed = sorted(k for k in old_keys & new_keys if old[k] != new[k])
-//
-// Hint: Extract key sets from both maps, then use set operations.
 
 #[derive(Debug, PartialEq)]
 struct ConfigDrift {
@@ -228,9 +225,6 @@ fn test_detect_config_drift_complete_replacement() {
 //
 // Python equivalent:
 //   list(dict.fromkeys(alerts))
-//
-// Hint: Use a HashSet as a "seen" tracker. insert() returns bool — true
-//       if the item was new, false if already present.
 
 fn dedup_alert_stream(alerts: &[String]) -> Vec<String> {
     // TODO: Implement this function
@@ -280,8 +274,6 @@ fn test_dedup_alert_stream_empty() {
 // Python equivalent:
 //   allowed = [ip for ip in stream if ip in allowlist]
 //   denied  = [ip for ip in stream if ip not in allowlist]
-//
-// Hint: The allowlist is a HashSet for O(1) membership checks.
 
 fn partition_by_allowlist(
     allowlist: &HashSet<String>,
@@ -336,8 +328,6 @@ fn test_partition_by_allowlist_empty() {
 //   result = {}
 //   for name, value in metrics:
 //       result[name] = result.get(name, 0.0) + value
-//
-// Hint: Combine with_capacity() and the Entry API.
 
 fn aggregate_metrics(
     metrics: &[(String, f64)],

@@ -3,14 +3,11 @@
 // =============================================================================
 //
 // This program reads log lines that may contain user emails, redacts the
-// emails, and groups by service tag. It contains FOUR string-related bugs:
+// emails, and groups by service tag. It contains FOUR string-related bugs —
+// some stop it compiling, some misbehave at runtime. Find and fix all four
+// so every test passes.
 //
-//   1. add_redacted_marker tries to mutate a &str (compile error)
-//   2. Combining two Strings with `+` (compile error: + needs &str on right)
-//   3. Byte-indexing a string that contains multi-byte characters (runtime
-//      panic on inputs with non-ASCII)
-//   4. Case-insensitive comparison done with raw `==` (runtime: misses
-//      services tagged with different casing)
+// Stuck? HINTS.md reveals each bug in stages: symptom, location, then fix.
 //
 // Run the tests with:
 //     rustc debug.rs --edition 2024 --test && ./debug
@@ -28,45 +25,26 @@ fn main() {
     println!("{summary:#?}");
 }
 
-// -----------------------------------------------------------------------------
-// BUG 1: cannot mutate a &str
-// -----------------------------------------------------------------------------
 // Append " [REDACTED]" to the input and return the result as an owned String.
-// The current signature takes &str (immutable) and tries to mutate it, which
-// won't compile. Fix: return a new String.
 fn add_redacted_marker(s: &str) {
     s.push_str(" [REDACTED]");
 }
 
-// -----------------------------------------------------------------------------
-// BUG 2: cannot add two Strings with `+`
-// -----------------------------------------------------------------------------
-// `String + String` doesn't compile because `+` for String wants &str on
-// the right. Either convert the right side with `&` or use format!.
+// Concatenate a prefix and suffix into a single line.
 fn build_redacted_line(prefix: String, suffix: String) -> String {
     prefix + suffix
 }
 
-// -----------------------------------------------------------------------------
-// BUG 3: byte-indexing a UTF-8 string panics on multi-byte characters
-// -----------------------------------------------------------------------------
-// Returns the first three "characters" of the input. The current code uses
-// byte slicing, which panics if the boundary cuts a multi-byte char in half.
-// Use chars().take(3).collect() instead.
+// Returns the first three characters of the input.
 fn first_three_chars(s: &str) -> String {
     s[0..3].to_string()
 }
 
-// -----------------------------------------------------------------------------
-// BUG 4: case-insensitive comparison with raw `==`
-// -----------------------------------------------------------------------------
-// Group log lines by their `service=NAME` tag. Tags should be matched
-// case-insensitively so "auth" and "AUTH" land in the same bucket.
+// Extract the value of the line's `service=NAME` field. The key should match
+// case-insensitively — real logs carry "service=", "Service=", "SERVICE=".
 fn extract_service(line: &str) -> Option<&str> {
     for field in line.split_whitespace() {
         if let Some((key, value)) = field.split_once('=') {
-            // BUG 4: this comparison is case-sensitive. Should ignore case
-            //        so callers don't have to upper/lowercase first.
             if key == "SERVICE" {
                 return Some(value);
             }
@@ -115,7 +93,6 @@ fn summarize(lines: &[String]) -> HashMap<String, Vec<String>> {
 mod tests {
     use super::*;
 
-    // BUG 1: add_redacted_marker must return an owned String
     #[test]
     fn add_redacted_marker_returns_new_string() {
         let result: String = add_redacted_marker("service=auth");
@@ -132,7 +109,6 @@ mod tests {
         assert_eq!(owned, "service=payments");
     }
 
-    // BUG 2: build_redacted_line should compile and concatenate
     #[test]
     fn build_redacted_line_combines() {
         let prefix = String::from("service=auth ");
@@ -141,7 +117,6 @@ mod tests {
         assert_eq!(combined, "service=auth user=<redacted>");
     }
 
-    // BUG 3: first_three_chars must not panic on multi-byte input
     #[test]
     fn first_three_chars_ascii() {
         assert_eq!(first_three_chars("hello"), "hel");
@@ -149,8 +124,7 @@ mod tests {
 
     #[test]
     fn first_three_chars_unicode() {
-        // "café" — the `é` is two bytes. Byte-slicing 0..3 lands inside `é`
-        // and would panic. After the fix this returns the first 3 chars.
+        // "café" — the `é` is two bytes wide, but it's still one char.
         assert_eq!(first_three_chars("café"), "caf");
     }
 
@@ -161,7 +135,6 @@ mod tests {
         assert_eq!(first_three_chars(s), "🚀ab");
     }
 
-    // BUG 4: extract_service should match case-insensitively
     #[test]
     fn extract_service_lowercase() {
         assert_eq!(extract_service("service=auth user=x"), Some("auth"));
@@ -169,9 +142,8 @@ mod tests {
 
     #[test]
     fn extract_service_uppercase_key() {
-        // The current code only matches "SERVICE" exactly. Real logs have
-        // mixed casing — "service=...", "Service=...", "SERVICE=...". After
-        // the fix, all three should match.
+        // Real logs have mixed casing — "service=...", "Service=...",
+        // "SERVICE=...". All three should match.
         assert_eq!(extract_service("service=auth"), Some("auth"));
         assert_eq!(extract_service("Service=auth"), Some("auth"));
         assert_eq!(extract_service("SERVICE=auth"), Some("auth"));

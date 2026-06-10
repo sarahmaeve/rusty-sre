@@ -12,6 +12,9 @@
 //
 // Complete each TODO. Run the tests with:
 //     rustc skeleton.rs --edition 2024 --test && ./skeleton
+//
+// Stuck? HINTS.md has a hint per task. A reference implementation lives in
+// solution/skeleton_solution.rs — compare after you have a passing version.
 // =============================================================================
 
 fn main() {
@@ -62,9 +65,6 @@ impl Incident {
     // state other than Open, return Err with a message like "cannot ack from
     // <state-label>" — but don't worry about the exact message, the test only
     // checks for Err vs Ok.
-    //
-    // HINT: you take &mut self, match on self.state, replace self.state if
-    // the transition is valid.
     fn acknowledge(&mut self, _by: &str) -> Result<(), String> {
         // TODO
         todo!()

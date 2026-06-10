@@ -9,6 +9,9 @@
 //     rustc skeleton.rs --edition 2024 --test && ./skeleton
 //
 // Tests will fail until you complete all TODOs.
+//
+// Stuck? HINTS.md has a hint per task. A reference implementation lives in
+// solution/skeleton_solution.rs — compare after you have a passing version.
 
 use std::collections::HashSet;
 use std::fmt;
@@ -50,7 +53,6 @@ struct AlertConfig {
 //   Info → "INFO", Warning → "WARNING", Error → "ERROR", Critical → "CRITICAL"
 //
 // Python equivalent: __str__ method
-// Hint: use `match self { ... }` with `write!(f, "...")`
 
 // TODO: Implement fmt::Display for Severity
 // impl fmt::Display for Severity {
@@ -65,7 +67,6 @@ struct AlertConfig {
 // Example:   "[CRITICAL] auth: Connection pool exhausted"
 //
 // This uses Severity's Display from TODO 1.
-// Hint: write!(f, "[{}] {}: {}", self.severity, ...)
 
 // TODO: Implement fmt::Display for Alert
 // impl fmt::Display for Alert {
@@ -83,9 +84,6 @@ struct AlertConfig {
 // from the same service should be considered duplicates.
 //
 // Also implement Eq (marker trait, empty body).
-//
-// Hint:
-//   self.service == other.service && self.severity == ...
 
 // TODO: Implement PartialEq for Alert
 // impl PartialEq for Alert {
@@ -122,9 +120,6 @@ struct AlertConfig {
 // For PartialOrd, delegate to Ord: Some(self.cmp(other))
 //
 // Requires: PartialEq and Eq from TODO 3
-//
-// Hint: Reverse severity comparison with `other.severity.cmp(&self.severity)`
-//       Chain with `.then_with(|| self.service.cmp(&other.service))`
 
 // TODO: Implement Ord for Alert
 // impl Ord for Alert {
@@ -143,10 +138,6 @@ struct AlertConfig {
 //
 // Deduplicate a list of alerts, keeping the EARLIEST occurrence of each
 // unique (service, severity, message) combination.
-//
-// Use a HashSet<(String, Severity, String)> to track seen combinations.
-// For each alert, create a tuple (service.clone(), severity, message.clone())
-// and check if it's been seen before. If not, add it to the result.
 //
 // Signature:
 //   fn dedup_alerts(alerts: Vec<Alert>) -> Vec<Alert>

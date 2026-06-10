@@ -8,7 +8,8 @@
 //
 // Run tests:  rustc skeleton.rs --edition 2024 --test && ./skeleton
 //
-// Hint: The Entry API is your best friend here. Refer to concept.rs Section 4.
+// Stuck? HINTS.md has a hint per task. A reference implementation lives in
+// solution/skeleton_solution.rs — compare after you have a passing version.
 
 use std::collections::HashMap;
 
@@ -48,8 +49,6 @@ fn sample_entries() -> Vec<AccessEntry> {
 // Python equivalent:
 //   from collections import Counter
 //   Counter(entry["status"] for entry in entries)
-//
-// Hint: Use the Entry API counting pattern — entry().or_insert(0), then += 1.
 
 fn count_by_status(entries: &[AccessEntry]) -> HashMap<u16, usize> {
     // TODO: Implement this function
@@ -81,8 +80,6 @@ fn test_count_by_status() {
 //   groups = defaultdict(set)
 //   for e in entries: groups[e["method"]].add(e["endpoint"])
 //   {k: sorted(v) for k, v in groups.items()}
-//
-// Hint: Group with entry().or_insert_with(Vec::new), then dedup after.
 
 fn group_endpoints_by_method(entries: &[AccessEntry]) -> HashMap<String, Vec<String>> {
     // TODO: Implement this function
@@ -125,8 +122,6 @@ fn test_group_endpoints_by_method() {
 //       sums[e["endpoint"]][0] += e["latency_ms"]
 //       sums[e["endpoint"]][1] += 1
 //   {k: s/c for k, (s, c) in sums.items()}
-//
-// Hint: Accumulate (total_ms, count) tuples, then compute the averages.
 
 fn avg_latency_per_endpoint(entries: &[AccessEntry]) -> HashMap<String, f64> {
     // TODO: Implement this function
@@ -160,8 +155,6 @@ fn test_avg_latency_per_endpoint() {
 //
 // Python equivalent:
 //   Counter(e["endpoint"] for e in entries).most_common(n)
-//
-// Hint: Build a HashMap, collect into a Vec, sort, then truncate.
 
 fn top_endpoints(entries: &[AccessEntry], n: usize) -> Vec<(String, usize)> {
     // TODO: Implement this function
@@ -195,8 +188,6 @@ fn test_top_endpoints() {
 //   totals = Counter(e["endpoint"] for e in entries)
 //   errors = Counter(e["endpoint"] for e in entries if e["status"] >= 400)
 //   [ep for ep in sorted(totals) if errors.get(ep, 0) / totals[ep] > threshold]
-//
-// Hint: Build two maps (total count and error count), then compare ratios.
 
 fn error_heavy_endpoints(entries: &[AccessEntry], threshold: f64) -> Vec<String> {
     // TODO: Implement this function
@@ -233,8 +224,6 @@ fn test_error_heavy_endpoints() {
 //
 // Python equivalent:
 //   Counter(e["status"] for e in set1) + Counter(e["status"] for e in set2)
-//
-// Hint: Use entry().and_modify().or_insert() to merge without overwriting.
 
 fn merge_status_counts(
     set1: &[AccessEntry],

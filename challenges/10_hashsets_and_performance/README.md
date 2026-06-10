@@ -49,27 +49,32 @@ rustc skeleton.rs --edition 2024 --test && ./skeleton
 6. Pre-sized metric aggregation with `with_capacity()`
 
 ### `debug.rs` — Fleet Health Analyzer (FIND THE BUGS)
-4 bugs in a fleet analysis system. 2 won't compile, 2 produce wrong results.
+4 bugs in a fleet analysis system — some won't compile, some produce wrong
+results.
 
 ```bash
 rustc debug.rs --edition 2024 --test && ./debug
 ```
 
-**Bugs to find:**
-1. Use-after-move — sets consumed by a function, then used again (compile error)
-2. `symmetric_difference` used where `difference` was intended (runtime — wrong results)
-3. Struct missing `Hash`/`Eq` derives for HashSet usage (compile error)
-4. `retain()` with inverted logic — keeps what it should remove (runtime — wrong results)
+Read the compiler errors and test failures, and work backwards to the cause.
+If you get stuck, [`HINTS.md`](HINTS.md) reveals each bug in stages: symptom,
+then location, then the fix.
+
+### `HINTS.md`
+Progressive hints for the skeleton tasks and the debug bugs.
 
 ### `data/`
 - `fleet_inventory.txt` — 30 hostnames (the "source of truth")
 - `monitoring_hosts.txt` — 25 hostnames (overlapping but different)
 
-### `solution/debug_solution.rs`
-The fixed version of `debug.rs`. Try to fix it yourself first!
+### `solution/`
+Reference solutions: `skeleton_solution.rs` (completed skeleton) and
+`debug_solution.rs` (fixed debug). Try it yourself first!
 
 ```bash
-cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
+cd solution
+rustc skeleton_solution.rs --edition 2024 --test && ./skeleton_solution
+rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 ```
 
 ## Key Takeaways

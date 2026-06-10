@@ -6,15 +6,10 @@
 // id (assigned by a constructor), a name, and a Status. The registry adds
 // services and lets you mark them as degraded.
 //
-// It contains FOUR bugs:
+// It contains FOUR bugs — some stop it compiling, some misbehave at runtime.
+// Find and fix all four so every test passes.
 //
-//   1. mark_degraded mutates a value through a `&self` method (compile error)
-//   2. status_label has a non-exhaustive match — a new variant was added but
-//      not handled (compile error)
-//   3. Service::new uses a mis-shared counter so every service gets id 1
-//      (runtime: ids collide)
-//   4. apply_status mutates a clone of self instead of self (runtime: the
-//      caller's instance stays Healthy after a Down was applied)
+// Stuck? HINTS.md reveals each bug in stages: symptom, location, then fix.
 //
 // Run the tests with:
 //     rustc debug.rs --edition 2024 --test && ./debug
@@ -35,16 +30,8 @@ struct Service {
 }
 
 impl Service {
-    // -----------------------------------------------------------------------
-    // BUG 3: every service gets id 1
-    // -----------------------------------------------------------------------
-    // The intent was a monotonically increasing counter, but `next_id` is
-    // declared INSIDE the function — it gets reset to 1 on every call, so
-    // every service ends up with id 1.
-    //
-    // Fix: lift the counter into a module-level static or pass it in. For
-    // this exercise, use a `static AtomicU32` outside the impl and bump it
-    // with .fetch_add(1, Ordering::Relaxed).
+    // Construct a new service. Every service must get a unique id —
+    // the ids are assigned from a monotonically increasing counter.
     fn new(name: &str) -> Self {
         let mut next_id: u32 = 0;
         next_id += 1;
@@ -55,40 +42,21 @@ impl Service {
         }
     }
 
-    // -----------------------------------------------------------------------
-    // BUG 1: cannot mutate via &self
-    // -----------------------------------------------------------------------
-    // Mark this service as Degraded with the given reason. The signature
-    // takes `&self` (immutable borrow); mutating self.status doesn't
-    // compile. Fix: change to `&mut self`.
+    // Mark this service as Degraded with the given reason.
     fn mark_degraded(&self, reason: &str) {
         self.status = Status::Degraded {
             reason: reason.to_string(),
         };
     }
 
-    // -----------------------------------------------------------------------
-    // BUG 4: mutates a clone instead of self
-    // -----------------------------------------------------------------------
-    // The signature is &mut self — fine — but inside the body, the code
-    // clones self into a local, mutates the local, and throws it away. The
-    // caller's instance never changes.
-    //
-    // Fix: drop the clone. Mutate self.status directly.
+    // Replace this service's status with the given one.
     fn apply_status(&mut self, status: Status) {
         let mut copy = self.clone();
         copy.status = status;
     }
 }
 
-// -----------------------------------------------------------------------------
-// BUG 2: non-exhaustive match
-// -----------------------------------------------------------------------------
-// status_label was written when Status had only Healthy and Down. Then a
-// Degraded variant was added — and this match was never updated. The
-// compiler refuses to let it slide.
-//
-// Fix: add a `Status::Degraded { .. }` arm.
+// Short human-readable label for a status.
 fn status_label(s: &Status) -> &'static str {
     match s {
         Status::Healthy => "healthy",
@@ -98,8 +66,6 @@ fn status_label(s: &Status) -> &'static str {
 
 // -----------------------------------------------------------------------------
 // Registry — wraps a Vec of services and exposes the operations above.
-// (No bug in the registry itself — but it depends on Service::new and
-// apply_status being correct.)
 // -----------------------------------------------------------------------------
 
 struct Registry {
@@ -138,7 +104,6 @@ fn main() {
 mod tests {
     use super::*;
 
-    // BUG 3: ids must be unique
     #[test]
     fn services_get_unique_ids() {
         let s1 = Service::new("auth");
@@ -149,7 +114,6 @@ mod tests {
         assert_ne!(s1.id, s3.id);
     }
 
-    // BUG 1: mark_degraded must mutate self (signature: &mut self)
     #[test]
     fn mark_degraded_changes_status() {
         let mut s = Service::new("auth");
@@ -161,7 +125,6 @@ mod tests {
         );
     }
 
-    // BUG 2: status_label must compile (handle Degraded)
     #[test]
     fn status_label_covers_all_variants() {
         assert_eq!(status_label(&Status::Healthy), "healthy");
@@ -172,7 +135,6 @@ mod tests {
         );
     }
 
-    // BUG 4: apply_status must actually update self in place
     #[test]
     fn apply_status_updates_in_place() {
         let mut s = Service::new("payments");

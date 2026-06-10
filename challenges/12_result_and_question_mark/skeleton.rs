@@ -13,6 +13,9 @@
 //
 // Run the tests with:
 //     rustc skeleton.rs --edition 2024 --test && ./skeleton
+//
+// Stuck? HINTS.md has a hint per task. A reference implementation lives in
+// solution/skeleton_solution.rs — compare after you have a passing version.
 // =============================================================================
 
 use std::error::Error;
@@ -71,9 +74,6 @@ impl fmt::Display for ConfigError {
 // -----------------------------------------------------------------------------
 // Parse the input as u16. Return ConfigError::InvalidPort(input.to_string())
 // if parsing fails or if the parsed number is zero (we don't allow port 0).
-//
-// HINT: Use map_err to convert the ParseIntError into the right variant with
-// the original input embedded; then validate the parsed number.
 fn parse_port(_s: &str) -> Result<u16, ConfigError> {
     // TODO: parse and validate
     todo!()
@@ -95,8 +95,6 @@ fn parse_threshold(_s: &str) -> Result<f64, ConfigError> {
 // Validate the input has the shape "<scheme>://<host>" where <scheme> is
 // "http" or "https" and <host> is non-empty. If valid, return the input as
 // a String. If not, return ConfigError::InvalidUrl(input.to_string()).
-//
-// HINT: str::split_once("://") returns Option<(&str, &str)>.
 fn parse_url(_s: &str) -> Result<String, ConfigError> {
     // TODO: validate scheme and host
     todo!()
@@ -112,8 +110,6 @@ fn parse_url(_s: &str) -> Result<String, ConfigError> {
 //     Field names: "port", "threshold", "upstream".
 //   - If any input is Some but invalid, return the corresponding ConfigError.
 //   - On success, return the assembled Config.
-//
-// HINT: Option::ok_or turns Option into Result so `?` can propagate it.
 
 #[derive(Debug, PartialEq)]
 struct Config {

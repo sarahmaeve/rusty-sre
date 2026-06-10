@@ -28,6 +28,8 @@ In Python, `if` is a statement and you have to assign inside both branches. In R
 | `concept.rs` | 9 sections covering expressions vs statements, match patterns, loops |
 | `skeleton.rs` | HTTP status classifier — fill in five TODOs |
 | `debug.rs` | Buggy response analyzer — find and fix 4 bugs |
+| `HINTS.md` | Progressive hints for the skeleton tasks and the debug bugs |
+| `solution/skeleton_solution.rs` | Reference implementation of `skeleton.rs` |
 | `solution/debug_solution.rs` | Fixed version of `debug.rs` |
 
 ## How to Run
@@ -36,6 +38,7 @@ In Python, `if` is a statement and you have to assign inside both branches. In R
 rustc concept.rs --edition 2024 --test && ./concept
 rustc skeleton.rs --edition 2024 --test && ./skeleton
 rustc debug.rs --edition 2024 --test && ./debug
+cd solution && rustc skeleton_solution.rs --edition 2024 --test && ./skeleton_solution
 cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 ```
 
@@ -60,12 +63,12 @@ Five tasks build helpers for analyzing HTTP responses:
 
 ## Debug Challenge: Response Analyzer
 
-Four bugs:
+Four control-flow bugs — some stop the program compiling, some misbehave at
+runtime. Read the compiler errors and test failures, and work backwards to
+the cause.
 
-1. **`if`/`else` arms have different types** (compile error) — middle branch returns the integer `200` while the other branches return `&str`. Fix: return `"success"`.
-2. **`match` arm returns the wrong type** (compile error) — the `"low"` arm returns `"low"` (&str) while the function signature is `u8`. Fix: return `4`.
-3. **Exclusive vs inclusive range** (runtime) — `is_success` uses `200..299` which excludes 299. HTTP success codes go through 299 inclusive. Fix: `200..=299`.
-4. **Discarded expression instead of mutation** (runtime) — `count_failures` writes `count + 1;` as a statement, which computes the new value and throws it away. Fix: `count += 1;`.
+If you get stuck, [`HINTS.md`](HINTS.md) reveals each bug in stages: symptom,
+then location, then the fix.
 
 ## Concepts Covered
 

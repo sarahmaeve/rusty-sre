@@ -46,19 +46,25 @@ rustc skeleton.rs --edition 2024 --test && ./skeleton
 A deployment event export tool with 4 bugs. Find and fix all 4.
 
 ```bash
-# Won't compile until bugs are fixed:
 rustc debug.rs --edition 2024 --test && ./debug
 ```
 
-**Bug types:**
-- 2 compile-time errors (missing `From` impl, wrong `Err` type)
-- 2 runtime errors (broken error chain, serialization mismatch)
+Some bugs stop the program compiling, some misbehave at runtime. Read the
+compiler errors and test failures, and work backwards to the cause. If you
+get stuck, [`HINTS.md`](HINTS.md) reveals each bug in stages: symptom, then
+location, then the fix.
 
-### `solution/debug_solution.rs` — Fixed Version
-Reference solution for `debug.rs` with all 4 bugs fixed.
+### `HINTS.md`
+Progressive hints for the skeleton tasks and the debug bugs.
+
+### `solution/` — Reference Solutions
+`skeleton_solution.rs` (completed skeleton) and `debug_solution.rs` (all 4
+bugs fixed). Try it yourself first!
 
 ```bash
-cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
+cd solution
+rustc skeleton_solution.rs --edition 2024 --test && ./skeleton_solution
+rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 ```
 
 ## Concepts Covered

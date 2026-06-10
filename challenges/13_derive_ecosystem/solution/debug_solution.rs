@@ -324,6 +324,14 @@ deploy_id=dep-002 service=db version=v2.0 status=pending timestamp=200
         assert_eq!(batch.events.len(), 2);
         assert_eq!(batch.events[0].deploy_id, "dep-001");
     }
+
+    #[test]
+    fn test_event_batch_error_type() {
+        // EventBatch's FromStr error type is part of its API contract:
+        // callers match on ExportError variants.
+        let result: Result<EventBatch, ExportError> = "garbage".parse();
+        assert!(matches!(result, Err(ExportError::Parse(_))));
+    }
 }
 
 fn main() {

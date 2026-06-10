@@ -10,6 +10,9 @@
 //
 // Run tests with:
 //     rustc skeleton.rs --edition 2024 --test && ./skeleton
+//
+// Stuck? HINTS.md has a hint per task. A reference implementation lives in
+// solution/skeleton_solution.rs — compare after you have a passing version.
 
 use std::collections::HashMap;
 use std::fmt;
@@ -73,8 +76,6 @@ struct IncidentReport {
 // Note: replace spaces in the summary with underscores for logfmt safety.
 //
 // This is what serde::Serialize does — converts a struct to a portable format.
-//
-// Hint: use self.summary.replace(' ', "_")
 
 // TODO: Implement fmt::Display for IncidentReport
 // impl fmt::Display for IncidentReport {
@@ -85,14 +86,8 @@ struct IncidentReport {
 
 // ── TODO 3: Implement FromStr for IncidentReport (deserialization) ──────────
 //
-// Parse a logfmt string back into an IncidentReport.
-//
-// Steps:
-//   1. Split input on whitespace to get "key=value" tokens
-//   2. Split each token on '=' to get (key, value) pairs
-//   3. Store pairs in a HashMap<&str, &str>
-//   4. Extract each field, parsing numbers and Severity as needed
-//   5. For summary: replace underscores back to spaces
+// Parse a logfmt string back into an IncidentReport — the inverse of TODO 2,
+// including turning the summary's underscores back into spaces.
 //
 // Return Err(String) with a descriptive message if:
 //   - A token has no '=' separator
@@ -100,8 +95,6 @@ struct IncidentReport {
 //   - A numeric field can't be parsed
 //
 // This is what serde::Deserialize does.
-//
-// Hint: use fields.get("severity").ok_or("missing field: severity")?
 
 // TODO: Implement FromStr for IncidentReport
 // impl FromStr for IncidentReport {
@@ -171,9 +164,6 @@ struct IncidentReport {
 // Return ReportError::InvalidArg if a value can't be parsed.
 //
 // This is what clap::Parser::parse_from() does automatically.
-//
-// Hint: iterate args with a while loop and index, match on flag names,
-//       advance index to read the value.
 
 // TODO: Implement parse_report_args
 // fn parse_report_args(args: &[String]) -> Result<IncidentReport, ReportError> {

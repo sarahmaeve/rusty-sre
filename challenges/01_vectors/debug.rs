@@ -9,12 +9,7 @@
 // Run the tests with:
 //     rustc debug.rs --edition 2024 --test && ./debug
 //
-// Hint: The bugs involve:
-//   1. Off-by-one indexing
-//   2. Mutating a vector while iterating
-//   3. Using the wrong data structure for membership checks
-//   4. Not handling empty vectors safely
-//
+// Stuck? HINTS.md reveals each bug in stages: symptom, location, then fix.
 // The fixed version should be placed in solution/debug_solution.rs
 // =============================================================================
 
@@ -71,29 +66,16 @@ fn parse_logs(raw_lines: &[String]) -> Vec<LogEntry> {
     raw_lines.iter().filter_map(|l| parse_log_line(l)).collect()
 }
 
-// ---------------------------------------------------------------------------
-// BUG 1: Off-by-one indexing
-// ---------------------------------------------------------------------------
 // Return the most recent (last) log entry from the list.
-// This function has an off-by-one error in its indexing.
 fn most_recent_entry(entries: &[LogEntry]) -> Option<&LogEntry> {
     if entries.is_empty() {
         return None;
     }
-    // BUG: entries[entries.len()] is one past the end — should be len() - 1
     Some(&entries[entries.len()])
 }
 
-// ---------------------------------------------------------------------------
-// BUG 2: Mutating a vector while iterating
-// ---------------------------------------------------------------------------
 // Remove all entries with level "DEBUG" from the vector.
-// This function tries to remove items while iterating, which won't compile
-// due to Rust's borrow checker (mutable + immutable borrow conflict).
 fn remove_debug_entries(entries: &mut Vec<LogEntry>) {
-    // BUG: We cannot mutably modify `entries` (via remove) while immutably
-    // borrowing it (via the for loop / enumerate). Fix: collect the indices
-    // first, or use retain().
     for i in 0..entries.len() {
         if entries[i].level == "DEBUG" {
             entries.remove(i);
@@ -101,16 +83,8 @@ fn remove_debug_entries(entries: &mut Vec<LogEntry>) {
     }
 }
 
-// ---------------------------------------------------------------------------
-// BUG 3: Using Vec for membership checks where duplicates cause issues
-// ---------------------------------------------------------------------------
-// Collect all unique log levels present in the entries.
-// This function uses a Vec to track "seen" levels, but it has a bug:
-// it pushes every level without checking if it's already in the list,
-// resulting in duplicates.
+// Collect all unique log levels present in the entries, sorted.
 fn unique_levels(entries: &[LogEntry]) -> Vec<String> {
-    // BUG: This collects every level, including duplicates. Should check
-    // if the level is already in `seen` before pushing, or use a HashSet.
     let mut seen: Vec<String> = Vec::new();
     for entry in entries {
         seen.push(entry.level.clone());
@@ -119,14 +93,8 @@ fn unique_levels(entries: &[LogEntry]) -> Vec<String> {
     seen
 }
 
-// ---------------------------------------------------------------------------
-// BUG 4: Not handling empty vectors safely
-// ---------------------------------------------------------------------------
-// Find the entry with the longest message. Returns the message as a String.
-// This function calls .unwrap() on an operation that returns None for empty input.
+// Find the entry with the longest message, if any.
 fn longest_message(entries: &[LogEntry]) -> Option<String> {
-    // BUG: max_by_key returns None if the iterator is empty, and .unwrap()
-    // will panic. Should propagate the None instead.
     let entry = entries.iter().max_by_key(|e| e.message.len()).unwrap();
     Some(entry.message.clone())
 }
@@ -222,7 +190,6 @@ mod tests {
         assert_eq!(entries.len(), 9);
     }
 
-    // Tests BUG 1: off-by-one
     #[test]
     fn test_most_recent_entry() {
         let entries = sample_entries();
@@ -247,7 +214,6 @@ mod tests {
         assert!(most_recent_entry(&entries).is_none());
     }
 
-    // Tests BUG 2: mutating while iterating
     #[test]
     fn test_remove_debug_entries() {
         let mut entries = sample_entries();
@@ -277,7 +243,6 @@ mod tests {
         assert_eq!(entries.len(), 2);
     }
 
-    // Tests BUG 3: duplicates in unique_levels
     #[test]
     fn test_unique_levels() {
         let entries = sample_entries();
@@ -304,7 +269,6 @@ mod tests {
         assert_eq!(levels, vec!["INFO"]);
     }
 
-    // Tests BUG 4: empty vector handling
     #[test]
     fn test_longest_message() {
         let entries = sample_entries();
@@ -318,7 +282,6 @@ mod tests {
         assert!(longest_message(&entries).is_none());
     }
 
-    // Tests for count_by_level (no bugs — this one works correctly)
     #[test]
     fn test_count_by_level() {
         let entries = sample_entries();

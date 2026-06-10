@@ -33,6 +33,8 @@ No traits, no generics, no derive yet — those come in Challenge 11.
 | `concept.rs` | 9 sections covering structs, enums, methods, and match |
 | `skeleton.rs` | Incident state machine — fill in six TODOs |
 | `debug.rs` | Buggy service registry — find and fix 4 bugs |
+| `HINTS.md` | Progressive hints for the skeleton tasks and the debug bugs |
+| `solution/skeleton_solution.rs` | Reference implementation of `skeleton.rs` |
 | `solution/debug_solution.rs` | Fixed version of `debug.rs` |
 
 ## How to Run
@@ -41,6 +43,7 @@ No traits, no generics, no derive yet — those come in Challenge 11.
 rustc concept.rs --edition 2024 --test && ./concept
 rustc skeleton.rs --edition 2024 --test && ./skeleton
 rustc debug.rs --edition 2024 --test && ./debug
+cd solution && rustc skeleton_solution.rs --edition 2024 --test && ./skeleton_solution
 cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 ```
 
@@ -68,12 +71,11 @@ The state machine enforces the transition order: you can't resolve an Open incid
 
 ## Debug Challenge: Service Registry
 
-Four bugs:
+Four bugs — some stop the program compiling, some misbehave at runtime. Read
+the compiler errors and test failures, and work backwards to the cause.
 
-1. **Mutating via `&self`** (compile error) — `mark_degraded` is declared `&self` but assigns to `self.status`. Fix: `&mut self`.
-2. **Non-exhaustive match** (compile error) — a `Degraded` variant was added to `Status` but `status_label`'s match wasn't updated.
-3. **Shared counter that isn't shared** (runtime) — `Service::new` declares `next_id` *inside* the function, so it resets to 1 on every call. Every service ends up with id 1.
-4. **Mutating a clone** (runtime) — `apply_status` takes `&mut self` but clones `self` into a local before mutating. The mutation is lost.
+If you get stuck, [`HINTS.md`](HINTS.md) reveals each bug in stages: symptom,
+then location, then the fix.
 
 ## Concepts Covered
 

@@ -47,6 +47,11 @@ Every challenge has three standalone `.rs` files:
 - **`skeleton.rs`** — Fill in the `todo!()` stubs to make the tests pass. This is the challenge.
 - **`debug.rs`** — A program with bugs. Find and fix them. Some won't compile; some produce wrong results.
 
+Plus two supports for when you need them:
+
+- **`HINTS.md`** — Progressive hints, staged so you only reveal as much as you need: symptom, then location, then the fix.
+- **`solution/`** — Reference solutions (`skeleton_solution.rs`, `debug_solution.rs`). Compare after your own attempt.
+
 Each file compiles directly with `rustc`:
 
 ```bash
@@ -60,7 +65,7 @@ rustc skeleton.rs --edition 2024 --test && ./skeleton
 rustc debug.rs --edition 2024 --test && ./debug
 ```
 
-An HTML overview is available at [`challenges/index.html`](challenges/index.html).
+An HTML overview is available at [`challenges/index.html`](challenges/index.html), with a page per challenge. The pages are generated from the README files — after editing any README, regenerate them with `make html` (a standalone Rust tool, like everything else here).
 
 ### Running everything at once
 

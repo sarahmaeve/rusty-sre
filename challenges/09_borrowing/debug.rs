@@ -7,15 +7,12 @@
 //
 // It contains FOUR bugs related to ownership and borrowing with vectors.
 //
-// Your task: find and fix all the bugs so that every test passes.
+// Your task: find and fix all the bugs so that every test passes. The
+// compiler error messages are educational — read them before fixing.
 // Run the tests with:
 //     rustc debug.rs --edition 2024 --test && ./debug
 //
-// Hint: The bugs involve:
-//   1. Using a Vec after it has been moved
-//   2. Holding an immutable reference while trying to mutate the Vec
-//   3. Returning a reference to a local Vec (dangling reference)
-//   4. Consuming a Vec in a for loop when it needs to be reused
+// Stuck? HINTS.md reveals each bug in stages: symptom, location, then fix.
 // =============================================================================
 
 fn main() {
@@ -49,18 +46,12 @@ impl Incident {
     }
 }
 
-// ---------------------------------------------------------------------------
-// BUG 1: Using a Vec after it has been moved
-// ---------------------------------------------------------------------------
-// This function tries to use `incidents` after passing it to another function
-// that takes ownership.
+// Split incidents into (critical, non-critical) by severity.
 fn triage_incidents(incidents: Vec<Incident>) -> (Vec<Incident>, Vec<Incident>) {
     // Count total for logging
     let total = count_incidents(incidents);
     println!("Triaging {total} incidents...");
 
-    // BUG: `incidents` was moved into count_incidents() above.
-    // This line tries to use `incidents` after it was consumed.
     let (critical, non_critical): (Vec<Incident>, Vec<Incident>) = incidents
         .into_iter()
         .partition(|i| i.severity == "sev1");
@@ -68,17 +59,12 @@ fn triage_incidents(incidents: Vec<Incident>) -> (Vec<Incident>, Vec<Incident>) 
     (critical, non_critical)
 }
 
-// Takes ownership of the Vec just to count it — wasteful!
+// Count the incidents.
 fn count_incidents(incidents: Vec<Incident>) -> usize {
     incidents.len()
 }
 
-// ---------------------------------------------------------------------------
-// BUG 2: Holding a reference while mutating the Vec
-// ---------------------------------------------------------------------------
-// This function enriches incidents with runbook links. It tries to find
-// each matching incident and then modify the Vec, but the reference and
-// mutation overlap.
+// Attach the matching runbook link to every incident whose service has one.
 fn enrich_with_runbooks(incidents: &mut Vec<Incident>) {
     let runbooks = vec![
         ("auth", "https://runbooks.internal/auth-recovery"),
@@ -87,12 +73,8 @@ fn enrich_with_runbooks(incidents: &mut Vec<Incident>) {
     ];
 
     for (service, runbook_url) in &runbooks {
-        // BUG: `incident` borrows `incidents` immutably via .iter().find(),
-        // and then we use `incident.service` inside the iter_mut() loop.
-        // The immutable borrow is still alive when we try to mutate.
         let found = incidents.iter().find(|i| &i.service == service);
         if let Some(incident) = found {
-            // Trying to iterate mutably while `incident` still references `incidents`
             for inc in incidents.iter_mut() {
                 if inc.service == incident.service {
                     inc.runbook = Some(runbook_url.to_string());
@@ -102,17 +84,8 @@ fn enrich_with_runbooks(incidents: &mut Vec<Incident>) {
     }
 }
 
-// ---------------------------------------------------------------------------
-// BUG 3: Returning a reference to a local Vec
-// ---------------------------------------------------------------------------
-// This function tries to return references to incidents that belong to a
-// locally-created filtered Vec. The filtered Vec is dropped at the end of
-// the function, making the references dangle.
+// Titles of all unresolved incidents.
 fn get_unresolved_titles(incidents: &[Incident]) -> Vec<&str> {
-    // BUG: `unresolved` is a local Vec created inside this function.
-    // We filter incidents into it, then try to return references into it.
-    // But `unresolved` is dropped when the function returns, so the
-    // references would dangle.
     let unresolved: Vec<Incident> = incidents
         .iter()
         .filter(|i| !i.resolved)
@@ -122,11 +95,7 @@ fn get_unresolved_titles(incidents: &[Incident]) -> Vec<&str> {
     unresolved.iter().map(|i| i.title.as_str()).collect()
 }
 
-// ---------------------------------------------------------------------------
-// BUG 4: Consuming a Vec in a for loop when it needs to be reused
-// ---------------------------------------------------------------------------
-// This function generates a report string from the incidents. It uses a
-// `for` loop that consumes the Vec, then tries to use it again for a summary.
+// Render a report of the active incidents, with totals at the bottom.
 fn generate_report(incidents: &[Incident]) -> Result<String, String> {
     if incidents.is_empty() {
         return Err("No incidents to report".to_string());
@@ -136,7 +105,6 @@ fn generate_report(incidents: &[Incident]) -> Result<String, String> {
 
     let mut report = String::from("=== Incident Report ===\n");
 
-    // BUG: `for incident in active` calls into_iter(), consuming `active`.
     for incident in active {
         let status = if incident.resolved { "RESOLVED" } else { "ACTIVE" };
         let runbook = incident.runbook.as_deref().unwrap_or("none");
@@ -146,7 +114,6 @@ fn generate_report(incidents: &[Incident]) -> Result<String, String> {
         ));
     }
 
-    // BUG: `active` was consumed by the for loop above, so this fails.
     report.push_str(&format!("\nTotal active incidents: {}\n", active.len()));
 
     let sev1_count = active.iter().filter(|i| i.severity == "sev1").count();
@@ -188,7 +155,6 @@ mod tests {
         incidents
     }
 
-    // Tests BUG 1: using vec after move
     #[test]
     fn test_triage_incidents() {
         let incidents = test_incidents();
@@ -205,7 +171,6 @@ mod tests {
         assert!(non_critical.is_empty());
     }
 
-    // Tests BUG 2: borrow + mutate conflict
     #[test]
     fn test_enrich_with_runbooks() {
         let mut incidents = test_incidents();
@@ -228,7 +193,6 @@ mod tests {
         assert!(logging.runbook.is_none());
     }
 
-    // Tests BUG 3: dangling reference
     #[test]
     fn test_get_unresolved_titles() {
         let incidents = test_incidents();
@@ -251,7 +215,6 @@ mod tests {
         assert!(titles.is_empty());
     }
 
-    // Tests BUG 4: vec consumed in for loop
     #[test]
     fn test_generate_report() {
         let incidents = test_incidents();

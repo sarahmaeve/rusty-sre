@@ -3,14 +3,11 @@
 // =============================================================================
 //
 // This program reads alert records from text and aggregates them by service.
-// It contains FOUR bugs related to Result and the `?` operator:
+// It contains FOUR bugs related to Result and the `?` operator — some stop
+// it compiling, some misbehave at runtime. Find and fix all four so every
+// test passes.
 //
-//   1. parse_alert returns the wrong type (compile error)
-//   2. Missing `From<ParseIntError> for IngestError` (compile error)
-//   3. parse_all calls .unwrap() instead of propagating (runtime panic)
-//   4. process silently swallows errors with .ok() (runtime: hidden failure)
-//
-// Bugs 1 and 2 are entangled — the file won't compile until you fix both.
+// Stuck? HINTS.md reveals each bug in stages: symptom, location, then fix.
 //
 // Run the tests with:
 //     rustc debug.rs --edition 2024 --test && ./debug
@@ -69,17 +66,10 @@ impl fmt::Display for IngestError {
 
 impl Error for IngestError {}
 
-// BUG 2: NO `impl From<ParseIntError> for IngestError`. parse_alert uses `?`
-// on a u8/u32 parse, so this won't compile until you add the conversion.
-
 // -----------------------------------------------------------------------------
-// BUG 1: parse_alert returns the wrong type
+// Parse one alert record. Lines look like "auth 3 17" — service severity
+// count, whitespace separated.
 // -----------------------------------------------------------------------------
-// This function should return Result<Alert, IngestError>. The signature below
-// returns Alert directly, which won't compile because we use `?` and Err(...)
-// inside.
-//
-// Lines look like "auth 3 17" — service severity count, whitespace separated.
 
 fn parse_alert(line: &str) -> Alert {
     let parts: Vec<&str> = line.split_whitespace().collect();
@@ -88,8 +78,8 @@ fn parse_alert(line: &str) -> Alert {
     }
 
     let service = parts[0].to_string();
-    let severity: u8 = parts[1].parse()?; // needs From<ParseIntError> (BUG 2)
-    let count: u32 = parts[2].parse()?; // same
+    let severity: u8 = parts[1].parse()?;
+    let count: u32 = parts[2].parse()?;
 
     if !(1..=5).contains(&severity) {
         return Err(IngestError::BadSeverity(severity));
@@ -99,18 +89,15 @@ fn parse_alert(line: &str) -> Alert {
 }
 
 // -----------------------------------------------------------------------------
-// BUG 3: parse_all calls .unwrap() and panics on bad input
+// Parse every line. Bad input must surface as an error to the caller.
 // -----------------------------------------------------------------------------
-// parse_all should propagate the first error rather than panic. Replace
-// `.unwrap()` with proper propagation (`?`, or collect into Result<Vec<_>, _>).
 
 fn parse_all(lines: &[&str]) -> Vec<Alert> {
     lines.iter().map(|line| parse_alert(line).unwrap()).collect()
 }
 
 // -----------------------------------------------------------------------------
-// Aggregate alerts per service. (No bug here — but it depends on parse_all
-// being correct.)
+// Aggregate alerts per service.
 // -----------------------------------------------------------------------------
 
 fn summarize(alerts: &[Alert]) -> HashMap<String, ServiceSummary> {
@@ -126,11 +113,8 @@ fn summarize(alerts: &[Alert]) -> HashMap<String, ServiceSummary> {
 }
 
 // -----------------------------------------------------------------------------
-// BUG 4: process silently swallows errors via .ok()
+// Ingest and aggregate. Callers rely on process() returning Err on bad input.
 // -----------------------------------------------------------------------------
-// Callers rely on process() to return Err on bad input. But .ok() turns Err
-// into None, and the unwrap_or_default makes the function look like it
-// succeeded with empty data — masking real ingest failures.
 
 fn process(lines: &[&str]) -> Result<HashMap<String, ServiceSummary>, IngestError> {
     let alerts: Vec<Alert> = parse_all(lines).ok().unwrap_or_default();
@@ -163,7 +147,6 @@ mod tests {
         vec!["auth 3 17", "payments 2 9", "search 4 22"]
     }
 
-    // BUG 1 + 2: parse_alert must return Result<_, IngestError> with From<ParseIntError>
     #[test]
     fn parse_alert_valid() {
         let a = parse_alert("auth 3 17").unwrap();
@@ -188,7 +171,6 @@ mod tests {
         assert!(matches!(r, Err(IngestError::Parse(_))));
     }
 
-    // BUG 3: parse_all must propagate errors instead of panicking
     #[test]
     fn parse_all_happy_path() {
         let alerts = parse_all(&good_lines()).unwrap();
@@ -202,7 +184,6 @@ mod tests {
         assert!(matches!(r, Err(IngestError::Parse(_))));
     }
 
-    // BUG 4: process must surface errors instead of swallowing them
     #[test]
     fn process_returns_err_on_bad_input() {
         let lines = vec!["auth 3 17", "broken-line", "search 4 22"];

@@ -32,6 +32,8 @@ Python has one string type. Rust has two (well, three) — `String`, `&str`, and
 | `concept.rs` | 10 sections covering the String / `&str` API |
 | `skeleton.rs` | Hostname normalizer — fill in five TODOs |
 | `debug.rs` | Buggy log-line redactor — find and fix 4 bugs |
+| `HINTS.md` | Progressive hints for the skeleton tasks and the debug bugs |
+| `solution/skeleton_solution.rs` | Reference implementation of `skeleton.rs` |
 | `solution/debug_solution.rs` | Fixed version of `debug.rs` |
 
 ## How to Run
@@ -40,6 +42,7 @@ Python has one string type. Rust has two (well, three) — `String`, `&str`, and
 rustc concept.rs --edition 2024 --test && ./concept
 rustc skeleton.rs --edition 2024 --test && ./skeleton
 rustc debug.rs --edition 2024 --test && ./debug
+cd solution && rustc skeleton_solution.rs --edition 2024 --test && ./skeleton_solution
 cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 ```
 
@@ -64,12 +67,12 @@ Five tasks chain together into a hostname-cleanup pipeline:
 
 ## Debug Challenge: Log-Line Redactor
 
-Four bugs:
+Four string-related bugs — some stop the program compiling, some misbehave
+at runtime. Read the compiler errors and test failures, and work backwards
+to the cause.
 
-1. **Mutating `&str`** (compile error) — `add_redacted_marker(s: &str)` calls `s.push_str(...)`. `&str` is immutable; the fix is to return a new owned `String`.
-2. **`+` between two `String`s** (compile error) — Rust's `+` for `String` wants `&str` on the right. Use `prefix + &suffix` or `format!`.
-3. **Byte slicing a multi-byte string** (runtime panic) — `s[0..3]` on `"café"` cuts the `é` in half. Use `s.chars().take(3).collect()`.
-4. **Case-sensitive `==`** (runtime: misses matches) — comparing the field key with `key == "SERVICE"` only matches the all-caps form. Use `eq_ignore_ascii_case`.
+If you get stuck, [`HINTS.md`](HINTS.md) reveals each bug in stages: symptom,
+then location, then the fix.
 
 ## Concepts Covered
 

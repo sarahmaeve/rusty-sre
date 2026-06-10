@@ -8,7 +8,7 @@
 #   make                # alias for `make test`
 #   make test           # run all known-passing tests (concepts + solutions)
 #   make test-concepts  # run all concept.rs test suites
-#   make test-solutions # run all solution/debug_solution.rs test suites
+#   make test-solutions # run all solution test suites (skeleton + debug)
 #   make test-debug     # run all debug.rs (expected to FAIL until fixed)
 #   make test-skeletons # run all skeleton.rs (expected to FAIL until filled in)
 #   make CH=12_result_and_question_mark concept   # run one file in one challenge
@@ -20,7 +20,7 @@ BUILD      := .build
 CHALLENGES := $(notdir $(wildcard challenges/[0-9]*))
 
 .PHONY: all help test test-concepts test-solutions test-debug test-skeletons clean \
-        concept skeleton debug solution
+        concept skeleton debug solution html
 
 all: test
 
@@ -28,9 +28,10 @@ help:
 	@echo "Rusty SRE — targets:"
 	@echo "  test            run concepts + solutions (everything expected to pass)"
 	@echo "  test-concepts   run every concept.rs"
-	@echo "  test-solutions  run every solution/debug_solution.rs"
+	@echo "  test-solutions  run every solution (skeleton_solution + debug_solution)"
 	@echo "  test-debug      run every debug.rs (expected to fail until bugs are fixed)"
 	@echo "  test-skeletons  run every skeleton.rs (expected to fail until TODOs are done)"
+	@echo "  html            regenerate the index.html pages from the READMEs"
 	@echo "  clean           remove $(BUILD)/"
 	@echo ""
 	@echo "Run a single file (set CH= to the directory name under challenges/):"
@@ -60,12 +61,14 @@ test-concepts:
 
 test-solutions:
 	@set -e; for ch in $(CHALLENGES); do \
-		src=challenges/$$ch/solution/debug_solution.rs; \
-		[ -f $$src ] || continue; \
-		echo "==> $$ch / solution"; \
-		mkdir -p $(BUILD)/$$ch; \
-		$(RUSTC) $$src -o $(BUILD)/$$ch/debug_solution; \
-		$(BUILD)/$$ch/debug_solution; \
+		for name in skeleton_solution debug_solution; do \
+			src=challenges/$$ch/solution/$$name.rs; \
+			[ -f $$src ] || continue; \
+			echo "==> $$ch / $$name"; \
+			mkdir -p $(BUILD)/$$ch; \
+			$(RUSTC) $$src -o $(BUILD)/$$ch/$$name; \
+			$(BUILD)/$$ch/$$name; \
+		done; \
 	done
 
 test-debug:
@@ -113,8 +116,19 @@ debug:
 solution:
 	@test -n "$(CH)" || (echo "set CH=<challenge-dir>" && exit 2)
 	@mkdir -p $(BUILD)/$(CH)
+	$(RUSTC) challenges/$(CH)/solution/skeleton_solution.rs -o $(BUILD)/$(CH)/skeleton_solution
+	$(BUILD)/$(CH)/skeleton_solution
 	$(RUSTC) challenges/$(CH)/solution/debug_solution.rs -o $(BUILD)/$(CH)/debug_solution
 	$(BUILD)/$(CH)/debug_solution
+
+# ---------------------------------------------------------------------------
+# HTML generation — challenges/index.html + per-challenge pages, from READMEs
+# ---------------------------------------------------------------------------
+
+html:
+	@mkdir -p $(BUILD)
+	rustc --edition $(EDITION) tools/generate_index.rs -o $(BUILD)/generate_index
+	$(BUILD)/generate_index
 
 clean:
 	rm -rf $(BUILD)

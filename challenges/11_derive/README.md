@@ -48,22 +48,29 @@ rustc skeleton.rs --edition 2024 --test && ./skeleton
 6. Build `dedup_alerts` function — deduplicate alerts using a HashSet
 
 ### `debug.rs` — On-Call Dashboard (BUG HUNT)
-An on-call dashboard with 4 bugs related to derive and trait implementations. Find and fix all 4.
+An on-call dashboard with 4 bugs related to derive and trait
+implementations — some won't compile, some violate trait contracts at
+runtime. Find and fix all 4.
 
 ```bash
-# Won't compile until bugs are fixed:
 rustc debug.rs --edition 2024 --test && ./debug
 ```
 
-**Bug types:**
-- 2 compile-time errors (derive violations)
-- 2 runtime errors (trait contract violations)
+Read the compiler errors and test failures, and work backwards to the cause.
+If you get stuck, [`HINTS.md`](HINTS.md) reveals each bug in stages: symptom,
+then location, then the fix.
 
-### `solution/debug_solution.rs` — Fixed Version
-Reference solution for `debug.rs` with all 4 bugs fixed.
+### `HINTS.md`
+Progressive hints for the skeleton tasks and the debug bugs.
+
+### `solution/` — Reference Solutions
+`skeleton_solution.rs` (completed skeleton) and `debug_solution.rs` (all 4
+bugs fixed). Try it yourself first!
 
 ```bash
-cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
+cd solution
+rustc skeleton_solution.rs --edition 2024 --test && ./skeleton_solution
+rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 ```
 
 ## Concepts Covered

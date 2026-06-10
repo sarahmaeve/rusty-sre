@@ -30,6 +30,8 @@ Earlier challenges used `Result` and `?` here and there without explaining eithe
 | `concept.rs` | Heavily commented explainer covering Result, `?`, combinators, custom error enums |
 | `skeleton.rs` | Config loader pipeline — fill in the TODOs to complete it |
 | `debug.rs` | Buggy alert ingestion pipeline — find and fix 4 bugs |
+| `HINTS.md` | Progressive hints for the skeleton tasks and the debug bugs |
+| `solution/skeleton_solution.rs` | Reference implementation of `skeleton.rs` |
 | `solution/debug_solution.rs` | Fixed version of `debug.rs` |
 
 ## How to Run
@@ -41,10 +43,11 @@ rustc concept.rs --edition 2024 --test && ./concept
 # Skeleton challenge — tests fail until you complete the TODOs
 rustc skeleton.rs --edition 2024 --test && ./skeleton
 
-# Debug challenge — won't compile until bugs 1 and 2 are fixed
+# Debug challenge — won't compile until you fix the bugs
 rustc debug.rs --edition 2024 --test && ./debug
 
-# Solution
+# Reference solutions
+cd solution && rustc skeleton_solution.rs --edition 2024 --test && ./skeleton_solution
 cd solution && rustc debug_solution.rs --edition 2024 --test && ./debug_solution
 ```
 
@@ -69,14 +72,11 @@ Six tasks build a startup-time config loader:
 
 ## Debug Challenge: Alert Ingestion
 
-Four bugs:
+Four bugs — some stop the program compiling, some misbehave at runtime. Read
+the compiler errors and test failures, and work backwards to the cause.
 
-1. **Wrong return type** (compile error) — `parse_alert` is declared to return `Alert` but its body uses `?` and `Err(...)`
-2. **Missing `From` impl** (compile error) — `?` on a `ParseIntError` can't promote to `IngestError` until `From<ParseIntError> for IngestError` exists
-3. **Panic on bad input** (runtime) — `parse_all` calls `.unwrap()` instead of propagating
-4. **Silent error swallow** (runtime) — `process` uses `.ok().unwrap_or_default()` and reports a fake-empty success
-
-Bugs 1 and 2 are entangled — you have to fix both before the file compiles.
+If you get stuck, [`HINTS.md`](HINTS.md) reveals each bug in stages: symptom,
+then location, then the fix.
 
 ## Concepts Covered
 
