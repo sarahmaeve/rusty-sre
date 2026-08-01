@@ -35,4 +35,4 @@ recovery, not the chosen number.
 
 [`Result::map_err`](https://doc.rust-lang.org/std/result/enum.Result.html#method.map_err),
 [`str::parse`](https://doc.rust-lang.org/std/primitive.str.html#method.parse), and
-Cargo's [configuration source](https://github.com/rust-lang/cargo/tree/master/src/cargo/util).
+Cargo's [configuration source](https://github.com/rust-lang/cargo/tree/master/crates/cargo-util/src).

@@ -29,7 +29,7 @@ fn summarize(reading: &Reading) -> String {
     match reading {
         Reading::Value {
             host,
-            percent: p @ 90..=100,
+            percent: p @ 90..=u8::MAX,
         } => {
             format!("{host}: critical at {p}%")
         }

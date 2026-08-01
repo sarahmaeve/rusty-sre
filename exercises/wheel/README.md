@@ -7,7 +7,8 @@ job is to narrow the incident before changing code.
 ## Order of work
 
 1. Read only the scenario's `REPORT.md`.
-2. Fill in the first three sections of `WORKSHEET.md`.
+2. Fill in `Impact and contract` and `Initial hypotheses`, then create an empty
+   evidence ledger.
 3. Open evidence packets one at a time, recording how each changes your ranking.
 4. Read `CANDIDATE.md` last. It contains selected source excerpts and change
    context, including plausible red herrings.

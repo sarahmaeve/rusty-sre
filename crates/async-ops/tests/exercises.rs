@@ -46,7 +46,7 @@ async fn exercise_21_export_failure_reaches_the_caller() {
     let error = dispatch_export(ExportSink::rejecting(), b"sample".to_vec())
         .await
         .expect_err("a rejected export must be reported");
-    assert_eq!(error, ExportError::Rejected);
+    assert!(matches!(error, ExportError::Rejected));
 }
 
 #[tokio::test]
@@ -60,9 +60,19 @@ async fn exercise_22_fanout_respects_its_concurrency_limit() {
             latency: Duration::from_millis(15),
         })
         .collect();
-    scrape_targets(targets, limit, probe.clone())
+    let mut results = scrape_targets(targets, limit, probe.clone())
         .await
         .expect("scrapes complete");
+    results.sort_unstable_by(|left, right| left.target.cmp(&right.target));
+    let mut expected: Vec<_> = (0..12).map(|index| format!("edge-{index}")).collect();
+    expected.sort_unstable();
+    assert_eq!(
+        results
+            .iter()
+            .map(|result| result.target.as_str())
+            .collect::<Vec<_>>(),
+        expected.iter().map(String::as_str).collect::<Vec<_>>()
+    );
     assert!(
         probe.peak() <= limit,
         "observed {} concurrent scrapes with a limit of {limit}",

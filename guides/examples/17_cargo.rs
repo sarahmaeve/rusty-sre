@@ -3,7 +3,8 @@
 //!
 //! A workspace coordinates packages. A package owns one manifest and can expose
 //! library, binary, example, test, benchmark, and build-script crate targets.
-//! Features should be additive; profiles change compilation, not source selection.
+//! Features should be additive. Profiles can change compilation and `cfg`-visible
+//! behavior, so profile settings are correctness inputs.
 //!
 //! Further reading:
 //! - <https://doc.rust-lang.org/cargo/reference/manifest.html>

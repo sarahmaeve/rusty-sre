@@ -9,23 +9,22 @@ treats zero as a minimum capacity of one.
 
 ## Root cause
 
-The parameter was unused and the function spawned one immediately active scrape per
-target.
+The parameter was unused and the function eagerly admitted one task per target.
 
 ## Why the symptom follows
 
-Executor scheduling does not impose the domain's concurrency budget. All spawned
-tasks can enter the measured scrape region together.
+Executor scheduling does not impose the domain's concurrency or admission budget.
+Every spawned task consumes scheduler and memory resources even while waiting.
 
 ## Repair strategy
 
-Share a semaphore, acquire an owned permit before entering the scrape, and let the
-permit's destructor release capacity. Joining still preserves all results.
+Admit at most `max_in_flight` tasks into a `JoinSet`. Each completed task creates
+capacity for one more target, so both live tasks and active scrapes remain bounded.
 
 ## Verification
 
-Run `make ex N=22`. Measure the peak below, at, and above the limit and confirm all
-target results are returned.
+Run `make ex N=22`. Measure the peak below, at, and above the limit, confirm every
+target result is returned, and test an input much larger than the limit.
 
 ## Tempting wrong fix
 

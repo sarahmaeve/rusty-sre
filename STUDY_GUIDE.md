@@ -37,8 +37,9 @@ contracts connecting `Eq`, `Hash`, `Ord`, and collection behavior.
 
 ## 5. Navigate real crates
 
-Run guide 08. Trace one request or value across all workspace crates. Inspect
-the root and member manifests, enabled features, public modules, and tests.
+Run guide 08. Trace the control-plane flow through the workspace crates it uses.
+Separately inspect the root and remaining member manifests, enabled features,
+public modules, and tests.
 
 Then revisit exercises 01–14 in hard mode. The goal is localization without a
 topic label.
@@ -61,9 +62,10 @@ completion.
 
 ## 8. Review safety boundaries
 
-Run guide 12. Read the unsafe-code diagnosis exercise and its linked source.
-The required skill is not writing unsafe code; it is finding the invariant,
-the caller obligations, and the tests or tools that support the safety claim.
+Run guide 12. For each unsafe block, connect the operation to its preceding safety
+argument and the linked standard-library contract. The required skill is not writing
+unsafe code; it is finding the invariant, the caller obligations, and the tests or
+tools that support the safety claim.
 
 ## 9. Read lifetime-heavy APIs
 

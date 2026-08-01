@@ -33,6 +33,6 @@ unnecessarily long critical section.
 
 ## References
 
-Tokio's [`spawn`](https://docs.rs/tokio/latest/tokio/fn.spawn.html),
+Tokio's [`spawn`](https://docs.rs/tokio/latest/tokio/task/fn.spawn.html),
 [`Send`](https://doc.rust-lang.org/std/marker/trait.Send.html), and Tokio's
 [shared-state tutorial](https://tokio.rs/tokio/tutorial/shared-state).

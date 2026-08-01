@@ -1,10 +1,11 @@
-.PHONY: help test guides fmt lint check ex hard status solution unsolution \
+.PHONY: help bootstrap test guides fmt lint check ex hard status solution unsolution \
 	verify-solution verify-failures verify-patches verify clean
 
 SHELL := /bin/sh
 
 help:
 	@echo "Rusty SRE"
+	@echo "  make bootstrap            download locked dependencies for offline use"
 	@echo "  make test                 run known-good workspace tests"
 	@echo "  make guides               run all twenty concept guides"
 	@echo "  make ex N=01              reproduce one exercise (01..48; failure expected)"
@@ -15,6 +16,10 @@ help:
 	@echo "  make verify-solution N=01 apply, test, and reverse one patch"
 	@echo "  make check                format, lint, test, and run guides"
 	@echo "  make verify               validate failures and every solution"
+
+bootstrap:
+	cargo fetch --locked
+	cargo fetch --locked --manifest-path compile-fail/Cargo.toml
 
 test:
 	cargo test --workspace --all-targets --offline
@@ -66,16 +71,39 @@ hard:
 	} END {if (!found) exit 1}' exercises/HARD_MODE.md
 
 status:
-	@set +e; passed=0; expected=0; \
+	@set +e; passed=0; expected=0; wrong=0; \
 	for num in $$(seq -w 1 48); do \
-		if $(MAKE) --no-print-directory ex N=$$num >/dev/null 2>&1; then \
+		output=$$($(MAKE) --no-print-directory ex N=$$num 2>&1); result=$$?; \
+		if [ $$result -eq 0 ]; then \
 			echo "$$num  UNEXPECTED PASS"; passed=$$((passed + 1)); \
 		else \
-			echo "$$num  expected failure"; expected=$$((expected + 1)); \
+			case $$num in \
+				27) marker='error[E0382]' ;; \
+				28) marker='error[E0502]' ;; \
+				29) marker='error[E0106]' ;; \
+				30) marker='future cannot be sent between threads safely' ;; \
+				31) marker='error[E0277]' ;; \
+				32) marker='error[E0004]' ;; \
+				33) marker='error[E0621]' ;; \
+				34) marker='error[E0310]' ;; \
+				35) marker='error[E0038]' ;; \
+				36) marker='error[E0191]' ;; \
+				37) marker='error[E0005]' ;; \
+				38) marker='no rules expected' ;; \
+				39) marker='error[E0277]' ;; \
+				40) marker='error[E0790]' ;; \
+				*) marker="test exercise_$${num}_" ;; \
+			esac; \
+			if printf '%s\n' "$$output" | grep -Fq "$$marker"; then \
+				echo "$$num  expected failure"; expected=$$((expected + 1)); \
+			else \
+				echo "$$num  WRONG FAILURE"; printf '%s\n' "$$output"; \
+				wrong=$$((wrong + 1)); \
+			fi; \
 		fi; \
 	done; \
-	echo "$$expected expected failures; $$passed unexpected passes"; \
-	test $$passed -eq 0
+	echo "$$expected expected failures; $$passed unexpected passes; $$wrong wrong failures"; \
+	test $$passed -eq 0 -a $$wrong -eq 0
 
 solution:
 	@test -n "$(N)" || (echo "set N=01..48"; exit 2)

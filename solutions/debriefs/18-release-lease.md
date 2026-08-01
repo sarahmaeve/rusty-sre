@@ -35,5 +35,5 @@ paths RAII is designed to cover.
 ## References
 
 [`Drop`](https://doc.rust-lang.org/std/ops/trait.Drop.html),
-[`AtomicUsize::fetch_sub`](https://doc.rust-lang.org/std/sync/atomic/struct.AtomicUsize.html#method.fetch_sub),
+[`AtomicUsize::fetch_sub`](https://doc.rust-lang.org/std/sync/atomic/struct.Atomic.html#method.fetch_sub),
 and Tokio's [semaphore permit source](https://github.com/tokio-rs/tokio/tree/master/tokio/src/sync).

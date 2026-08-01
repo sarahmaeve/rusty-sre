@@ -23,7 +23,8 @@ overflow-check configuration.
 
 ## Verification
 
-Run `make ex N=46` in debug and release profiles, plus boundary-neighbor cases.
+Run `make ex N=46`, then use the exact release command from the exercise README.
+Also cover boundary-neighbor cases in both profiles.
 
 ## Tempting wrong fix
 

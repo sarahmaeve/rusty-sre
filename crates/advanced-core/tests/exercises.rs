@@ -2,8 +2,9 @@ use std::any::Any;
 use std::future::Future;
 use std::pin::pin;
 use std::sync::atomic::{AtomicUsize, Ordering};
-use std::sync::{Arc, Mutex};
+use std::sync::{Arc, Mutex, mpsc};
 use std::task::{Context, Wake, Waker};
+use std::time::Duration;
 
 use advanced_core::environment::deployment_mode;
 use advanced_core::features::enabled_checks;
@@ -35,6 +36,40 @@ fn exercise_42_fixture_restores_state_after_panic() {
         with_mode("maintenance", || panic!("simulated test failure"));
     });
     assert!(panic.is_err());
+    assert_eq!(current_mode(), "normal");
+
+    let (first_entered_tx, first_entered_rx) = mpsc::channel();
+    let (release_first_tx, release_first_rx) = mpsc::channel();
+    let first = std::thread::spawn(move || {
+        with_mode("first", || {
+            first_entered_tx.send(()).unwrap();
+            release_first_rx.recv().unwrap();
+        });
+    });
+    first_entered_rx.recv().unwrap();
+
+    let (second_attempted_tx, second_attempted_rx) = mpsc::channel();
+    let (second_entered_tx, second_entered_rx) = mpsc::channel();
+    let second = std::thread::spawn(move || {
+        second_attempted_tx.send(()).unwrap();
+        with_mode("second", || second_entered_tx.send(()).unwrap());
+    });
+    second_attempted_rx.recv().unwrap();
+
+    let overlapped = second_entered_rx
+        .recv_timeout(Duration::from_millis(50))
+        .is_ok();
+    release_first_tx.send(()).unwrap();
+    first.join().unwrap();
+    if !overlapped {
+        second_entered_rx.recv().unwrap();
+    }
+    second.join().unwrap();
+
+    assert!(
+        !overlapped,
+        "process-global mode overrides must be serialized"
+    );
     assert_eq!(current_mode(), "normal");
 }
 

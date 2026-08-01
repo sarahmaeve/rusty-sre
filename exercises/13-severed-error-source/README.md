@@ -17,8 +17,8 @@ Run `make ex N=13`. Compare formatted output with traversal through
 
 ## Task
 
-Follow construction of the error value and identify where a typed cause becomes
-only text. Preserve context, ownership, and the source chain.
+Follow construction of the error value and compare the stored typed cause with what
+the `Error` implementation exposes. Preserve context, ownership, and the source chain.
 
 ## What you learn
 
@@ -26,4 +26,4 @@ You will distinguish error display from error structure and review custom error
 implementations.
 
 Read [`Error::source`](https://doc.rust-lang.org/std/error/trait.Error.html#method.source)
-and Cargo's [error infrastructure](https://github.com/rust-lang/cargo/tree/master/src/cargo/util).
+and Cargo's [error infrastructure](https://github.com/rust-lang/cargo/tree/master/crates/cargo-util/src).

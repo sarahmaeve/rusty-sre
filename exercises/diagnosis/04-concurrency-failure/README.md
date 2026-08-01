@@ -14,8 +14,11 @@ Separate suspicious logging from state evidence. Identify the compound decision
 that must appear atomic, then design a deterministic schedule or model test that
 exposes interleaving without relying on repeated luck.
 
-Complete [WORKSHEET.md](WORKSHEET.md) before inspecting implementation.
+This is a standalone artifact: no implementation is supplied. Complete
+[WORKSHEET.md](WORKSHEET.md), then sketch the smallest deterministic reproducer and
+a model-test invariant that would distinguish an atomic reservation from a split
+read–decision–write sequence.
 
 Reference: [atomics and locks](https://doc.rust-lang.org/nomicon/atomics.html),
-[`compare_exchange`](https://doc.rust-lang.org/std/sync/atomic/struct.AtomicUsize.html#method.compare_exchange),
+[`compare_exchange`](https://doc.rust-lang.org/std/sync/atomic/struct.Atomic.html#method.compare_exchange),
 and [Loom](https://github.com/tokio-rs/loom).

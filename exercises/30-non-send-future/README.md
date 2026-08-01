@@ -24,6 +24,6 @@ with thread-safe ownership, or belongs on a local task set.
 
 You will connect auto traits, generated future state, and executor requirements.
 
-Read Tokio's [`spawn`](https://docs.rs/tokio/latest/tokio/fn.spawn.html),
+Read Tokio's [`spawn`](https://docs.rs/tokio/latest/tokio/task/fn.spawn.html),
 [`LocalSet`](https://docs.rs/tokio/latest/tokio/task/struct.LocalSet.html), and
 [`Send`](https://doc.rust-lang.org/std/marker/trait.Send.html).

@@ -11,5 +11,5 @@ the conversion from the lower-level error.
 
 ## 3 — Mechanism
 
-Formatting the lower error into a string erases its type, and the wrapper no longer
-has a value it can return from `source`.
+The wrapper still owns the typed lower error, but `source` does not return a reference
+to it. Display formatting and causal traversal are separate protocols.

@@ -21,7 +21,7 @@ mutable reference already supplied by the API.
 
 ## What you learn
 
-You will reason about value identity, `Clone`, mutable references, and entry APIs.
+You will reason about value identity, `Clone`, and mutation through references.
 
 Read [references and borrowing](https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html)
 and [`Clone`](https://doc.rust-lang.org/std/clone/trait.Clone.html).

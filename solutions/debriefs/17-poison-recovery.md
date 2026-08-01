@@ -4,7 +4,7 @@ Patch: [17-poison-recovery.patch](../17-poison-recovery.patch)
 
 ## Contract
 
-`snapshot` can inspect the last stored counts after a worker panic. This container's
+Reads and writes can continue deliberately after a worker panic. This container's
 values remain valid because updates do not expose a multi-step invariant.
 
 ## Root cause
@@ -19,13 +19,13 @@ still supplies the guard. Unwrapping propagates panic rather than policy.
 
 ## Repair strategy
 
-For this simple snapshot state, recover the guard with `PoisonError::into_inner`
-and clone the stored values. More complex state would require validation or repair.
+For this simple state, every normal lock path recovers the guard with
+`PoisonError::into_inner`. More complex state would require validation or repair.
 
 ## Verification
 
-Run `make ex N=17`. Snapshot normal state, poison after a known value, and confirm
-the value remains inspectable.
+Run `make ex N=17`. Read and update normal state, poison after a known value, and
+confirm both later inspection and mutation follow the same recovery policy.
 
 ## Tempting wrong fix
 

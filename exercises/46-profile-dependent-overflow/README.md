@@ -12,8 +12,14 @@ values return their successor.
 
 ## Reproduce
 
-Run `make ex N=46`, then run the focused test with `cargo test --release`. Compare
-the failure mechanism, not only whether the test fails.
+Run `make ex N=46`, then run the same ignored test in release mode:
+
+```console
+cargo test --offline -p advanced-core --release --test exercises \
+  exercise_46_ -- --ignored --nocapture
+```
+
+Compare the failure mechanism, not only whether the test fails.
 
 ## Task
 

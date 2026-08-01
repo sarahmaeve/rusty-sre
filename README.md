@@ -26,6 +26,7 @@ Verify the toolchain and known-good material:
 
 ```bash
 rustc --version
+make bootstrap
 make test
 make guides
 ```
@@ -40,7 +41,8 @@ The command should fail. That failure is the starting evidence, not a broken
 installation. Read [`exercises/01-silent-config-fallback/README.md`](exercises/01-silent-config-fallback/README.md),
 inspect the relevant test, and work from the contract toward the source.
 
-After attempting the repair:
+After attempting the repair, save or revert edits that overlap the reference patch
+before applying it:
 
 ```bash
 make ex N=01

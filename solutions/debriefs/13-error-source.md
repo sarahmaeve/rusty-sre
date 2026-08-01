@@ -34,5 +34,5 @@ typed causal inspection.
 ## References
 
 [`Error::source`](https://doc.rust-lang.org/std/error/trait.Error.html#method.source),
-[error handling project group](https://rust-lang.github.io/project-error-handling/),
-and Cargo's [diagnostic source](https://github.com/rust-lang/cargo/tree/master/src/cargo/util).
+[error handling project-group RFC](https://rust-lang.github.io/rfcs/2965-project-error-handling.html),
+and Cargo's [diagnostic source](https://github.com/rust-lang/cargo/tree/master/crates/cargo-util/src).

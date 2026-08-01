@@ -5,6 +5,7 @@ Patch: [42-fixture-guard.patch](../42-fixture-guard.patch)
 ## Contract
 
 Temporary mode replacement is restored after normal completion and unwinding.
+Nested overrides work, and overrides from different threads do not overlap.
 
 ## Root cause
 
@@ -17,12 +18,14 @@ linear teardown, leaving the static mode at its temporary value.
 
 ## Repair strategy
 
-Store the prior value in a guard whose `Drop` implementation restores it. Stack
-unwinding then executes the cleanup automatically.
+Store the prior value in a guard whose `Drop` implementation restores it. Track the
+owning thread and nesting depth so the same thread can nest overrides while other
+threads wait. Stack unwinding executes cleanup and releases the outer scope.
 
 ## Verification
 
-Run `make ex N=42`. Verify normal return, callback panic, and nested overrides.
+Run `make ex N=42`. Verify normal return, callback panic, nested overrides, and two
+threads attempting overlapping overrides.
 
 ## Tempting wrong fix
 

@@ -1,28 +1,87 @@
 diff --git a/crates/advanced-core/src/testing.rs b/crates/advanced-core/src/testing.rs
 --- a/crates/advanced-core/src/testing.rs
 +++ b/crates/advanced-core/src/testing.rs
-@@ -13,12 +13,21 @@ pub fn current_mode() -> &'static str {
-     *MODE.lock().unwrap()
- }
+@@ -1,4 +1,25 @@
+-use std::sync::Mutex;
++use std::sync::{Condvar, Mutex, MutexGuard};
++use std::thread::ThreadId;
  
+-static MODE: Mutex<&'static str> = Mutex::new("normal");
++#[derive(Debug)]
++struct ModeState {
++    current: &'static str,
++    owner: Option<ThreadId>,
++    depth: usize,
++}
++
++static MODE: (Mutex<ModeState>, Condvar) = (
++    Mutex::new(ModeState {
++        current: "normal",
++        owner: None,
++        depth: 0,
++    }),
++    Condvar::new(),
++);
++
++fn lock_mode() -> MutexGuard<'static, ModeState> {
++    MODE.0
++        .lock()
++        .unwrap_or_else(std::sync::PoisonError::into_inner)
++}
+ 
+@@ -12,3 +33,29 @@ pub fn require_positive(raw: &str) -> u32 {
+ pub fn current_mode() -> &'static str {
+-    *MODE.lock().unwrap()
++    let thread = std::thread::current().id();
++    let mut state = lock_mode();
++    while state.owner.is_some_and(|owner| owner != thread) {
++        state = MODE
++            .1
++            .wait(state)
++            .unwrap_or_else(std::sync::PoisonError::into_inner);
++    }
++    state.current
++}
++
 +struct ModeReset {
 +    previous: &'static str,
 +}
 +
 +impl Drop for ModeReset {
 +    fn drop(&mut self) {
-+        *MODE.lock().unwrap() = self.previous;
++        let thread = std::thread::current().id();
++        let mut state = lock_mode();
++        debug_assert_eq!(state.owner, Some(thread));
++        state.current = self.previous;
++        state.depth -= 1;
++        if state.depth == 0 {
++            state.owner = None;
++            MODE.1.notify_all();
++        }
 +    }
-+}
-+
+ }
+@@ -16,9 +63,17 @@ pub fn current_mode() -> &'static str {
  pub fn with_mode<T>(mode: &'static str, operation: impl FnOnce() -> T) -> T {
-     let previous = {
-         let mut current = MODE.lock().unwrap();
-         std::mem::replace(&mut *current, mode)
-     };
+-    let previous = {
+-        let mut current = MODE.lock().unwrap();
+-        std::mem::replace(&mut *current, mode)
+-    };
 -    let result = operation();
 -    *MODE.lock().unwrap() = previous;
 -    result
++    let thread = std::thread::current().id();
++    let mut state = lock_mode();
++    while state.owner.is_some_and(|owner| owner != thread) {
++        state = MODE
++            .1
++            .wait(state)
++            .unwrap_or_else(std::sync::PoisonError::into_inner);
++    }
++    let previous = std::mem::replace(&mut state.current, mode);
++    state.owner = Some(thread);
++    state.depth += 1;
++    drop(state);
++
 +    let _reset = ModeReset { previous };
 +    operation()
  }

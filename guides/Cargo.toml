@@ -10,6 +10,7 @@ default = []
 telemetry = []
 
 [dependencies]
+serde_json.workspace = true
 tokio.workspace = true
 
 [lints]

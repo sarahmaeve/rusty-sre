@@ -8,7 +8,8 @@ maintenance mode instead of the original value.
 ## Contract
 
 `with_mode` restores the previous process state after normal return and unwinding.
-Cleanup does not depend on the callback reaching its final statement.
+Nested overrides work, and overrides from different threads do not overlap. Cleanup
+does not depend on the callback reaching its final statement.
 
 ## Reproduce
 
@@ -18,7 +19,7 @@ the shared mode.
 ## Task
 
 Model temporary state as a resource with one owner. Move restoration to a mechanism
-that runs on every scope exit.
+that runs on every scope exit, and define how concurrent owners are serialized.
 
 ## What you learn
 

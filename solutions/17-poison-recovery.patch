@@ -1,9 +1,15 @@
 diff --git a/crates/ops-core/src/shared.rs b/crates/ops-core/src/shared.rs
 --- a/crates/ops-core/src/shared.rs
 +++ b/crates/ops-core/src/shared.rs
-@@ -24,6 +24,9 @@ impl SharedCounts {
+@@ -9,3 +9,6 @@ impl SharedCounts {
+     pub fn push(&self, value: u64) {
+-        self.inner.lock().unwrap().push(value);
++        self.inner
++            .lock()
++            .unwrap_or_else(std::sync::PoisonError::into_inner)
++            .push(value);
      }
- 
+@@ -22,3 +25,6 @@ impl SharedCounts {
      pub fn snapshot(&self) -> Vec<u64> {
 -        self.inner.lock().unwrap().clone()
 +        self.inner
@@ -11,4 +17,3 @@ diff --git a/crates/ops-core/src/shared.rs b/crates/ops-core/src/shared.rs
 +            .unwrap_or_else(std::sync::PoisonError::into_inner)
 +            .clone()
      }
- }

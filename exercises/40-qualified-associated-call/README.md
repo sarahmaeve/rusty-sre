@@ -26,5 +26,5 @@ You will use fully qualified syntax for associated items and interpret ambiguity
 where method receiver inference is unavailable.
 
 Read [`E0790`](https://doc.rust-lang.org/error_codes/E0790.html),
-[fully qualified syntax](https://doc.rust-lang.org/book/ch20-02-advanced-traits.html#using-fully-qualified-syntax-to-disambiguate-methods-with-the-same-name),
+[fully qualified syntax](https://doc.rust-lang.org/book/ch20-02-advanced-traits.html#fully-qualified-syntax-for-disambiguation-calling-methods-with-the-same-name),
 and Tower’s [`Layer` source](https://github.com/tower-rs/tower/blob/master/tower-layer/src/lib.rs).

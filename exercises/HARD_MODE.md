@@ -36,7 +36,7 @@ corresponding report below until you have a falsifiable hypothesis.
 | 28 | The compiler rejects overlapping access to the same value. |
 | 29 | The compiler rejects a returned reference whose referent is gone. |
 | 30 | Task spawning rejects a future that cannot cross threads safely. |
-| 31 | A generic map helper fails because its key contract is incomplete. |
+| 31 | A set construction fails because its element contract is incomplete. |
 | 32 | Adding a variant breaks a match in downstream code. |
 | 33 | A helper can return either input, but its lifetime contract covers only one. |
 | 34 | A generic thread helper cannot prove that captured state remains valid. |

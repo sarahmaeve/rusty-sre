@@ -18,6 +18,14 @@ fn exercise_09_every_probe_must_be_ready() {
         Probe { ready: true },
         Probe { ready: false }
     ]));
+    assert!(fleet_ready(&[Probe { ready: true }, Probe { ready: true }]));
+    assert!(!fleet_ready(&[
+        Probe { ready: false },
+        Probe { ready: false }
+    ]));
+    assert!(fleet_ready(&[Probe { ready: true }]));
+    assert!(!fleet_ready(&[Probe { ready: false }]));
+    assert!(fleet_ready(&[]));
 }
 
 #[test]
@@ -96,6 +104,8 @@ fn exercise_17_poisoned_state_can_be_inspected() {
     counts.push(7);
     counts.poison_for_test();
     assert_eq!(counts.snapshot(), [7]);
+    counts.push(11);
+    assert_eq!(counts.snapshot(), [7, 11]);
 }
 
 #[test]

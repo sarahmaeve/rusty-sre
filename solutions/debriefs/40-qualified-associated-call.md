@@ -36,5 +36,5 @@ value for an operation that has no instance state.
 ## References
 
 [`E0790`](https://doc.rust-lang.org/error_codes/E0790.html),
-[fully qualified syntax](https://doc.rust-lang.org/book/ch20-02-advanced-traits.html#using-fully-qualified-syntax-to-disambiguate-methods-with-the-same-name),
+[fully qualified syntax](https://doc.rust-lang.org/book/ch20-02-advanced-traits.html#fully-qualified-syntax-for-disambiguation-calling-methods-with-the-same-name),
 and Tower’s [`Layer`](https://github.com/tower-rs/tower/blob/master/tower-layer/src/lib.rs).

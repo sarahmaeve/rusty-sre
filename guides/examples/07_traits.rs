@@ -57,7 +57,7 @@ impl Render for Plain {
 
 impl Render for Json {
     fn render(&self) -> String {
-        format!(r#"{{"message":"{}"}}"#, self.0.message)
+        serde_json::json!({ "message": self.0.message.as_str() }).to_string()
     }
 }
 
@@ -102,5 +102,11 @@ fn main() {
         Box::new(Json(alerts[1].clone())),
     ];
     assert_eq!(render_all(&renderers), ["latency", r#"{"message":"disk"}"#]);
+    let escaped = Json(Alert {
+        message: "quote: \"; newline:\n".to_owned(),
+    })
+    .render();
+    let decoded: serde_json::Value = serde_json::from_str(&escaped).unwrap();
+    assert_eq!(decoded["message"], "quote: \"; newline:\n");
     assert_eq!(label(&alerts[0]), "service=latency");
 }

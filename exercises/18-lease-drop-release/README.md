@@ -26,4 +26,4 @@ You will reason about RAII, destructor timing, atomics, and symmetric lifecycle
 transitions.
 
 Read [`Drop`](https://doc.rust-lang.org/std/ops/trait.Drop.html) and
-[`AtomicUsize::fetch_sub`](https://doc.rust-lang.org/std/sync/atomic/struct.AtomicUsize.html#method.fetch_sub).
+[`AtomicUsize::fetch_sub`](https://doc.rust-lang.org/std/sync/atomic/struct.Atomic.html#method.fetch_sub).
