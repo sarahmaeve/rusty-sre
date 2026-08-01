@@ -38,6 +38,22 @@ corresponding report below until you have a falsifiable hypothesis.
 | 30 | Task spawning rejects a future that cannot cross threads safely. |
 | 31 | A generic map helper fails because its key contract is incomplete. |
 | 32 | Adding a variant breaks a match in downstream code. |
+| 33 | A helper can return either input, but its lifetime contract covers only one. |
+| 34 | A generic thread helper cannot prove that captured state remains valid. |
+| 35 | One generic method prevents dynamic dispatch through an otherwise usable trait. |
+| 36 | A trait object erases an associated type that its caller still needs. |
+| 37 | A plain binding ignores one possible event variant. |
+| 38 | A macro rejects a qualified enum variant before expansion. |
+| 39 | Reading a pinned worker fails because the code tries to extract it. |
+| 40 | An associated trait function has no receiver from which to infer its implementor. |
+| 41 | Input is rejected, but for an accidental reason that a broad test accepts. |
+| 42 | A failed test leaves process-wide fixture state changed. |
+| 43 | One sampling operation invokes its input callback twice. |
+| 44 | A validated wrapper can still be constructed with its forbidden value. |
+| 45 | Enabling an audit feature disables baseline validation. |
+| 46 | Boundary arithmetic behaves differently across build profiles. |
+| 47 | A future becomes ready internally but is never scheduled again. |
+| 48 | Runtime deployment input loses to a value selected while compiling. |
 
 For each report, record:
 

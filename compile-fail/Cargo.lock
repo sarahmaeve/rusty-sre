@@ -30,6 +30,38 @@ name = "compile-32"
 version = "0.1.0"
 
 [[package]]
+name = "compile-33"
+version = "0.1.0"
+
+[[package]]
+name = "compile-34"
+version = "0.1.0"
+
+[[package]]
+name = "compile-35"
+version = "0.1.0"
+
+[[package]]
+name = "compile-36"
+version = "0.1.0"
+
+[[package]]
+name = "compile-37"
+version = "0.1.0"
+
+[[package]]
+name = "compile-38"
+version = "0.1.0"
+
+[[package]]
+name = "compile-39"
+version = "0.1.0"
+
+[[package]]
+name = "compile-40"
+version = "0.1.0"
+
+[[package]]
 name = "pin-project-lite"
 version = "0.2.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"

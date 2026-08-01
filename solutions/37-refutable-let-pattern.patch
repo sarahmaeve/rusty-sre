@@ -1,0 +1,13 @@
+diff --git a/compile-fail/37-refutable-let-pattern/src/main.rs b/compile-fail/37-refutable-let-pattern/src/main.rs
+--- a/compile-fail/37-refutable-let-pattern/src/main.rs
++++ b/compile-fail/37-refutable-let-pattern/src/main.rs
+@@ -12,6 +12,8 @@ fn next_event(shutdown: bool) -> Event {
+ }
+ 
+ fn main() {
+-    let Event::Sample(value) = next_event(false);
++    let Event::Sample(value) = next_event(false) else {
++        return;
++    };
+     println!("sample={value}");
+ }

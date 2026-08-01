@@ -1,0 +1,11 @@
+diff --git a/crates/advanced-core/src/environment.rs b/crates/advanced-core/src/environment.rs
+--- a/crates/advanced-core/src/environment.rs
++++ b/crates/advanced-core/src/environment.rs
+@@ -1,4 +1,5 @@
+ pub fn deployment_mode(runtime_value: Option<&str>) -> &str {
+-    let _ = runtime_value;
+-    option_env!("RUSTY_SRE_DEPLOYMENT").unwrap_or("stable")
++    runtime_value
++        .or(option_env!("RUSTY_SRE_DEPLOYMENT"))
++        .unwrap_or("stable")
+ }

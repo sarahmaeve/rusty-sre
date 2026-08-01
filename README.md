@@ -13,9 +13,9 @@ locate the violated contract, make a bounded repair, and verify the result.
   Rust to make unfamiliar code legible.
 - [`crates/`](crates/) is a production-shaped Cargo workspace containing the
   systems used by the exercises.
-- [`exercises/`](exercises/) contains 32 debugging exercises, staged hints,
+- [`exercises/`](exercises/) contains 48 debugging exercises, staged hints,
   hard-mode cards, artifact-first diagnoses, and report-first investigations.
-- [`compile-fail/`](compile-fail/) contains six small crates whose compiler
+- [`compile-fail/`](compile-fail/) contains fourteen small crates whose compiler
   diagnostics are the initial evidence.
 - [`solutions/`](solutions/) contains reversible patches and debriefs. It is
   deliberately separate from the exercise instructions.

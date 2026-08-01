@@ -1,0 +1,21 @@
+diff --git a/crates/advanced-core/src/features.rs b/crates/advanced-core/src/features.rs
+--- a/crates/advanced-core/src/features.rs
++++ b/crates/advanced-core/src/features.rs
+@@ -1,10 +1,10 @@
+ pub fn enabled_checks() -> Vec<&'static str> {
++    let checks = vec!["schema", "bounds"];
+     #[cfg(feature = "audit")]
+-    {
+-        vec!["audit"]
+-    }
+-    #[cfg(not(feature = "audit"))]
+-    {
+-        vec!["schema", "bounds"]
+-    }
++    let checks = {
++        let mut checks = checks;
++        checks.push("audit");
++        checks
++    };
++    checks
+ }

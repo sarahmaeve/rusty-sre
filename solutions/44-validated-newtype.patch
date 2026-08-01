@@ -1,0 +1,36 @@
+diff --git a/crates/advanced-core/src/types.rs b/crates/advanced-core/src/types.rs
+--- a/crates/advanced-core/src/types.rs
++++ b/crates/advanced-core/src/types.rs
+@@ -9,12 +9,6 @@ impl Port {
+     }
+ }
+ 
+-impl From<u16> for Port {
+-    fn from(value: u16) -> Self {
+-        Self(value)
+-    }
+-}
+-
+ #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+ pub struct PortError;
+ 
+@@ -26,6 +20,18 @@ impl fmt::Display for PortError {
+ 
+ impl std::error::Error for PortError {}
+ 
++impl TryFrom<u16> for Port {
++    type Error = PortError;
++
++    fn try_from(value: u16) -> Result<Self, Self::Error> {
++        if value == 0 {
++            Err(PortError)
++        } else {
++            Ok(Self(value))
++        }
++    }
++}
++
+ pub fn configured_port(value: u16) -> Result<Port, PortError> {
+-    Ok(Port::from(value))
++    Port::try_from(value)
+ }

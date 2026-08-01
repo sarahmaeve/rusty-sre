@@ -39,7 +39,9 @@ shutdown, cancellation, resource use, or public contracts are correct.
 | 07–14 | Type contracts, representation, boundaries, and errors |
 | 15–18 | Runtime borrowing, shared ownership, locking, and cleanup |
 | 19–26 | Async execution, bounded work, timeout, and cancellation |
-| 27–32 | Reading and resolving compiler diagnostics |
+| 27–32 | Reading ownership and core trait diagnostics |
+| 33–40 | Lifetimes, advanced traits, patterns, macros, and pinning |
+| 41–48 | Testing, macro behavior, type invariants, Cargo, and futures |
 
 If the named topic itself is too much of a clue, use [HARD_MODE.md](HARD_MODE.md).
 For practice starting from raw evidence, use [diagnosis/](diagnosis/). For a

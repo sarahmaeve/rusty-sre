@@ -26,6 +26,18 @@ smallest relevant module, test, or design document.
   interoperability, documentation, predictability, and dependable APIs.
 - [The Rustonomicon](https://doc.rust-lang.org/nomicon/) — unsafe boundaries,
   soundness, ownership internals, `Send`, and `Sync`. Use after the core guides.
+- [Rust testing chapter](https://doc.rust-lang.org/book/ch11-00-testing.html) —
+  test organization, assertions, expected panics, and filtering.
+- [Patterns](https://doc.rust-lang.org/reference/patterns.html) and
+  [macros by example](https://doc.rust-lang.org/reference/macros-by-example.html) —
+  exact syntax and matching behavior beyond the Book's introductory treatment.
+- [`std::pin`](https://doc.rust-lang.org/std/pin/) and
+  [`Future::poll`](https://doc.rust-lang.org/std/future/trait.Future.html#tymethod.poll) —
+  movement invariants and the executor wake contract.
+- Cargo [profiles](https://doc.rust-lang.org/cargo/reference/profiles.html),
+  [features](https://doc.rust-lang.org/cargo/reference/features.html), and
+  [build scripts](https://doc.rust-lang.org/cargo/reference/build-scripts.html) —
+  build inputs that can materially change the code under review.
 
 ## Large Rust projects
 

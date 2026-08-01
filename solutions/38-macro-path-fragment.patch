@@ -1,0 +1,10 @@
+diff --git a/compile-fail/38-macro-path-fragment/src/main.rs b/compile-fail/38-macro-path-fragment/src/main.rs
+--- a/compile-fail/38-macro-path-fragment/src/main.rs
++++ b/compile-fail/38-macro-path-fragment/src/main.rs
+@@ -1,5 +1,5 @@
+ macro_rules! is_state {
+-    ($value:expr, $expected:ident) => {
++    ($value:expr, $expected:path) => {
+         matches!($value, $expected)
+     };
+ }

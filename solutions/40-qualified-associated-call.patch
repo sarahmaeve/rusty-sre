@@ -1,0 +1,10 @@
+diff --git a/compile-fail/40-qualified-associated-call/src/main.rs b/compile-fail/40-qualified-associated-call/src/main.rs
+--- a/compile-fail/40-qualified-associated-call/src/main.rs
++++ b/compile-fail/40-qualified-associated-call/src/main.rs
+@@ -11,5 +11,5 @@ impl Format for Compact {
+ }
+ 
+ fn main() {
+-    println!("{}", Format::label());
++    println!("{}", <Compact as Format>::label());
+ }

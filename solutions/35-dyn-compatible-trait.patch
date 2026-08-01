@@ -1,0 +1,15 @@
+diff --git a/compile-fail/35-dyn-compatible-trait/src/main.rs b/compile-fail/35-dyn-compatible-trait/src/main.rs
+--- a/compile-fail/35-dyn-compatible-trait/src/main.rs
++++ b/compile-fail/35-dyn-compatible-trait/src/main.rs
+@@ -3,7 +3,10 @@ use std::fmt::Display;
+ trait Reporter {
+     fn name(&self) -> &str;
+ 
+-    fn encode<T: Display>(&self, value: T) -> String {
++    fn encode<T: Display>(&self, value: T) -> String
++    where
++        Self: Sized,
++    {
+         format!("{}:{value}", self.name())
+     }
+ }

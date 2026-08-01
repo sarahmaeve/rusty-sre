@@ -1,0 +1,12 @@
+diff --git a/crates/advanced-core/src/testing.rs b/crates/advanced-core/src/testing.rs
+--- a/crates/advanced-core/src/testing.rs
++++ b/crates/advanced-core/src/testing.rs
+@@ -4,7 +4,7 @@ static MODE: Mutex<&'static str> = Mutex::new("normal");
+ 
+ pub fn require_positive(raw: &str) -> u32 {
+     let value = raw.parse::<u32>().expect("value must be an integer");
+-    let _scaled = 100 / value;
+     assert!(value > 0, "value must be positive");
++    let _scaled = 100 / value;
+     value
+ }

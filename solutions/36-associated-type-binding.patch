@@ -1,0 +1,12 @@
+diff --git a/compile-fail/36-associated-type-binding/src/main.rs b/compile-fail/36-associated-type-binding/src/main.rs
+--- a/compile-fail/36-associated-type-binding/src/main.rs
++++ b/compile-fail/36-associated-type-binding/src/main.rs
+@@ -14,7 +14,7 @@ impl Source for ServiceNames {
+     }
+ }
+ 
+-fn drain(mut source: Box<dyn Source>) -> usize {
++fn drain(mut source: Box<dyn Source<Item = String>>) -> usize {
+     let mut count = 0;
+     while source.next().is_some() {
+         count += 1;

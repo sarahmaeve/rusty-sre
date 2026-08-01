@@ -1,0 +1,10 @@
+diff --git a/compile-fail/34-spawned-value-bound/src/main.rs b/compile-fail/34-spawned-value-bound/src/main.rs
+--- a/compile-fail/34-spawned-value-bound/src/main.rs
++++ b/compile-fail/34-spawned-value-bound/src/main.rs
+@@ -1,5 +1,5 @@
+ use std::thread;
+ 
+-fn spawn_drop<T: Send>(value: T) -> thread::JoinHandle<()> {
++fn spawn_drop<T: Send + 'static>(value: T) -> thread::JoinHandle<()> {
+     thread::spawn(move || drop(value))
+ }

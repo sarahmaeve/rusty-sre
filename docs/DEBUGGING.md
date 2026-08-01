@@ -45,9 +45,24 @@ repair.
 - Can a lock guard survive an `.await`?
 - What happens when a receiver closes or a spawned task fails?
 - Which invariant makes this unsafe operation sound?
+- Which input owns a returned reference, and does the signature say so?
+- Does a macro evaluate, move, or return from an argument more than expected?
+- Does behavior change under `--all-features` or `--release`?
+- If a future returns `Pending`, what event invokes its waker?
+- Was this configuration chosen while compiling or while the process runs?
 
 ## Verification
 
 Run the focused reproduction, relevant neighboring tests, formatting, and
 Clippy. For concurrency defects, repeat the focused test and prefer a
 deterministic synchronization point over timing-based confidence.
+
+When conditional compilation or overflow is relevant, treat the build as another
+input. Check the smallest useful matrix instead of assuming a default debug build
+represents deployed code:
+
+```bash
+cargo test -p advanced-core
+cargo test -p advanced-core --all-features
+cargo test -p advanced-core --release
+```

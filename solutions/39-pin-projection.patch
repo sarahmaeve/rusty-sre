@@ -1,0 +1,17 @@
+diff --git a/compile-fail/39-pin-projection/src/main.rs b/compile-fail/39-pin-projection/src/main.rs
+--- a/compile-fail/39-pin-projection/src/main.rs
++++ b/compile-fail/39-pin-projection/src/main.rs
+@@ -1,5 +1,4 @@
+ use std::marker::PhantomPinned;
+-use std::pin::Pin;
+ 
+ struct Worker {
+     name: String,
+@@ -11,6 +10,5 @@ fn main() {
+         name: "collector".to_owned(),
+         _pin: PhantomPinned,
+     });
+-    let worker = Pin::into_inner(worker);
+-    println!("{}", worker.name);
++    println!("{}", worker.as_ref().get_ref().name);
+ }

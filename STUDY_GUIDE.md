@@ -65,7 +65,41 @@ Run guide 12. Read the unsafe-code diagnosis exercise and its linked source.
 The required skill is not writing unsafe code; it is finding the invariant,
 the caller obligations, and the tests or tools that support the safety claim.
 
-## 9. Transfer the skill
+## 9. Read lifetime-heavy APIs
+
+Run guide 13, then exercises 33–34. Revisit exercises 27–29 without opening their
+topic names.
+
+You should be able to connect every returned reference to an input owner, separate
+`'static` type bounds from `&'static` references, and read higher-ranked bounds in
+callback APIs.
+
+## 10. Inspect tests, macros, and generated APIs
+
+Run guides 14–15, then exercises 38, 41–43.
+
+You should recognize weak panic assertions, cleanup that is not unwind-safe,
+repeated macro evaluation, fragment mismatches, hygienic paths, and the boundary
+between a procedural macro invocation and its generated API.
+
+## 11. Read advanced type and build contracts
+
+Run guides 16–17 and 19, then exercises 35–37, 40, and 44–46.
+
+Explain dyn compatibility, associated-type bindings, qualified trait calls,
+newtype invariants, refutable patterns, additive features, and correctness that
+must not depend on a Cargo profile.
+
+## 12. Inspect future and foreign-function boundaries
+
+Run guides 18 and 20, then exercises 39 and 47–48. Revisit guide 12 before reading
+the FFI safety contracts.
+
+You should be able to identify what is pinned, what may move, why `Pending`
+requires a wake path, when configuration is selected, and which side of an ABI
+boundary proves pointer, layout, length, and ownership invariants.
+
+## 13. Transfer the skill
 
 Complete the diagnosis track and both report-first investigations. A strong
 final handoff states:

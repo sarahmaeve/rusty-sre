@@ -1,0 +1,16 @@
+diff --git a/crates/advanced-core/src/future.rs b/crates/advanced-core/src/future.rs
+--- a/crates/advanced-core/src/future.rs
++++ b/crates/advanced-core/src/future.rs
+@@ -16,10 +16,11 @@ impl Future for YieldOnce {
+     type Output = ();
+ 
+-    fn poll(mut self: Pin<&mut Self>, _context: &mut Context<'_>) -> Poll<Self::Output> {
++    fn poll(mut self: Pin<&mut Self>, context: &mut Context<'_>) -> Poll<Self::Output> {
+         if self.yielded {
+             Poll::Ready(())
+         } else {
+             self.yielded = true;
++            context.waker().wake_by_ref();
+             Poll::Pending
+         }
+     }
