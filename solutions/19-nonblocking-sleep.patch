@@ -1,0 +1,18 @@
+diff --git a/crates/async-ops/src/batch.rs b/crates/async-ops/src/batch.rs
+--- a/crates/async-ops/src/batch.rs
++++ b/crates/async-ops/src/batch.rs
+@@ -1,4 +1,4 @@
+-use std::{thread, time::Duration};
++use std::time::Duration;
+
+ #[derive(Clone, Debug, Eq, PartialEq)]
+ pub struct TelemetryRecord {
+@@ -21,7 +21,7 @@ impl BatchFlusher {
+     }
+ 
+     pub async fn flush(&self, records: Vec<TelemetryRecord>) -> FlushReceipt {
+-        thread::sleep(self.settle_delay);
++        tokio::time::sleep(self.settle_delay).await;
+         FlushReceipt {
+             records_written: records.len(),
+         }

@@ -1,0 +1,12 @@
+diff --git a/crates/fleet-core/src/inventory.rs b/crates/fleet-core/src/inventory.rs
+--- a/crates/fleet-core/src/inventory.rs
++++ b/crates/fleet-core/src/inventory.rs
+@@ -5,7 +5,7 @@ use crate::model::{Service, Status};
+ pub fn count_errors<'a>(services: impl IntoIterator<Item = &'a str>) -> HashMap<&'a str, usize> {
+     let mut counts = HashMap::new();
+     for service in services {
+-        counts.insert(service, 1);
++        *counts.entry(service).or_insert(0) += 1;
+     }
+     counts
+ }

@@ -1,0 +1,12 @@
+diff --git a/crates/ops-core/src/health.rs b/crates/ops-core/src/health.rs
+--- a/crates/ops-core/src/health.rs
++++ b/crates/ops-core/src/health.rs
+@@ -19,5 +19,7 @@ pub fn remove_decommissioned(hosts: &mut Vec<String>, decommissioned: &[String])
+ }
+ 
+ pub fn is_json_config(path: &Path) -> bool {
+-    path.to_string_lossy().ends_with(".json")
++    path.extension()
++        .and_then(|extension| extension.to_str())
++        .is_some_and(|extension| extension.eq_ignore_ascii_case("json"))
+ }

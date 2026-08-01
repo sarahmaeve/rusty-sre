@@ -1,0 +1,22 @@
+diff --git a/crates/async-ops/src/fanout.rs b/crates/async-ops/src/fanout.rs
+--- a/crates/async-ops/src/fanout.rs
++++ b/crates/async-ops/src/fanout.rs
+@@ -8,2 +8,3 @@
+ use thiserror::Error;
++use tokio::sync::Semaphore;
+ 
+@@ -61,10 +62,13 @@ pub async fn scrape_targets(
+     targets: Vec<ScrapeTarget>,
+-    _max_in_flight: usize,
++    max_in_flight: usize,
+     probe: FanoutProbe,
+ ) -> Result<Vec<ScrapeResult>, FanoutError> {
+     let mut tasks = Vec::with_capacity(targets.len());
++    let permits = Arc::new(Semaphore::new(max_in_flight.max(1)));
+     for target in targets {
+         let probe = probe.clone();
++        let permits = Arc::clone(&permits);
+         tasks.push(tokio::spawn(async move {
++            let _permit = permits.acquire_owned().await.expect("semaphore open");
+             let _active = probe.enter();
+             tokio::time::sleep(target.latency).await;

@@ -1,0 +1,10 @@
+diff --git a/compile-fail/29-reference-to-local/src/main.rs b/compile-fail/29-reference-to-local/src/main.rs
+--- a/compile-fail/29-reference-to-local/src/main.rs
++++ b/compile-fail/29-reference-to-local/src/main.rs
+@@ -1,4 +1,4 @@
+-fn service_label() -> &str {
++fn service_label() -> String {
+     let label = String::from("checkout-primary");
+-    label.as_str()
++    label
+ }

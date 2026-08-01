@@ -1,0 +1,30 @@
+diff --git a/crates/ops-core/src/graph.rs b/crates/ops-core/src/graph.rs
+--- a/crates/ops-core/src/graph.rs
++++ b/crates/ops-core/src/graph.rs
+@@ -1,9 +1,9 @@
+ use std::cell::RefCell;
+-use std::rc::Rc;
++use std::rc::{Rc, Weak};
+ 
+ #[derive(Debug)]
+ pub struct Component {
+     pub name: String,
+-    pub parent: RefCell<Option<Rc<Component>>>,
++    pub parent: RefCell<Weak<Component>>,
+     pub children: RefCell<Vec<Rc<Component>>>,
+ }
+@@ -15,12 +15,12 @@ impl Component {
+         Rc::new(Self {
+             name: name.into(),
+-            parent: RefCell::new(None),
++            parent: RefCell::new(Weak::new()),
+             children: RefCell::new(Vec::new()),
+         })
+     }
+ 
+     pub fn attach(parent: &Rc<Self>, child: &Rc<Self>) {
+-        *child.parent.borrow_mut() = Some(Rc::clone(parent));
++        *child.parent.borrow_mut() = Rc::downgrade(parent);
+         parent.children.borrow_mut().push(Rc::clone(child));
+     }
+ }

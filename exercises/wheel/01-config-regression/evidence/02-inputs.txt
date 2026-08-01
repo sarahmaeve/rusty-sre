@@ -1,0 +1,14 @@
+production manifest:
+  WORKER_LIMIT: "eight"
+  SNAPSHOT_ENABLED: "false"
+
+staging manifest:
+  WORKER_LIMIT: "8"
+  SNAPSHOT_ENABLED: "false"
+
+documented defaults:
+  worker_limit: 32
+  snapshot_enabled: false
+
+exported production snapshot:
+  {"worker_limit":32}

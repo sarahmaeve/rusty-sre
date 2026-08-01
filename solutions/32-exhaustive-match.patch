@@ -1,0 +1,10 @@
+diff --git a/compile-fail/32-non-exhaustive-match/src/main.rs b/compile-fail/32-non-exhaustive-match/src/main.rs
+--- a/compile-fail/32-non-exhaustive-match/src/main.rs
++++ b/compile-fail/32-non-exhaustive-match/src/main.rs
+@@ -9,5 +9,6 @@ fn is_available(state: State) -> bool {
+     match state {
+         State::Healthy => true,
+         State::Degraded => false,
++        State::Draining => false,
+     }
+ }

@@ -1,0 +1,10 @@
+diff --git a/crates/fleet-core/src/inventory.rs b/crates/fleet-core/src/inventory.rs
+--- a/crates/fleet-core/src/inventory.rs
++++ b/crates/fleet-core/src/inventory.rs
+@@ -11,5 +11,5 @@ pub fn count_errors<'a>(services: impl IntoIterator<Item = &'a str>) -> HashMap<
+ }
+ 
+ pub fn effective_severity(value: Option<u8>) -> u8 {
+-    value.unwrap_or(0)
++    value.unwrap_or(5)
+ }

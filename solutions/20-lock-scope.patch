@@ -1,0 +1,15 @@
+diff --git a/crates/async-ops/src/registry.rs b/crates/async-ops/src/registry.rs
+--- a/crates/async-ops/src/registry.rs
++++ b/crates/async-ops/src/registry.rs
+@@ -63,8 +63,9 @@ impl TargetRegistry {
+         lookup_latency: Duration,
+         probe: RefreshProbe,
+     ) {
+-        let mut generations = self.generations.lock().await;
++        let target = target.into();
+         let _refresh = probe.enter();
+         tokio::time::sleep(lookup_latency).await;
+-        generations.insert(target.into(), generation);
++        drop(_refresh);
++        self.generations.lock().await.insert(target, generation);
+     }

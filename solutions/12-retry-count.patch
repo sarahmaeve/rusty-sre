@@ -1,0 +1,11 @@
+diff --git a/crates/ops-core/src/retry.rs b/crates/ops-core/src/retry.rs
+--- a/crates/ops-core/src/retry.rs
++++ b/crates/ops-core/src/retry.rs
+@@ -1,6 +1,6 @@
+ pub fn retry<T, E>(
+     max_retries: usize,
+     mut operation: impl FnMut() -> Result<T, E>,
+ ) -> Result<T, E> {
+-    let attempts = max_retries.max(1);
++    let attempts = max_retries.saturating_add(1);
+     for attempt in 0..attempts {

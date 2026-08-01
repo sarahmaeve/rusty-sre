@@ -1,0 +1,13 @@
+diff --git a/crates/ops-core/src/retry.rs b/crates/ops-core/src/retry.rs
+--- a/crates/ops-core/src/retry.rs
++++ b/crates/ops-core/src/retry.rs
+@@ -33,6 +33,8 @@ impl std::fmt::Display for PipelineError {
+ 
+ impl std::error::Error for PipelineError {
+     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+-        None
++        self._source
++            .as_ref()
++            .map(|error| error as &(dyn std::error::Error + 'static))
+     }
+ }

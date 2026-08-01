@@ -1,0 +1,14 @@
+supervisor:
+  awaiting worker JoinHandle
+
+worker:
+  awaiting collector.send(batch=771)
+  locals: batch, state_guard, cancellation_token
+
+collector send:
+  waiting for response headers
+  configured connect timeout: 2s
+  configured request timeout: none
+
+metrics reporter:
+  exited after cancellation

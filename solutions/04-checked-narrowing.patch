@@ -1,0 +1,10 @@
+diff --git a/crates/fleet-core/src/text.rs b/crates/fleet-core/src/text.rs
+--- a/crates/fleet-core/src/text.rs
++++ b/crates/fleet-core/src/text.rs
+@@ -20,5 +20,5 @@ pub enum SizeError {
+ }
+ 
+ pub fn narrow_size(value: u64) -> Result<u32, SizeError> {
+-    Ok(value as u32)
++    u32::try_from(value).map_err(|_| SizeError::OutOfRange(value))
+ }

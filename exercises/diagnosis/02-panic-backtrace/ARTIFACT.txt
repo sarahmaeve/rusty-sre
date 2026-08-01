@@ -1,0 +1,24 @@
+$ RUST_BACKTRACE=1 cargo test -p callback-registry reentrant_update
+running 1 test
+test tests::reentrant_update ... FAILED
+
+thread 'tests::reentrant_update' panicked at src/registry.rs:67:31:
+RefCell already mutably borrowed
+stack backtrace:
+   0: rust_begin_unwind
+   1: core::panicking::panic_fmt
+   2: core::cell::panic_already_mutably_borrowed
+   3: core::cell::RefCell<T>::borrow
+   4: callback_registry::Registry::get
+             at ./src/registry.rs:67:31
+   5: callback_registry::tests::reentrant_update::{{closure}}
+             at ./src/lib.rs:118:24
+   6: callback_registry::Registry::update
+             at ./src/registry.rs:52:9
+   7: callback_registry::tests::reentrant_update
+             at ./src/lib.rs:116:5
+
+failures:
+    tests::reentrant_update
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured

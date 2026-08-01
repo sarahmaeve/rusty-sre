@@ -1,0 +1,15 @@
+diff --git a/crates/ops-core/src/registry.rs b/crates/ops-core/src/registry.rs
+--- a/crates/ops-core/src/registry.rs
++++ b/crates/ops-core/src/registry.rs
+@@ -18,10 +18,10 @@ impl Registry {
+     }
+ 
+     pub fn rename(&self, old: &str, new: &str) -> bool {
+-        let mut services = self.services.borrow_mut();
+         if self.contains(new) {
+             return false;
+         }
++        let mut services = self.services.borrow_mut();
+         let Some(owner) = services.remove(old) else {
+             return false;
+         };

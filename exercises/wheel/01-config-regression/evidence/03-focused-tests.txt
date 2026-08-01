@@ -1,0 +1,12 @@
+$ cargo test -p archive-config
+running 12 tests
+test parse_absent_worker_limit ... ok
+test parse_valid_worker_limit ... ok
+test parse_zero_worker_limit ... ok
+test snapshot_enabled_round_trip ... ok
+test result: ok. 12 passed
+
+Coverage notes:
+- parse tests contain no malformed environment value
+- round-trip test compares effective values after defaults
+- startup source labels have no unit test

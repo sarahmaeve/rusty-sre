@@ -1,0 +1,11 @@
+diff --git a/crates/fleet-core/src/model.rs b/crates/fleet-core/src/model.rs
+--- a/crates/fleet-core/src/model.rs
++++ b/crates/fleet-core/src/model.rs
+@@ -33,7 +33,6 @@ impl Eq for Incident {}
+ 
+ impl Hash for Incident {
+     fn hash<H: Hasher>(&self, state: &mut H) {
+-        self.id.hash(state);
+         self.service.hash(state);
+         self.summary.hash(state);
+     }

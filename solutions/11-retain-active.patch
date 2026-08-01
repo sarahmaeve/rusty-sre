@@ -1,0 +1,10 @@
+diff --git a/crates/ops-core/src/health.rs b/crates/ops-core/src/health.rs
+--- a/crates/ops-core/src/health.rs
++++ b/crates/ops-core/src/health.rs
+@@ -15,5 +15,5 @@ pub fn is_success(status: u16) -> bool {
+ }
+ 
+ pub fn remove_decommissioned(hosts: &mut Vec<String>, decommissioned: &[String]) {
+-    hosts.retain(|host| decommissioned.contains(host));
++    hosts.retain(|host| !decommissioned.contains(host));
+ }

@@ -1,0 +1,15 @@
+diff --git a/compile-fail/27-moved-value/src/main.rs b/compile-fail/27-moved-value/src/main.rs
+--- a/compile-fail/27-moved-value/src/main.rs
++++ b/compile-fail/27-moved-value/src/main.rs
+@@ -1,9 +1,9 @@
+-fn summarize(lines: Vec<String>) -> usize {
++fn summarize(lines: &[String]) -> usize {
+     lines.iter().filter(|line| line.contains("ERROR")).count()
+ }
+ 
+ fn main() {
+     let lines = vec!["INFO ready".to_owned(), "ERROR timeout".to_owned()];
+-    let errors = summarize(lines);
++    let errors = summarize(&lines);
+     println!("{errors} errors in {} lines", lines.len());
+ }

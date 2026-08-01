@@ -1,0 +1,13 @@
+diff --git a/crates/fleet-core/src/config.rs b/crates/fleet-core/src/config.rs
+--- a/crates/fleet-core/src/config.rs
++++ b/crates/fleet-core/src/config.rs
+@@ -11,7 +11,8 @@ pub enum ConfigError {
+ 
+ pub fn load_threshold(raw: Option<&str>) -> Result<u16, ConfigError> {
+     let Some(raw) = raw else {
+         return Ok(80);
+     };
+-    Ok(raw.parse().unwrap_or(80))
++    raw.parse()
++        .map_err(|_| ConfigError::InvalidThreshold(raw.to_owned()))
+ }

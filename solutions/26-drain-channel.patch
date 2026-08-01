@@ -1,0 +1,24 @@
+diff --git a/crates/async-ops/src/channel.rs b/crates/async-ops/src/channel.rs
+--- a/crates/async-ops/src/channel.rs
++++ b/crates/async-ops/src/channel.rs
+@@ -10,15 +10,16 @@ pub async fn ingest_batch(events: Vec<Envelope>, channel_capacity: usize) -> Vec
+     let (sender, mut receiver) = mpsc::channel(channel_capacity.max(1));
+     let producer = tokio::spawn(async move {
+         for event in events {
+-            let _ = sender.send(event).await;
++            if sender.send(event).await.is_err() {
++                break;
++            }
+         }
+     });
+ 
+     let mut stored = Vec::new();
+-    if let Some(event) = receiver.recv().await {
++    while let Some(event) = receiver.recv().await {
+         stored.push(event);
+     }
+-    drop(receiver);
+-    let _ = producer.await;
++    producer.await.expect("producer task panicked");
+     stored
+ }

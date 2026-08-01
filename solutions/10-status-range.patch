@@ -1,0 +1,10 @@
+diff --git a/crates/ops-core/src/health.rs b/crates/ops-core/src/health.rs
+--- a/crates/ops-core/src/health.rs
++++ b/crates/ops-core/src/health.rs
+@@ -11,5 +11,5 @@ pub fn fleet_ready(probes: &[Probe]) -> bool {
+ }
+ 
+ pub fn is_success(status: u16) -> bool {
+-    (200..299).contains(&status)
++    (200..300).contains(&status)
+ }

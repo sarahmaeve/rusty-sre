@@ -1,0 +1,20 @@
+$ cargo test -p coordinator shutdown_completes -- --nocapture
+running 1 test
+00.000 coordinator.start workers=2
+00.001 worker{id=0} recv waiting
+00.001 worker{id=1} recv waiting
+00.009 coordinator.submit job=41
+00.010 worker{id=0} recv job=41
+00.011 worker{id=0} state.lock acquired
+00.012 worker{id=0} dependency.call start
+00.018 coordinator.shutdown requested
+00.019 worker{id=1} recv channel_closed
+00.019 worker{id=1} exit
+05.020 test watchdog expired
+
+task snapshot at watchdog:
+- test shutdown_completes: awaiting Coordinator::shutdown
+- Coordinator::shutdown: awaiting worker 0 JoinHandle
+- worker 0: awaiting dependency.call, state guard live
+- dependency stub: awaiting release notification
+- release notification: issued by state observer after acquiring state lock

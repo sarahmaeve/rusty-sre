@@ -1,0 +1,14 @@
+diff --git a/crates/async-ops/src/timeout.rs b/crates/async-ops/src/timeout.rs
+--- a/crates/async-ops/src/timeout.rs
++++ b/crates/async-ops/src/timeout.rs
+@@ -29,6 +29,8 @@ pub async fn scrape_with_deadline(
+     client: &ScrapeClient,
+     target: &str,
+-    _deadline: Duration,
++    deadline: Duration,
+ ) -> Result<String, ScrapeError> {
+-    Ok(client.fetch(target).await)
++    tokio::time::timeout(deadline, client.fetch(target))
++        .await
++        .map_err(|_| ScrapeError::DeadlineExceeded)
+ }

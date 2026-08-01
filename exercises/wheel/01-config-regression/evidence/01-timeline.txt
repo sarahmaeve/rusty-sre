@@ -1,0 +1,9 @@
+15:20:04 deploy 2026.07.21.3 begins
+15:21:10 pod/indexer-a startup worker_limit=32 source=environment
+15:21:11 pod/indexer-b startup worker_limit=32 source=environment
+15:23:42 pod/indexer-a rss_mb=1880 runnable_workers=32
+15:23:47 pod/indexer-b rss_mb=1912 runnable_workers=32
+15:29:08 configuration snapshot uploaded for both pods
+15:31:17 rollback begins
+15:34:02 pod/indexer-a startup worker_limit=8 source=environment
+15:36:40 aggregate rss returns to baseline

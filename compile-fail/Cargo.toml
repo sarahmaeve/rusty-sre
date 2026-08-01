@@ -1,0 +1,10 @@
+[workspace]
+members = ["27-moved-value", "28-conflicting-borrows", "29-reference-to-local", "30-non-send-future", "31-missing-hash-eq", "32-non-exhaustive-match"]
+resolver = "3"
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.97.1"
+
+[workspace.dependencies]
+tokio = { version = "1.52.1", features = ["macros", "rt-multi-thread", "sync", "time"] }

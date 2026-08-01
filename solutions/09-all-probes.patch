@@ -1,0 +1,10 @@
+diff --git a/crates/ops-core/src/health.rs b/crates/ops-core/src/health.rs
+--- a/crates/ops-core/src/health.rs
++++ b/crates/ops-core/src/health.rs
+@@ -7,5 +7,5 @@ pub struct Probe {
+ }
+ 
+ pub fn fleet_ready(probes: &[Probe]) -> bool {
+-    probes.iter().any(|probe| probe.ready)
++    probes.iter().all(|probe| probe.ready)
+ }

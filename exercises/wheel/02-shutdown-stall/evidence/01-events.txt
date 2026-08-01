@@ -1,0 +1,9 @@
+03:13:51.004 worker batch=771 state.lock acquired queued=512
+03:13:51.006 worker batch=771 collector.send attempt=1 start
+03:13:53.882 collector region=west latency degraded
+03:14:02.100 supervisor shutdown requested
+03:14:02.101 supervisor input channel closed
+03:14:02.102 metrics reporter shutdown observed
+03:14:32.104 platform grace expired; SIGKILL
+
+No worker attempt completion, backoff, or stop event appears after 03:13:51.

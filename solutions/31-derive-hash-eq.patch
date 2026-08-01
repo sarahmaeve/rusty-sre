@@ -1,0 +1,11 @@
+diff --git a/compile-fail/31-missing-hash-eq/src/main.rs b/compile-fail/31-missing-hash-eq/src/main.rs
+--- a/compile-fail/31-missing-hash-eq/src/main.rs
++++ b/compile-fail/31-missing-hash-eq/src/main.rs
+@@ -1,6 +1,6 @@
+ use std::collections::HashSet;
+ 
+-#[derive(Debug)]
++#[derive(Debug, PartialEq, Eq, Hash)]
+ struct Host {
+     name: String,
+ }

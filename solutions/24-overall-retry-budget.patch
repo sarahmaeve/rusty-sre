@@ -1,0 +1,30 @@
+diff --git a/crates/async-ops/src/retry.rs b/crates/async-ops/src/retry.rs
+--- a/crates/async-ops/src/retry.rs
++++ b/crates/async-ops/src/retry.rs
+@@ -38,15 +38,16 @@ pub async fn deliver_with_retry(
+     attempts: &[Attempt],
+     overall_budget: Duration,
+ ) -> Result<DeliveryReceipt, RetryError> {
+-    for (index, attempt) in attempts.iter().copied().enumerate() {
+-        let outcome = tokio::time::timeout(overall_budget, run_attempt(attempt))
+-            .await
+-            .map_err(|_| RetryError::DeadlineExceeded)?;
+-        if outcome == AttemptOutcome::Accepted {
+-            return Ok(DeliveryReceipt {
+-                attempts: index + 1,
+-            });
++    tokio::time::timeout(overall_budget, async {
++        for (index, attempt) in attempts.iter().copied().enumerate() {
++            if run_attempt(attempt).await == AttemptOutcome::Accepted {
++                return Ok(DeliveryReceipt {
++                    attempts: index + 1,
++                });
++            }
+         }
+-    }
+-    Err(RetryError::AttemptsExhausted)
++        Err(RetryError::AttemptsExhausted)
++    })
++    .await
++    .map_err(|_| RetryError::DeadlineExceeded)?
+ }

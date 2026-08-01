@@ -1,0 +1,18 @@
+diff --git a/crates/fleet-core/src/text.rs b/crates/fleet-core/src/text.rs
+--- a/crates/fleet-core/src/text.rs
++++ b/crates/fleet-core/src/text.rs
+@@ -7,8 +7,10 @@ pub enum TextError {
+ }
+ 
+ pub fn prefix(input: &str, characters: usize) -> Result<&str, TextError> {
+-    if input.len() < characters {
+-        return Err(TextError::TooShort);
+-    }
+-    Ok(&input[..characters])
++    let end = match input.char_indices().nth(characters) {
++        Some((index, _)) => index,
++        None if input.chars().count() == characters => input.len(),
++        None => return Err(TextError::TooShort),
++    };
++    Ok(&input[..end])
+ }

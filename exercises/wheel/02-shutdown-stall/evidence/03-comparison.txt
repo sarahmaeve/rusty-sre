@@ -1,0 +1,14 @@
+idle pod shutdown p99: 18ms
+healthy collector with queued batches shutdown p99: 74ms
+slow collector with no queued batches shutdown p99: 21ms
+slow collector with queued batches shutdown p50: >30s (platform kill)
+
+retry settings:
+  attempts: 4
+  backoff: 100ms, 200ms, 400ms
+
+test coverage:
+  - cancellation while receiver is idle
+  - successful flush during shutdown
+  - retry after immediate HTTP 503
+  - no test where response headers remain pending

@@ -1,0 +1,17 @@
+$ cargo test -p quota concurrent_reserve -- --nocapture
+running 1 test
+seed=991827 workers=8 initial=5
+worker=2 observed=5 requested=1 result=accepted
+worker=6 observed=5 requested=1 result=accepted
+worker=0 observed=5 requested=1 result=accepted
+worker=4 observed=5 requested=1 result=accepted
+worker=1 observed=5 requested=1 result=accepted
+worker=7 observed=5 requested=1 result=accepted
+worker=3 observed=5 requested=1 result=accepted
+worker=5 observed=5 requested=1 result=accepted
+final remaining=4 accepted=8
+thread 'tests::concurrent_reserve' panicked at tests/quota.rs:91:5:
+accepted reservations exceeded initial quota: left: 8 right: 5
+
+rerun seed=991827: PASS, accepted=5 remaining=0
+1,000 runs: 37 failed; failures observed only with workers > 1

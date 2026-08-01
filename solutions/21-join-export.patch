@@ -1,0 +1,16 @@
+diff --git a/crates/async-ops/src/spawned.rs b/crates/async-ops/src/spawned.rs
+--- a/crates/async-ops/src/spawned.rs
++++ b/crates/async-ops/src/spawned.rs
+@@ -51,9 +51,8 @@ pub enum ExportError {
+ }
+ 
+ pub async fn dispatch_export(sink: ExportSink, payload: Vec<u8>) -> Result<(), ExportError> {
+-    tokio::spawn(async move {
+-        let _ = sink.write(payload).await;
+-    });
+-    tokio::task::yield_now().await;
++    tokio::spawn(async move { sink.write(payload).await })
++        .await
++        .expect("export task panicked")?;
+     Ok(())
+ }

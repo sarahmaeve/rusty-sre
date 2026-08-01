@@ -1,0 +1,11 @@
+diff --git a/crates/ops-core/src/lease.rs b/crates/ops-core/src/lease.rs
+--- a/crates/ops-core/src/lease.rs
++++ b/crates/ops-core/src/lease.rs
+@@ -16,6 +16,6 @@ impl Lease {
+ 
+ impl Drop for Lease {
+     fn drop(&mut self) {
+-        let _ = self.active.load(Ordering::Relaxed);
++        self.active.fetch_sub(1, Ordering::SeqCst);
+     }
+ }

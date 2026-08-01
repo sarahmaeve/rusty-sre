@@ -1,0 +1,23 @@
+diff --git a/crates/async-ops/src/cancellation.rs b/crates/async-ops/src/cancellation.rs
+--- a/crates/async-ops/src/cancellation.rs
++++ b/crates/async-ops/src/cancellation.rs
+@@ -13,10 +13,16 @@ pub async fn run_worker(
+ pub async fn run_worker(
+     mut jobs: mpsc::Receiver<CollectionJob>,
+-    _shutdown: CancellationToken,
++    shutdown: CancellationToken,
+ ) -> WorkerReport {
+     let mut report = WorkerReport::default();
+-    while let Some(job) = jobs.recv().await {
+-        report.completed_targets.push(job.target);
++    loop {
++        tokio::select! {
++            _ = shutdown.cancelled() => break,
++            job = jobs.recv() => match job {
++                Some(job) => report.completed_targets.push(job.target),
++                None => break,
++            }
++        }
+     }
+     report
+ }

@@ -1,0 +1,13 @@
+diff --git a/crates/fleet-core/src/inventory.rs b/crates/fleet-core/src/inventory.rs
+--- a/crates/fleet-core/src/inventory.rs
++++ b/crates/fleet-core/src/inventory.rs
+@@ -15,8 +15,7 @@ pub fn effective_severity(value: Option<u8>) -> u8 {
+ }
+ 
+ pub fn mark_degraded(service: &mut Service, reason: &str) {
+-    let mut updated = service.clone();
+-    updated.status = Status::Degraded {
++    service.status = Status::Degraded {
+         reason: reason.to_owned(),
+     };
+ }
